@@ -1,0 +1,10 @@
+- El tailwind v.2.0.2 fue reducido para que no hay un cruce con boostrap 5
+- sólo quitamos la clase '.container' para evitar cruce con el ".container" de boostrap 5
+
+					//---
+					// - Solo se agregará el tailwind v.2.0.2 basic  pero reducido ,pq se encotró un cruce con boostrap 5
+					// - En un futuro cuando migremos todo a tailwind no habrá problemas aquí
+					// - Ojo el tailwin reducio  sólo se usará para los estilos de test
+					// - Ojo el tailwind reducido no se utilizará la clase '.container', por eso se borró del tailwind v.2.0.2
+					//---
+	

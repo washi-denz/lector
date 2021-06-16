@@ -1,0 +1,119 @@
+/*****************************************************************/
+/*                          body                                 */
+/*****************************************************************/
+body{
+	background:#fff;
+}
+/*****************************************************************/
+/*                      general                                  */
+/*****************************************************************/
+.fs-7 { font-size:0.9rem!important; }
+.fs-8 { font-size:0.8rem!important; }
+.fs-9 { font-size:0.7rem!important; }
+.fs-10{ font-size:0.6rem!important; }
+.fs-11{ font-size:0.5rem!important; }
+.fs-12{ font-size:0.4rem!important; }
+/*****************************************************************/
+/*                       Miscellanea                             */
+/*****************************************************************/
+/*****************************************************************/
+/*                          btn                                  */
+/*****************************************************************/
+.btn-action,a.btn.btn-action{
+	padding:0.1rem 0.2rem;
+	background:var(--color-primary);
+	color:#fff;
+	border-radius:0.3rem;
+	cursor:pointer;
+}
+.btn-action:hover,
+a.btn.btn-action:hover{
+	transition:var(--transition);
+	background:var(--color-secondary);
+}
+.btn-action:focus,
+a.btn.btn-action:focus{
+	border:none;
+	border:2px solid rgba(255,70,110,0.9);
+}
+.btn-event{
+	background:#5850ec;
+	color:#fff;
+	border-radius:0rem;
+	cursor:pointer;
+}
+.btn-event:hover{
+	color:#fff;
+	background:rgba(255,70,110,0.9);
+}
+.btn-event:focus{
+	border:none;
+	border:2px solid rgba(255,70,110,0.9);
+}
+
+/*****************************************************************/
+/*                          navbar                               */
+/*****************************************************************/
+/**/
+.container-top .navbar{
+	background:#ff7f27 !important;
+}
+.container-top .nav-link{
+	color:#fff !important;
+	transition:all 0.3s;
+}
+.container-top .nav-link:hover{
+	background:rgba(255,255,255,0.1);
+	border-radius:0.5em;
+}
+/*****************************************************************/
+/*                          modal                                */
+/*****************************************************************/
+.modal .modal-header{
+	background:var(--color-secondary);
+	color:var(--color-white);
+	border:none;
+	padding:0.5rem 1rem;
+}
+.modal-header>.modal-title{
+	font-size:1.2rem;
+	font-weight:500;
+}
+.modal-header>.close{
+	color:var(--color-white);
+	padding:1rem  1rem 1rem 1rem;
+}
+/*****************************************************************/
+/*                          table                                */
+/*****************************************************************/
+.table.table-hover th,.table.table-hover td{
+	padding:0.5rem 0rem 0.5rem 0rem;
+}
+.table thead td{
+	border-color: #dee2e6 !important;
+}
+/*****************************************************************/
+/*                          form                               */
+/*****************************************************************/
+.form-label{
+	font-weight:500;
+}
+/*****************************************************************/
+/*                          media                                */
+/*****************************************************************/
+@media screen and (min-width:360px){
+}
+@media screen and (min-width:576px){
+
+}
+@media screen and (min-width:768px){
+	.table.table-hover th,.table.table-hover td{
+		padding:0.75rem;
+	}
+}
+@media screen and (min-width:992px){
+
+}
+@media screen and (min-width:1200px){
+
+}

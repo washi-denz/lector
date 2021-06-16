@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   sodipodi:docname="user_2.svg"
+   id="svg1532"
+   version="1.1"
+   viewBox="0 0 40 40"
+   height="40mm"
+   width="40mm">
+  <defs
+     id="defs1526" />
+  <sodipodi:namedview
+     inkscape:window-maximized="1"
+     inkscape:window-y="-9"
+     inkscape:window-x="-9"
+     inkscape:window-height="1003"
+     inkscape:window-width="1920"
+     inkscape:lockguides="true"
+     inkscape:guide-bbox="true"
+     showguides="true"
+     showgrid="false"
+     inkscape:document-rotation="0"
+     inkscape:current-layer="layer1"
+     inkscape:document-units="mm"
+     inkscape:cy="246.30382"
+     inkscape:cx="470.18466"
+     inkscape:zoom="1.16"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base">
+    <sodipodi:guide
+       inkscape:locked="true"
+       id="guide2303"
+       orientation="0,-1"
+       position="35.335801,257.48657" />
+    <sodipodi:guide
+       inkscape:locked="true"
+       id="guide2305"
+       orientation="1,0"
+       position="25.936129,238.86129" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata1529">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(-1.5021477,-1.85672)"
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Capa 1">
+    <circle
+       r="20"
+       transform="scale(-1,1)"
+       cx="-21.502148"
+       cy="21.85672"
+       id="path2167"
+       style="fill:#f9f9f9;fill-opacity:1;fill-rule:evenodd;stroke-width:0;stroke-linecap:round;paint-order:fill markers stroke" />
+    <ellipse
+       ry="7.1034269"
+       rx="7.4816995"
+       cy="13.120701"
+       cx="21.316885"
+       id="path2169"
+       style="fill:#28d2c7;fill-opacity:1;fill-rule:evenodd;stroke-width:0;stroke-linecap:round;paint-order:fill markers stroke" />
+    <ellipse
+       ry="4.7440219"
+       rx="5.1704631"
+       cy="13.101168"
+       cx="21.352327"
+       id="path2171"
+       style="fill:#f9f9f9;fill-opacity:1;fill-rule:evenodd;stroke-width:0;stroke-linecap:round;paint-order:fill markers stroke" />
+    <path
+       transform="scale(-1)"
+       d="m -6.5694571,-34.230946 a 14.802226,12.638613 0 0 1 -7.4041169,10.94684 14.802226,12.638613 0 0 1 -14.805228,-0.0044 14.802226,12.638613 0 0 1 -7.395104,-10.951281 l 14.802223,0.0089 z"
+       sodipodi:arc-type="slice"
+       sodipodi:end="3.1422955"
+       sodipodi:start="0"
+       sodipodi:ry="12.638613"
+       sodipodi:rx="14.802226"
+       sodipodi:cy="-34.230946"
+       sodipodi:cx="-21.371683"
+       sodipodi:type="arc"
+       id="path2192"
+       style="fill:#28d2c7;fill-opacity:1;fill-rule:nonzero;stroke-width:0;stroke-linecap:round;paint-order:fill markers stroke" />
+    <path
+       transform="scale(-1)"
+       style="fill:#f9f9f9;fill-opacity:1;fill-rule:evenodd;stroke-width:0;stroke-linecap:round;paint-order:fill markers stroke"
+       id="path2192-7"
+       sodipodi:type="arc"
+       sodipodi:cx="-21.545752"
+       sodipodi:cy="-35.971989"
+       sodipodi:rx="12.829454"
+       sodipodi:ry="11.608342"
+       sodipodi:start="0"
+       sodipodi:end="3.1422955"
+       sodipodi:arc-type="slice"
+       d="m -8.7162971,-35.971989 a 12.829454,11.608342 0 0 1 -6.4173309,10.054479 12.829454,11.608342 0 0 1 -12.832056,-0.0041 12.829454,11.608342 0 0 1 -6.409519,-10.058558 l 12.829451,0.0082 z" />
+  </g>
+</svg>
