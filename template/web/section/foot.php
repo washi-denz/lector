@@ -4,6 +4,18 @@
 		<script src="<?php echo URL_THEME; ?>/resource/plugins/bootstrap/bootstrap-5.0.0/js/bootstrap.min.js"></script>
 		<script src="<?php echo URL_THEME; ?>/js/ajaxview.js"></script>
 		<script src="<?php echo URL_THEME; ?>/js/struct.js"></script>
+		
+		<script>
+			var _URL      = "";
+			var _IDUSER   = 0;
+
+			(function($){
+				
+				_URL    = <?php echo "'".URL.SEPARATOR."'";?>;
+				_IDUSER = <?php echo ($this->session->get("id_user"))? $this->session->get("id_user"):0;?>;
+
+			})(jQuery);
+		</script>
 
 		<?php  
 			// Pull cad 4segundos

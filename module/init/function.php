@@ -8,7 +8,7 @@
 			$this->parents   = $parents;
 
 			if($this->parents->session->check_login()){
-				$this->idUsuario = $this->parents->session->get("idUser");
+				$this->idUsuario = $this->parents->session->get("id_user");
 			}
 		}
 
@@ -413,7 +413,7 @@
 							$acertada      = $rp["acertada"];
 							$num_preguntas = $rp["num_preguntas"];
 
-							foreach($this->parents->gn->rtn_consulta("*","admision","idAdmision=".$idad." AND idUsuario=".$this->parents->session->get("idUser")) as $obj1){
+							foreach($this->parents->gn->rtn_consulta("*","admision","idAdmision=".$idad." AND idUsuario=".$this->parents->session->get("id_user")) as $obj1){
 								$str='
 									<div class="text-center font-normal text-xl" title="Título del test virtual">
 										'.$obj->titulo.'									
@@ -453,7 +453,7 @@
 							$query = "
 								SELECT a.idAdmision,a.estado_admision,a.registro_inicial,e.idex,e.titulo,e.idUsuario AS e_idUsuario FROM admision a 
 									INNER JOIN examen e ON a.idExamen=e.idExamen 
-								WHERE a.idExamen=".$idExamen." AND a.idUsuario=".$this->parents->session->get("idUser")." ORDER BY a.registro_inicial DESC;
+								WHERE a.idExamen=".$idExamen." AND a.idUsuario=".$this->parents->session->get("id_user")." ORDER BY a.registro_inicial DESC;
 							";
 
 							if($this->parents->sql->consulta($query)){
@@ -1102,7 +1102,7 @@
 
 			if($this->parents->gn->existe_admision_concluida($idad)){
 
-				$idUsuario  = $this->parents->session->get("idUser");		
+				$idUsuario  = $this->parents->session->get("id_user");		
 
 				$query = "SELECT*FROM examen e INNER JOIN admision a ON e.idExamen=a.idExamen WHERE a.idAdmision=".$idad." AND a.idUsuario=".$idUsuario.";";
 
@@ -1506,7 +1506,7 @@
 				//redirecionar a login
 
 			$rtn       = array();
-			$idUsuario = $this->parents->session->get("idUser");
+			$idUsuario = $this->parents->session->get("id_user");
 
 			if($this->parents->session->check_login()){
 

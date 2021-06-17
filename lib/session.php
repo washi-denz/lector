@@ -8,7 +8,7 @@
 		}
 
 		public function put($name, $data){
-			$_SESSION["testink"][$name] = $data;
+			$_SESSION["lector"][$name] = $data;
 		}
 
 		public function set($name, $data){
@@ -16,25 +16,25 @@
 		}
 
 		public function get($name){
-			if(isset($_SESSION["testink"][$name])){
-				return $_SESSION["testink"][$name];
+			if(isset($_SESSION["lector"][$name])){
+				return $_SESSION["lector"][$name];
 			}
 			return false;
 		}
 
 		public function remove($name = null){
 			if($name!=null){
-				unset($_SESSION["testink"][$name]);
+				unset($_SESSION["lector"][$name]);
 			}
 			else{
-				$_SESSION["testink"] = array();
-				unset($_SESSION["testink"]);
+				$_SESSION["lector"] = array();
+				unset($_SESSION["lector"]);
 				//session_destroy();
 			}
 		}
 
 		public function id_login(){
-			$id_login = uniqid("login_testink");
+			$id_login = uniqid("login_lector");
 			$expiry   = time()+6*3600;
 			//$expiry   = time()+20;
 
@@ -112,8 +112,8 @@
 		}
 
 		function compare_user($idUsuario){
-			if(isset($_SESSION["testink"]["idUser"])){
-				if($_SESSION["testink"]["idUser"] == $idUsuario){
+			if(isset($_SESSION["lector"]["id_user"])){
+				if($_SESSION["lector"]["id_user"] == $idUsuario){
 					return true;
 				}
 				return false;

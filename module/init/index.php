@@ -10,7 +10,7 @@
 			parent::__construct();
 
 			if($this->session->check_login() && $this->session->check_login_expiry()){
-				$this->idUsuario = $this->session->get("idUser");
+				$this->idUsuario = $this->session->get("id_user");
 			}else{
 				$this->session->remove();
 			}

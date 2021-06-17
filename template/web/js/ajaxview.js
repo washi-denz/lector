@@ -208,8 +208,8 @@
 				}
 
 				//imprimir formData
-				//for(var pair of $formData.entries()){ console.log(pair[0]+ '='+ pair[1]);}
-				//	console.log("destine="+$destine)
+				for(var pair of $formData.entries()){ console.log(pair[0]+ '='+ pair[1]);}
+				console.log("destine="+$destine)
 	
 				$.ajax({
 					url: $destine,
@@ -232,7 +232,6 @@
 					},
 					error: function()
 					{
-						//alert("ERROR: Parece que el servidor no responde...");
 						console.log('%c_ERROR: Parece que el servidor no responde...','color:red');
 					},
 					success: function(respuesta)
