@@ -3,7 +3,6 @@
 
 		//interfaz gráfica de usuario
 		var $idUsuario = 0;
-		var $max       = 0;
 
 		function __construct(&$parents){
 
@@ -274,19 +273,8 @@
 				$str = '
 					<ul class="nav-view">
 						<li><a class="'.(($active == 1)? 'active':'').'" href="'.URL.'/init">INICIO</a></li>
-						<li><a class="'.(($active == 2)? 'active':'').'" href="'.URL.'/admin/list_test">CREA TEST</a></li>
-						<li><a class="'.(($active == 3)? 'active':'').'" href="'.URL.'/admin/list_test/public" class="active">PUBLICADOS</a></li>
-						<li>
-							<a class="'.(($active == 4)? 'active':'').'" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								ADMISIÓN <i class="notify"><span class="notify-public"></span></i>
-							</a>
-							<div class="dropdown-menu">
-								<a class="dropdown-item '.(($cad == 5)? 'active':'').'" href="'.URL.'/admin/list_test/resolve?view=me">Mis admisiones</a>
-								<a class="dropdown-item '.(($cad == 6)? 'active':'').'" href="'.URL.'/admin/list_test/resolve?view=mypublics">Admisiones publicas<i class="notify"><span class="notify-public"></span></i></a>
-								<div class="dropdown-divider"></div>
-								<a class="dropdown-item '.(($cad == 7)? 'active':'').'" href="'.URL.'/admin/list_test/resolve?view=auto">Admision de prueba</a>								
-							</div>
-						</li>
+						<li><a class="'.(($active == 2)? 'active':'').'" href="'.URL.'/admin">CREAR LECTURA</a></li>
+						<li><a class="'.(($active == 3)? 'active':'').'" href="'.URL.'/admin/student" class="active">ESTUDIANTES</a></li>
 					</ul>
 				';
 			}
@@ -552,7 +540,7 @@
 			return $msj;
 		}
 
-		function paginacion($Pag=1,$cad=array()){
+		function paginacion($Pag=1,$cad=[]){
 
 			$TotalPag = 0;
 			$numReg   = 0;
@@ -562,7 +550,7 @@
 		
 			if($numReg <= 0) return null;
 
-			$TotalPag = ($numReg/$this->max);
+			$TotalPag = ($numReg/REG_MAX);
 			$TotalPag = (($TotalPag-(int)$TotalPag)>0)? (int)$TotalPag+1:(int)$TotalPag;
 			$TotalPag = ($TotalPag<=0)?1:$TotalPag;
 

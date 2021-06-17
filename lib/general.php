@@ -8,6 +8,34 @@
 			$this->idUsuario = $this->parents->session->get("id_user");
 		}
 
+		public function redireccion($url,$no=false){
+			if(!$no){
+				header("Location:".$url);
+				exit();
+			}
+		}
+
+		public function redireccion_ajax($url){
+			$rtn = array(
+				"success"     => true,
+				"redirection" => $url
+			);
+			return json_encode($rtn,JSON_PRETTY_PRINT);
+		}
+		
+		public function sesion_automatica($bool=false){
+
+			$array_session= array("id_user"=>1,"public_name"=>'Washi');//config
+			//$array_session= array("idUser"=>6,"public_name"=>'Elon',"type_user"=>'DOCENTE');//config
+
+			if(is_array($array_session) && $bool == true){
+				$this->parents->session->put_login($array_session);
+				//$this->redireccion($url);
+			}else{
+				$this->parents->session->remove();
+			}
+		}
+
 		function rtn_consulta($atrib,$tabla,$condicion=''){
 			//valor,data,idData=1
 			$rtn   = array();
@@ -55,6 +83,11 @@
 			}
 
 			return (object) $rtn;
+		}
+
+		function rtn_num_alumnos(){
+			$rc = $this->rtn_consulta('COUNT(*) AS numReg','alumnos','idUsuario='.$this->idUsuario);
+			return $rc[0]->numReg;
 		}
 		
 		//-------------------------------------------------------------//

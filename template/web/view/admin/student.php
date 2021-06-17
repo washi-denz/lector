@@ -1,6 +1,5 @@
 <?php
 
-	$this->content->add_css(URL_THEME."/resource/plugins/pushbar/pushbar.css");
 	$this->content->add_css(URL_THEME."/css/mod/admin/admin.css");
 
 	require URI_THEME."/section/head.php";
@@ -62,20 +61,45 @@
 							<tr>
 								<td></td>
 								<td></td>
-								<td></td>
 							</tr>
 						</thead>
 						<tbody id="listExam">
 							<?php 
-								if(false): 
-									//echo $fn->listaAlumnos($tipo,$pag,false);
-								else:
-									$cad = array();
-									$cad = '¡¡ BIENVENIDO A '.APP_NAME.' !!<br> En este espacio se mostrará todo los estudiantes.';
+								if(true):
 
-									echo "<tr><td colspan=4>".$cad."</td></tr>";
-								endif;
-							?>
+									$alumnos = $fn->listaAlumnos($pag,false);
+                                    $numReg  = $this->gn->rtn_num_alumnos();
+
+                                    foreach($alumnos as $alumno)
+                                    {
+                            ?>
+                                        <tr>
+                                            <td>
+                                                <h6 class="item-title text-gray-800 font-medium"><?php echo $alumno->nombres;?></h6>
+                                                <div class="item-subtitle">
+                                                   
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="icon-ellipsis-vert"></i>
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right" style="z-index:1100;">
+                                                    <?php //'.$links2.' ?>
+                                                </di>
+                                            </td>
+                                        </tr>
+
+                                <?php 
+                                    } else: 
+                                ?>
+                                        <tr>
+                                            <td colspan=4>
+                                                No se encontraron nad
+                                            </td>
+                                        </tr>
+
+                                <?php endif; ?>
 						</tfoot>
 					</table>
 
@@ -83,7 +107,7 @@
 					<nav aria-label="Page navigation example">
 						<ul class="pagination justify-content-center" id="pagination">
 							<?php 					
-								echo $this->interfaz->paginacion($pag);					
+								echo $this->interfaz->paginacion($pag,['numReg'=>$numReg]);
 							?>
 						</ul>
 					</nav>
@@ -92,10 +116,6 @@
 						//echo $this->interfaz->str_aside_search($pag,$tipo);
 					?>
 
-					<div class="container-button list">
-						<a data-pushbar-target="right-center" title="filtrar"><i class="icon-filter"></i></a>
-					</div>
-
 				</div>
 			</div><!--/main-body-->
 			<div class="main-footer"></div><!--/main-footer-->
@@ -103,15 +123,6 @@
 		</main><!--/container-main-->
 <?php
 
-	$script = '
-		const pushbar = new Pushbar({
-			blur:false,
-			overlay:false,
-		});
-	';
-
-	$this->content->add_script($script);
-	$this->content->add_js(URL_THEME."/resource/plugins/pushbar/pushbar.js");
 	$this->content->add_js(URL_THEME."/js/mod/admin/admin.js");
 
 	require URI_THEME."/section/footer.php";

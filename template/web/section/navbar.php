@@ -7,7 +7,7 @@
 					<div class="nav">
 						<div class="nav-left">
 							<div class="nav-left-img">
-								<a href="<?php echo URL;?>/init"><img src="<?php echo URL_THEME;?>/img/logo_testwink.png"></a>
+								<a href="<?php echo URL;?>/init"><img src="<?php echo URL_THEME;?>/img/lector.png"></a>
 							</div>
 							<div class="nav-left-title">
 							</div>

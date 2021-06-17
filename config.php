@@ -46,6 +46,9 @@
 	define('DB_TIME_ZONE', '-05:00');
 	*/
 
+	# máximo registros para mostrar
+	define('REG_MAX',4);
+
 	# Configurar token de seguridad
 
 	define('CSM_TOKEN','ca5cde5bacdc67701f72d40289d68e31');

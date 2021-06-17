@@ -9,6 +9,7 @@
 		}
 
 		function index(){
+			$this->gn->redireccion(URL."/init",$this->session->check_login());
 			$this->admin();
 		}
 
@@ -38,8 +39,11 @@
 		}
 		
 		function student(){
+
 			$this->content->put_title(APP_NAME." | Alumnos");
+			$fn = new fnAdmin($this);
 			require URI_THEME."/view/admin/student.php";
+
 		}
 
 		function pdf(){
@@ -57,15 +61,6 @@
 			$fn = new fnAdmin($this);
 
 			switch($modo){
-				//login y registro
-				case "login":
-					echo $fn->login($_REQUEST);
-					exit();
-				break;
-				case "registrar":
-					echo $fn->registrar($_REQUEST);
-					exit;
-				break;
 
 				//crear examen
 

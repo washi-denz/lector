@@ -26,7 +26,7 @@
 							<?php
 								$data = htmlspecialchars(json_encode(array("redirect"=>$redirect,"load"=>"formLoad_bottom")));
 
-								$btn = '<button type="submit" class="btn btn-primary bg-color:2 mx-auto px-5 send" data-destine="admin/login" data-data="'.$data.'" data-serialize="formLogin">Ingresar</button>';
+								$btn = '<button type="submit" class="btn btn-primary bg-color:2 mx-auto px-5 send" data-destine="user/login" data-data="'.$data.'" data-serialize="formLogin">Ingresar</button>';
 
 								echo $this->interfaz->gn('login',(object)['btn'=>$btn]);
 							?>
