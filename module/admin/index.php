@@ -9,50 +9,42 @@
 		}
 
 		function index(){
-			$this->list_test();
+			$this->admin();
 		}
 
-		function list_test($view="",$idex=""){
+		function admin($view = "",$idex=""){
 			
 			//Iniciar sessión automáticamnete
-			$this->gn->sesion_automatica(true);
+			//$this->gn->sesion_automatica(true);
 
-			$this->gn->redireccion(URL."/init",$this->gn->verifica_permiso('list_test',$this->session->get('type_user')));
-
-			if(ACTION == 'list_test' && $view == '')
+			if(ACTION == '' && $view == '')
 			{
-				$this->content->put_title(APP_NAME." | Lista de test");
+				$this->content->put_title(APP_NAME." | Crear lectura");
 				$fn = new fnAdmin($this);
-				require URI_THEME."/view/admin/list_test.php";	
+				require URI_THEME."/view/admin/admin.php";	
 			}
-			elseif(ACTION == 'list_test' && $view == 'edit')
+			elseif(ACTION == 'admin' && $view == 'student')
 			{
-				$this->edit($idex);	
+				$this->student();	
 			}
-			elseif(ACTION == 'list_test' && $view == 'public')
+			elseif(ACTION == 'admin' && $view == 'pdf')
 			{
-				$this->publics();			
-			}
-			elseif(ACTION == 'list_test' && $view == 'resolve')
-			{
-				if(isset($_GET["view"]) && $this->gn->verifica_valor($_GET["view"])){
-					$this->resolve($_GET["view"]);
-					//$this->admission($_GET["view"]);
-				}else{
-					$this->error();
-				}
-			}
-			elseif(ACTION == 'list_test' && $view == 'auto'){
-				if(isset($_GET["view"]) && $this->gn->verifica_valor($_GET["view"])){
-					$this->resolve($_GET["view"]);				
-				}else{
-					$this->error();
-				}
+				$this->pdf();			
 			}
 			else{
 				$this->error();
 			}
 
+		}
+		
+		function student(){
+			$this->content->put_title(APP_NAME." | Alumnos");
+			require URI_THEME."/view/admin/student.php";
+		}
+
+		function pdf(){
+			$this->content->put_title(APP_NAME." | Subir PDFs");
+			require URI_THEME."/view/admin/pdf.php";
 		}
 
 		function error(){

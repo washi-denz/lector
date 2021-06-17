@@ -210,6 +210,28 @@
 		  return strtolower(preg_replace(array('/[^a-zA-Z0-9 -]/', '/[ -]+/', '/^-|-$/'),array('',$separate,''),$this->remove_accent($str))); 
 		}
 
+		function array_to_object($array,$nivel='n'){
+
+			$object = (object) array();
+			
+			//un nivel array = ['name' => 'cp','age' => '2','new' => 'no'];
+			if($nivel == 'uno')
+				$object = (object) $array;
+			//dos niveles
+			if($nivel == 'dos'){
+				$object = new stdClass();
+				foreach ($array as $key => $value)
+				{
+				    $object->$key = $value;
+				}
+			}
+			//n niveles
+			if($nivel == 'n')
+			$object = json_decode(json_encode($array), FALSE);
+
+			return $object;
+		}
+
 	}
 	// paralel
 ?>

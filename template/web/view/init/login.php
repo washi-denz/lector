@@ -10,7 +10,7 @@
 <?php
 
 	//redirecionar
-	$redirect = (isset($_GET["csm"]) && isset($_GET["redirect"]))? $_GET["redirect"] : URL."/init";
+	$redirect = URL."/admin";
 
 ?>
 		<div class="container-main">

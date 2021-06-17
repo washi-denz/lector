@@ -266,93 +266,90 @@
 			return $str;	
 		}
 
+		function str_container_nav_view($active=0,$tipo='list',$cad=array()){
+			$str = '';
+
+			if($tipo == 'list')
+			{
+				$str = '
+					<ul class="nav-view">
+						<li><a class="'.(($active == 1)? 'active':'').'" href="'.URL.'/init">INICIO</a></li>
+						<li><a class="'.(($active == 2)? 'active':'').'" href="'.URL.'/admin/list_test">CREA TEST</a></li>
+						<li><a class="'.(($active == 3)? 'active':'').'" href="'.URL.'/admin/list_test/public" class="active">PUBLICADOS</a></li>
+						<li>
+							<a class="'.(($active == 4)? 'active':'').'" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								ADMISIÓN <i class="notify"><span class="notify-public"></span></i>
+							</a>
+							<div class="dropdown-menu">
+								<a class="dropdown-item '.(($cad == 5)? 'active':'').'" href="'.URL.'/admin/list_test/resolve?view=me">Mis admisiones</a>
+								<a class="dropdown-item '.(($cad == 6)? 'active':'').'" href="'.URL.'/admin/list_test/resolve?view=mypublics">Admisiones publicas<i class="notify"><span class="notify-public"></span></i></a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item '.(($cad == 7)? 'active':'').'" href="'.URL.'/admin/list_test/resolve?view=auto">Admision de prueba</a>								
+							</div>
+						</li>
+					</ul>
+				';
+			}
+
+			if($tipo == 'edit')
+			{
+				$str = '
+					<ul class="nav-view">
+						<li><a class="'.(($active == 1)? 'active':'').'" href="'.URL.'/init">INICIO</a></li>
+						<li><a class="'.(($active == 2)? 'active':'').'" href="'.URL.'/admin/list_test">CREA TEST</a></li>
+						<li><a class="'.(($active == 3)? 'active':'').'" class="active">EDITAR</a></li>
+					</ul>
+				';
+			}
+
+			if($tipo == 'group')
+			{
+				$str = '
+					<ul class="nav-view">
+						<li><a class="'.(($active == 1)? 'active':'').'" href="'.URL.'/init">INICIO</a></li>
+						<li><a class="'.(($active == 2)? 'active':'').'" href="'.URL.'/admin/list_test">CREA TEST</a></li>
+						<li><a class="'.(($active == 3)? 'active':'').'" href="'.URL.'/admin/group">GRUPOS</a></li>
+					</ul>
+				';
+			}
+
+			return $str;
+		}
+
+		public function str_dropdown($arrayObj){
+
+			$item   = '';
+			$i      = 0;
+			$divide = '<div class="dropdown-divider"></div>';
+
+			$active = $arrayObj->active;
+		
+			foreach($arrayObj->item as $obj){
+				$i++;				
+				
+				if(isset($obj->divide) && $obj->divide == true){
+					$item .= $divide;
+					$i--;
+				}
+				else{
+					$item .= '<a class="dropdown-item '.(($active == $i)? 'active':'').'" href="'.$obj->url.'">'.$obj->titulo.'</a>';
+				}						
+			}
+
+			$str = '
+				<div class="dropdown float-end">
+					<a class="" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-down-open-1"></i></a>
+					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+						'.$item.'
+					</div>
+				</div>
+			';
+			return $str;
+		}
+
 		//-------------------------------------------------------------//
 		//                       generalidades
 		//-------------------------------------------------------------//
-
-		function get_str_login($btn=''){
-
-			$str = '
-				<form id="formLogin">
-					<div class="mb-3">
-						<label class="form-label" for="email">Correo electrónico o usuario:</label>
-						<input type="text" class="form-control" name="usuario" id="usuario" placeholder="Email o usuario" required>
-					</div>
-					<div class="mb-3">
-						<label class="form-label" for="exampleInputPassword1">Contraseña:</label>
-						<input type="password" class="form-control" name="clave" id="clave" placeholder="Contraseña" required>
-					</div>
-					<div class="class="form-label" form-msj" id="formMsj"></div>
-					<div class="mb-3 d-flex">
-						<span class="form-load" id="formLoad"></span>						
-						'.$btn.'
-					</div>
-					<div class="form-bottom text-center">
-						<label><a href="'.URL.'/init/register" class="text-blue-600">¿Nuevo aquí? Registrarme</a></label>
-						<label class="d-block"><a href="'.URL.'/init/recover_password" class="text-blue-600">Olvidé mi clave</a></label>
-					</div>
-				</form>
-			';
-
-			return $str;
-		}
-
-		function str_registrarse($btn=''){
-
-			$btn_default = '<button type="submit" class="btn btn-primary bg-color:2 m-auto px-5 py-2 send" data-destine="admin/registrar" data-serialize="formRegistrar" data-data="'.(htmlspecialchars(json_encode(array("load"=>"formLoad_bottom")))).'">Registrarse</button>';
-			$btn  = ($btn != '')? $btn : $btn_default;
-
-			$str= '			
-				<div class="form-header">
-					<h2 class="text-gray-800 font-semibold text-2xl pt-2">¡¡ Regístrate !! es Gratis</h2>
-				</div>
-				<div class="form-body">
-					<form id="formRegistrar">
-						<div class="mb-3 row">
-							<div class="col-sm-12 col-md-4 col-lg-4">
-								<label class="text-gray-800 font-semibold mb-2">Email</label>
-							</div>
-							<div class="col-sm-12 col-md-8 col-lg-8">
-								<input type="email" class="form-control" name="correo" placeholder="Email"/>
-								<div class="msj" id="idCorreo"></div>
-							</div>
-						</div>
-						<div class="mb-3 row">
-							<div class="col-sm-12 col-md-4 col-lg-4">
-								<label class="text-gray-800 font-semibold mb-2">Contraseña</label>
-							</div>
-							<div class="col-sm-12 col-md-8 col-lg-8">
-								<input type="password" class="form-control" name="clave1" placeholder="Contraseña" />
-							</div>
-						</div>
-						<div class="mb-3 row">
-							<div class="col-sm-12 col-md-4 col-lg-4">
-								<label class="text-gray-800 font-semibold mb-2">Confirma contraseña</label>
-							</div>
-							<div class="col-sm-12 col-md-8 col-lg-8">
-								<input type="password" class="form-control" name="clave2" placeholder="Confirmar contraseña" />
-								<div class="msj" id="idClave2"></div>
-							</div>
-						</div>
-						<div class="form-check">
-							<label class="form-check-label">
-							  <input type="checkbox" name="terminos" class="form-check-input">
-							  Al crear tu cuenta, estás aceptando los <a href="'.URL.'/init/terms_and_policy" class="text-blue-500">Términos y política de privacidad</a> de <strong>'.APP_NAME.'</strong>.
-							</label>
-						</div>
-						<div class="form-msj" id="formMsj"></div>
-						<div class="d-flex my-4">						
-							<span class="form-load" id="formLoad"></span>
-							'.$btn.'
-						</div>
-					</form>	
-				</div>
-				<div class="form-footer">
-				</div>
-			';
-
-			return $str;
-		}
 
 		function gn($tipo=null,$obj=array(),$cad=[]){
 			$str = null;
@@ -553,6 +550,44 @@
 			}
 
 			return $msj;
+		}
+
+		function paginacion($Pag=1,$cad=array()){
+
+			$TotalPag = 0;
+			$numReg   = 0;
+			$numReg   = isset($cad['numReg'])? $cad['numReg'] : 0;
+
+			$get_view = isset($_GET['view'])? 'view='.$_GET['view'].'&':'';
+		
+			if($numReg <= 0) return null;
+
+			$TotalPag = ($numReg/$this->max);
+			$TotalPag = (($TotalPag-(int)$TotalPag)>0)? (int)$TotalPag+1:(int)$TotalPag;
+			$TotalPag = ($TotalPag<=0)?1:$TotalPag;
+
+			$min=$Pag-2;
+			$max=$Pag+2;
+			
+			$min = ($max>$TotalPag)? $min+($TotalPag-$max) : $min;
+			$max = ($min<=0)? $max+((-1*$min)+1): $max;
+
+			$min = ($min<=0)? 1 : $min;
+			$max = ($max>$TotalPag)? $TotalPag : $max;
+
+			$next=($max >= $TotalPag)?'':'<li class="page-item"><a href="?'.$get_view.'pag='.($max+1).'" class="page-link">Siguiente</a></li>';
+			
+			$back=($min <= 1)?'':'<li class="page-item"><a href="?'.$get_view.'pag='.$min.'" class="page-link">Anterior</a></li>';
+			
+			$rtn="";
+			for($i=$min;$i<=$max;$i++)
+			{
+				$active = ($i==$Pag)?'active':'';
+				$rtn.='<li class="page-item '.$active.'"><a href="?'.$get_view.'pag='.$i.'" class="page-link">'.$i.'</a></li>';
+			}			
+			
+			return $back.$rtn.$next;
+		
 		}
 
 	}
