@@ -27,7 +27,7 @@
 				<form id="formCrearLectura">
 					Titulo: <input type="text" name="titulo"><br>
 					Descripción: <input type="text" name="descripcion"><br>
-					Subir PDF: <input type="file" name="pdf"><br>
+					Subir PDF: <input type="file" name="archivo"><br>
 				</form>
 				<div class="form-error"></div>
 			';
@@ -49,12 +49,16 @@
 			// verificar si se subió el archivo
 			// luego guardar los datos restantes
 
-			$rtn   = array();
 			$idpdf = uniqid(); // generar un id único
 
 			$titulo      = $datos['titulo'];
 			$descripcion = $datos['descripcion'];
-			$nombreArch  = "pdf_".$idpdf;
+			$nombreArch  = $this->parents->gn->rtn_nombre_arch($FILES['archivo']['name']);
+
+			$rtn = array(
+				"success" => true,
+				"update"  => array()
+			);
 
 			/*
 			$titulo = $datos['titulo'];
@@ -70,33 +74,40 @@
 				return json_encode($validar);
 			*/
 
-			// agregar mas datos
-			$datos["extPermitidas"] = array("pdf");
-			$datos["nombreArch"]    = $nombreArch;
-			$datos["destino"]       = URI."/data/pdfs";
-
-			// crear carpeta vacía
-			$this->parents->gn->crear_carpeta_vacia($datos['destino']."/".$idpdf);
+			// agregar más datos
+			$datos['extPermitidas'] = array('pdf');
+			$datos['nombreArch']    = $nombreArch;
+			$datos['repositorio']   = $idpdf;
+			$datos['destino']       = URI.'/data/pdfs/'.$datos['repositorio'];
 			
 			// guardar el archivo pdf
-			$ga = $this->parents->gn->guardar_arch($datos,$FILES);
+			$ga = $this->parents->gn->guardar_pdf($datos,$FILES);
 			
 			if($ga['success']){
-				$this->parents->sql->insertar("pdfs",array("idpdf" => $idpdf,"nombre" =>$nombreArch,"titulo"=>$titulo,"descripcion"=>$descripcion));
+
+				$this->parents->sql->insertar('pdfs',array('idpdf' => $idpdf,'nombre' =>$nombreArch,'titulo'=>$titulo,'descripcion'=>$descripcion));
+
+				// close modal
+				$rtn['update'][] = array(
+					'id'     => 'modalPrincipal',
+					'action' => 'closeModal' 
+				);
+				// notificar
+				$rtn['update'][] = array(
+					'action'  => 'notification',
+					'value'   => "Se creó correctamente."
+				);
+
+			}else{
+				// mostrar error en la subida del archivo
+				$rtn['update'][] = array(
+					'selector' => '.form-error',
+					'action'   => 'html',
+					'value'    => $ga['msj']
+				);
 			}
 
-			$rtn = array(
-				"success" => true,
-				"update"  => array(
-					array(
-						"selector" => ".form-error",
-						"action"   => "html",
-						"value"    => $ga['msj']
-					)
-				)
-			);
-
-			return json_encode($datos);
+			return json_encode($rtn);
 		}
 
 

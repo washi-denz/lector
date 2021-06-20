@@ -89,6 +89,11 @@
 			$rc = $this->rtn_consulta('COUNT(*) AS numReg','alumnos','idUsuario='.$this->idUsuario);
 			return $rc[0]->numReg;
 		}
+
+		function rtn_nombre_arch($nombre_arch){
+			$nombre_arch = explode('.',$nombre_arch);
+			return $nombre_arch[0];
+		}
 		
 		//-------------------------------------------------------------//
 		//                 generalidades
@@ -288,6 +293,11 @@
 				$extCorrecta        = in_array($datos["extension"],$datos["extPermitidas"]);
 
 				if($extCorrecta){
+
+					// crear carpeta vacía
+					$this->parents->gn->crear_carpeta_vacia($datos['destino']);
+
+					// guardar archivo
 					$rtn = $this->guardar_arch($datos,$FILES);
 				}else{				
 
