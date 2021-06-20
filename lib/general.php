@@ -265,6 +265,135 @@
 			return $object;
 		}
 
+		function guardar_pdf($datos,$FILES){
+
+			//antes:
+			//-indicar extensiones permitidas
+			//-indicar nombre
+			//-indicar destino
+
+			$rtn = array();
+
+			//tamaño del archivo
+			if(sizeof($FILES)>0 && $FILES["archivo"]["size"]>0){
+
+				//datos file			
+				$datos["file_nombre"] = $FILES["archivo"]["name"];
+				$datos["file_tmp"]    = $FILES["archivo"]["tmp_name"];
+
+				//tipo de archivo
+				$extPermitidas      = implode(",",$datos["extPermitidas"]);			
+				$extraerTipo        = explode(".",$datos["file_nombre"]);
+				$datos["extension"] = end($extraerTipo);
+				$extCorrecta        = in_array($datos["extension"],$datos["extPermitidas"]);
+
+				if($extCorrecta){
+					$rtn = $this->guardar_arch($datos,$FILES);
+				}else{				
+
+					$rtn=array(
+						"success" => false,
+						"msj"     => "Sólo se acepta los siguientes formatos: ".$extPermitidas,
+					);
+				}
+
+			}else{
+				$rtn=array(
+					"success" => false,
+					"msj"     => "Elija un archivo.",
+				);
+			}
+
+			return $rtn;
+
+		}
+
+		function guardar_arch($datos,$FILES){
+
+			$nombreArch   = $datos["nombreArch"].".".$datos["extension"];
+			$destino      = $datos["destino"]."/".$nombreArch;
+
+			if($FILES["archivo"]["error"] <= 0){
+
+				if(!file_exists($destino)){
+
+					//mover archivo
+					move_uploaded_file($datos["file_tmp"],$destino);
+
+					$rtn=array(
+						"success" => true,
+						"msj"     => "Exito" 
+					);									
+
+				}else{
+					$rtn=array(
+						"success" => false,
+						"msj"     => "Existe el archivo."
+					);
+				}
+				
+			}else{
+				$rtn=array(
+					"success" => false,
+					"msj"     => "ERROR: Archivo corrupto."
+				);
+			}
+			return $rtn;
+
+		}
+
+		function crear_carpeta_vacia($uri){
+			//Si no existe carpeta lo crea
+			if(!file_exists($uri)){
+				mkdir($uri,0777,true);
+				return true;
+			}
+			return false;
+		}
+
+		function validar($input,$datos){
+
+			for($i=0;$i<count($rtnArray);$i++){
+				if($rtnArray[$i]['success']!=true){
+					$rpta = false;
+				}
+			}	
+			
+			$msj    = "";
+			$patron = "";
+
+			if($valor[2] == 'time_free')
+			{	//00:00,00:01,...,LIBRE
+				$patron = "/^(([01]?[0-9]|2[0-3]):[0-5][0-9]|LIBRE)$/";
+			}
+			elseif($valor[2] == 'time_ampm')
+			{
+				//7:59,07:59,14:59 24 horas
+				$patron = "/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/";
+			}
+			elseif($valor[2] == 'date')
+			{
+				//2020-06-17
+				$patron = "/^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/";
+			}
+			elseif($valor[2] == 'checkbox')
+			{
+				//...
+			}
+
+			$pm = preg_match($patron,$valor[0]);
+
+			if($pm!=true){
+				$msj = $valor[1];
+			}	
+
+			$rtn=array(
+				"success" => (bool)$pm,
+				"msj"     => $msj
+			);
+			return $rtn;
+		}
+
 	}
 	// paralel
 ?>

@@ -5,7 +5,21 @@
 ?>
 	<div class="container-main">
         <div class="container">
-		    Admin que hacesss
+
+		    <button class="send" data-destine="admin/modalCrearLectura">+</button>
+
+			<table class="table">
+				<thead>
+					<tr>
+						<td></td>
+						<td></td>
+					</tr>
+				</thead>
+				<tbody id="listaCrearLectura">
+	
+				</tbody>
+			</table>
+
         </div>		
 	</div>
 

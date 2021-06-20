@@ -62,7 +62,15 @@
 
 			switch($modo){
 
-				//crear examen
+				//crear lectura
+				case "modalCrearLectura":
+					echo $fn->modalCrearLectura();
+					exit;
+				break;
+				case "guardarCrearLectura":
+					echo $fn->guardarCrearLectura($_REQUEST,$_FILES);
+					exit;
+				break;
 
 				default:
 					echo json_encode(array("success"=>false,"notification"=>"Accion no definida."),JSON_PRETTY_PRINT);

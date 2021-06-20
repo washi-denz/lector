@@ -24,14 +24,6 @@
 
 		}
 
-
-
-
-
-
-
-
-
 		//-------------------------------------------------------------//
 		//                        modal
 		//-------------------------------------------------------------//
@@ -334,6 +326,18 @@
 			';
 			return $str;
 		}
+		
+		//-------------------------------------------------------------//
+		//                        admin
+		//-------------------------------------------------------------//
+
+		function form_modal_crear_lectura(){
+
+			$str = '
+				
+			';
+
+		}
 
 		//-------------------------------------------------------------//
 		//                       generalidades
@@ -576,6 +580,43 @@
 			
 			return $back.$rtn.$next;
 		
+		}
+
+		function rtn_array_modal_principal($title='',$body='',$footer='',$cad=[]){
+
+			//Usar sólo cuando sea neceario
+			$success = (isset($cad['success']))? $cad['success']:true;
+
+			$rtn = array(
+				"success" => $success,
+				"update"  => array(
+					array(
+						"id"     => "modalPrincipal",
+						"action" => "showModal"
+					),
+					array(
+						"id"     => "modalTitle",
+						"action" => "html",
+						"value"  => $title
+					),
+					array(
+						"id"     => "modalBody",
+						"action" => "html",
+						"value"  => $body
+					),
+					array(
+						"id"     => "modalFooter",
+						"action" => "html",
+						"value"  => $footer
+					),
+					array(
+						"id"     => "modalPrincipal",
+						"action" => "openModal"
+					)
+				)
+			);
+
+			return $rtn;
 		}
 
 	}
