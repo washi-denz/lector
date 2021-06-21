@@ -49,7 +49,7 @@
 			// verificar si se subió el archivo
 			// luego guardar los datos restantes
 
-			$idpdf = uniqid(); // generar un id único
+			$uniqid = uniqid(); // generar un id único
 
 			$titulo      = $datos['titulo'];
 			$descripcion = $datos['descripcion'];
@@ -77,7 +77,7 @@
 			// agregar más datos
 			$datos['extPermitidas'] = array('pdf');
 			$datos['nombreArch']    = $nombreArch;
-			$datos['repositorio']   = $idpdf;
+			$datos['repositorio']   = $uniqid;
 			$datos['destino']       = URI.'/data/pdfs/'.$datos['repositorio'];
 			
 			// guardar el archivo pdf
@@ -85,7 +85,7 @@
 			
 			if($ga['success']){
 
-				$this->parents->sql->insertar('pdfs',array('idpdf' => $idpdf,'nombre' =>$nombreArch,'titulo'=>$titulo,'descripcion'=>$descripcion,'idUsuario'=>$this->idUsuario));
+				$this->parents->sql->insertar('pdfs',array('uniqid' => $uniqid,'nombre' =>$nombreArch,'titulo'=>$titulo,'descripcion'=>$descripcion,'idUsuario'=>$this->idUsuario));
 
 				// close modal
 				$rtn['update'][] = array(
@@ -118,6 +118,170 @@
 			return json_encode($rtn);
 		}
 
+		public function verLectura($datos){
+
+			$uniqid = $datos['uniqid'];
+
+			// redireccionar
+
+			$rtn = array(
+				'success' => true,
+				'update'  => array(
+					array(
+						'action' => 'redirection',
+						'value'  => URL.'/admin/edit/'.$uniqid
+					)
+				)
+			);
+
+			return json_encode($rtn);
+
+		}
+
+		public function listaPdf($pag=1,$ajax=true){
+
+			$num = ($pag<=0)? 0 :($pag-1) * REG_MAX;
+
+			$rc = $this->parents->gn->rtn_consulta('*','alumnos','idUsuario='.$this->idUsuario.' LIMIT '.$num.','.REG_MAX);
+			
+            return $rc;
+		}
+
+		//-------------------------------------------------------------//
+		//                           editar
+		//-------------------------------------------------------------//
+
+		public function modalModificarTitulo($datos){
+			
+			$uniqid = $datos['uniqid'];
+
+			$rtn = array();
+
+			$titulo = $this->parents->gn->rtn_consulta_unica('titulo','pdfs',"uniqid='".$uniqid."'");
+
+			$form = '
+				<form id="formModificarTitulo">
+					<input type="text" value="'.$titulo.'" name="titulo">
+				</form>
+			';
+
+			$data = htmlspecialchars(json_encode(array('uniqid'=>$uniqid)));
+			$btn = '<button class="send" data-destine="admin/guardarModificarTitulo" data-serialize="formModificarTitulo" data-data="'.$data.'">Guardar<button>';
+
+			$modalTitle  = "Modificar título";
+			$modalBody   = $form;
+			$modalFooter = $btn;
+
+			$rtn = $this->parents->interfaz->rtn_array_modal_principal($modalTitle,$modalBody,$modalFooter);
+
+			return json_encode($rtn);
+		}
+
+		public function guardarModificarTitulo($datos){
+
+			$uniqid       = $datos['uniqid'];
+			$encriptar_id = $this->parents->gn->encriptar_id($uniqid);
+
+			$rtn = array(
+				'success' => true,
+				'update'  => array()
+			);
+			
+			$mr = $this->modificarRegistro('titulo',$datos);
+
+			if(true){
+
+				// mostrar título
+				$rtn['update'][] = array(
+					'selector' => '.h_'.$encriptar_id,
+					'action'   => 'html',
+					'value'    => $datos['titulo']
+				);
+
+				// close modal
+				$rtn['update'][] = array(
+					'id'     => 'modalPrincipal',
+					'action' => 'closeModal'
+				);
+
+				// mensaje con delay
+				$rtn['update'][] = array(
+					'action'   => 'notification',
+					'delay'    => 1000,
+					'value'    => "El título se cambió correctamente."
+				);
+
+			}
+
+			return json_encode($rtn);
+		}
+
+		public function modalModificarDescripcion($datos){
+			
+			$uniqid = $datos['uniqid'];
+
+			$rtn = array();
+
+			$descripcion = $this->parents->gn->rtn_consulta_unica('descripcion','pdfs',"uniqid='".$uniqid."'");
+
+			$form = '
+				<form id="formModificarDescripcion">
+					<input type="text" value="'.$descripcion.'" name="descripcion">
+				</form>
+			';
+
+			$data = htmlspecialchars(json_encode(array('uniqid'=>$uniqid)));
+			$btn = '<button class="send" data-destine="admin/guardarModificarDescripcion" data-serialize="formModificarDescripcion" data-data="'.$data.'">Guardar<button>';
+
+			$modalTitle  = "Modificar descripción";
+			$modalBody   = $form;
+			$modalFooter = $btn;
+
+			$rtn = $this->parents->interfaz->rtn_array_modal_principal($modalTitle,$modalBody,$modalFooter);
+
+			return json_encode($rtn);
+		}
+
+		public function guardarModificarDescripcion($datos){
+
+			$uniqid       = $datos['uniqid'];
+			$encriptar_id = $this->parents->gn->encriptar_id($uniqid);
+
+			$rtn = array(
+				'success' => true,
+				'update'  => array()
+			);
+			
+			$mr = $this->modificarRegistro('descripcion',$datos);
+
+			if(true){
+
+				// mostrar título
+				$rtn['update'][] = array(
+					'selector' => '.ta_'.$encriptar_id,
+					'action'   => 'html',
+					'value'    => $datos['descripcion']
+				);
+
+				// close modal
+				$rtn['update'][] = array(
+					'id'     => 'modalPrincipal',
+					'action' => 'closeModal'
+				);
+
+				// mensaje con delay
+				$rtn['update'][] = array(
+					'action'   => 'notification',
+					'delay'    => 1000,
+					'value'    => "La descripción se cambió correctamente."
+				);
+
+			}
+
+			return json_encode($rtn);
+		}
+
+		
 
 		//-------------------------------------------------------------//
 		//                      generalidades
@@ -132,7 +296,7 @@
 			if($tipo == 'crear-lectura')
 			{
 				$query = "
-					SELECT idpdf,nombre,titulo,descripcion FROM pdfs 
+					SELECT uniqid,nombre,titulo,descripcion FROM pdfs 
 						WHERE idUsuario=".$this->idUsuario." 
 					ORDER BY modific DESC LIMIT ".$num.",".REG_MAX.";
 				";
@@ -194,6 +358,32 @@
 			}
 
 			return ($ajax)? json_encode($rtn) : $str;
+		}
+
+		function modificarRegistro($tipo,$cad=[]){
+
+			$rtn = array(
+				'success' => false
+			);
+
+			if($tipo == 'titulo')
+			{
+				$id = $this->parents->gn->rtn_id($cad['uniqid']);
+
+				if($this->parents->sql->modificar('pdfs',array('titulo'=>$cad['titulo']),array('id'=>$id))){
+					$rtn['success'] = true;
+				}
+			}
+			if($tipo == 'descripcion')
+			{
+				$id = $this->parents->gn->rtn_id($cad['uniqid']);
+
+				if($this->parents->sql->modificar('pdfs',array('descripcion'=>$cad['descripcion']),array('id'=>$id))){
+					$rtn['success'] = true;
+				}
+			}
+
+			return $rtn;
 		}
 		
 

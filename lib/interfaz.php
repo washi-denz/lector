@@ -277,7 +277,7 @@
 					<ul class="nav-view">
 					<li class="inline text-blue-500 mx-1"><a class="'.(($active == 1)? 'bg-blue-100':'').' px-2 " href="'.URL.'/init">INICIO</a></li>
 					<li class="inline text-blue-500 mx-1"><a class="'.(($active == 2)? 'bg-blue-100':'').' px-2 " href="'.URL.'/admin">CREAR LECTURA</a></li>
-					<li class="inline text-blue-500 mx-1"><a class="'.(($active == 3)? 'bg-blue-100':'').' px-2 " href="'.URL.'/admin/edit" class="active">EDITAR</a></li>
+					<li class="inline text-blue-500 mx-1"><a class="'.(($active == 3)? 'bg-blue-100':'').' px-2 " >EDITAR</a></li>
 					</ul>
 				';
 			}
@@ -338,8 +338,9 @@
 
 			if($tipo == 'crear-lectura')
 			{
+				$data = htmlspecialchars(json_encode(array('uniqid'=>$obj->uniqid)));
 				$links1 = '
-					<a class="send text-blue-500" data-destine="admin/verificaVerEditarExamen" data-data="" title="Ver y editar">Ver y editar</a> .
+					<a class="send text-blue-500" data-destine="admin/verLectura" data-data="'.$data.'" title="Ver y editar">Ver y editar</a> .
 					<span class="text-secondary"> Num preguntas ( 5 )</span>
 				';
 

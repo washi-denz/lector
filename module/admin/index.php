@@ -32,6 +32,10 @@
 			{
 				$this->pdf();			
 			}
+			elseif(ACTION == 'admin' && $view == 'edit')
+			{
+				$this->edit($uniqid);			
+			}
 			else{
 				$this->error();
 			}
@@ -51,6 +55,19 @@
 			require URI_THEME."/view/admin/pdf.php";
 		}
 
+		function edit($uniqid){
+			//existe uniqid
+			if($this->gn->existe_uniqid($uniqid)){
+
+				$this->content->put_title(APP_NAME." | editar recurso PDF" );
+				$fn = new fnAdmin($this);
+				require URI_THEME."/view/admin/edit.php";
+
+			}else{
+				return $this->error();
+			}
+		}
+
 		function error(){
 			$this->content->put_title("ERROR");
 			require URI_THEME."/section/404.php";
@@ -67,8 +84,55 @@
 					echo $fn->modalCrearLectura();
 					exit;
 				break;
+
 				case "guardarCrearLectura":
 					echo $fn->guardarCrearLectura($_REQUEST,$_FILES);
+					exit;
+				break;
+
+				case "verLectura":
+					echo $fn->verLectura($_REQUEST);
+					exit;
+				break;
+
+				case "editarLectura":
+					echo $fn->editarLectura($_REQUEST);
+					exit;
+				break;
+
+				//editar
+				case "modalModificarTitulo":
+					echo $fn->modalModificarTitulo($_REQUEST);
+					exit;
+				break;
+
+				case "guardarModificarTitulo":
+					echo $fn->guardarModificarTitulo($_REQUEST);
+					exit;
+				break;
+
+				case "modalModificarDescripcion":
+					echo $fn->modalModificarDescripcion($_REQUEST);
+					exit;
+				break;
+
+				case "guardarModificarDescripcion":
+					echo $fn->guardarModificarDescripcion($_REQUEST);
+					exit;
+				break;
+
+				case "modalModificarPDF":
+					echo $fn->modalModificarPDF($_REQUEST);
+					exit;
+				break;
+
+				case "guardarModificarPDF":
+					echo $fn->guardarModificarPDF($_REQUEST);
+					exit;
+				break;
+				//generalidades
+				case "modificarRegistro":
+					echo $fn->modificarRegistro($_REQUEST);
 					exit;
 				break;
 

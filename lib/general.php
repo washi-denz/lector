@@ -85,6 +85,22 @@
 			return (object) $rtn;
 		}
 
+		function rtn_id($uniqid){
+			if($this->existe_registro('pdfs',"uniqid='".$uniqid."'")){
+				$id = $this->rtn_consulta_unica('id','pdfs',"uniqid='".$uniqid."'");
+				return $id;
+			}
+			return 0;
+		}
+
+		function rtn_uniqid($id){
+			if($this->existe_registro('pdfs','id='.$id)){
+				$uniqid = $this->rtn_consulta_unica('uniqid','pdfs','id='.$id);
+				return $uniqid;
+			}
+			return null;
+		}
+
 		function rtn_num_alumnos(){
 			$rc = $this->rtn_consulta('COUNT(*) AS numReg','alumnos','idUsuario='.$this->idUsuario);
 			return $rc[0]->numReg;
@@ -99,6 +115,46 @@
 			$nombre_arch = explode('.',$nombre_arch);
 			return $nombre_arch[0];
 		}
+
+		function rtn_titulo_lectura($uniqid){
+			$rc = $this->rtn_consulta('titulo','pdfs',"uniqid='".$uniqid."'");
+			return $rc[0]->titulo;
+		}
+
+		function rtn_descripcion_lectura($uniqid){
+			$rc = $this->rtn_consulta('descripcion','pdfs',"uniqid='".$uniqid."'");
+			return $rc[0]->descripcion;
+		}
+
+		function rtn_src_lectura($uniqid){
+			$rc = $this->rtn_consulta('nombre','pdfs',"uniqid='".$uniqid."'");
+			return URL.'/data/pdfs/'.$uniqid.'/'.$rc[0]->nombre.'.pdf';
+		}
+
+		function existe_registro($tabla,$condicion){
+
+			$query = "SELECT COUNT(*) AS cant FROM ".$tabla." WHERE ".$condicion.";";
+			if($this->parents->sql->consulta($query)){
+
+				$resultado = $this->parents->sql->resultado;
+				foreach($resultado as $obj){
+					if($obj->cant > 0){
+						return true;
+					}else{
+						return false;
+					}
+				}
+
+				return false;
+			}
+			return false;
+		}
+
+		function existe_uniqid($uniqid){
+			if($this->existe_registro('pdfs',"uniqid='".$uniqid."'"))
+				return true;
+			return false;
+		}
 		
 		//-------------------------------------------------------------//
 		//                 generalidades
@@ -111,6 +167,19 @@
 			// - " " o "   " espcio(s) simple(s)
 			// - "/t" o "/t/t..." tabulaciones
 			return (trim($str)!='') ? true : false;
+		}
+
+		function encriptar_id($uniqid){
+
+			//La encriptació es muy simple 
+			//unimos los dos últimos digitos del id con los cuatro últimos digitos de uniqid
+			//Ojo el id tiene que ser secuencial y único 1,2,3,...
+
+			$id = $this->rtn_consulta_unica('id','pdfs',"uniqid='".$uniqid."'");
+
+			$id_str = (strlen($id) == 1)? '0'.$id : $id;
+
+			return substr($id_str,-2).substr($uniqid,-4);
 		}
 		
 		function login($datos){
