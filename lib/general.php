@@ -90,6 +90,11 @@
 			return $rc[0]->numReg;
 		}
 
+		function rtn_num_pdfs(){
+			$rc = $this->rtn_consulta('COUNT(*) AS numReg','pdfs','idUsuario='.$this->idUsuario);
+			return $rc[0]->numReg;
+		}
+
 		function rtn_nombre_arch($nombre_arch){
 			$nombre_arch = explode('.',$nombre_arch);
 			return $nombre_arch[0];

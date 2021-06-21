@@ -264,9 +264,9 @@
 			{
 				$str = '
 					<ul class="nav-view">
-						<li><a class="'.(($active == 1)? 'active':'').'" href="'.URL.'/init">INICIO</a></li>
-						<li><a class="'.(($active == 2)? 'active':'').'" href="'.URL.'/admin">CREAR LECTURA</a></li>
-						<li><a class="'.(($active == 3)? 'active':'').'" href="'.URL.'/admin/student" class="active">ESTUDIANTES</a></li>
+						<li class="inline text-blue-500 mx-1"><a class="'.(($active == 1)? 'bg-blue-100':'').' px-2 " href="'.URL.'/init">INICIO</a></li>
+						<li class="inline text-blue-500 mx-1"><a class="'.(($active == 2)? 'bg-blue-100':'').' px-2 " href="'.URL.'/admin">CREAR LECTURA</a></li>
+						<li class="inline text-blue-500 mx-1"><a class="'.(($active == 3)? 'bg-blue-100':'').' px-2 " href="'.URL.'/admin/student" class="active">ESTUDIANTES</a></li>
 					</ul>
 				';
 			}
@@ -275,9 +275,9 @@
 			{
 				$str = '
 					<ul class="nav-view">
-						<li><a class="'.(($active == 1)? 'active':'').'" href="'.URL.'/init">INICIO</a></li>
-						<li><a class="'.(($active == 2)? 'active':'').'" href="'.URL.'/admin/list_test">CREA TEST</a></li>
-						<li><a class="'.(($active == 3)? 'active':'').'" class="active">EDITAR</a></li>
+					<li class="inline text-blue-500 mx-1"><a class="'.(($active == 1)? 'bg-blue-100':'').' px-2 " href="'.URL.'/init">INICIO</a></li>
+					<li class="inline text-blue-500 mx-1"><a class="'.(($active == 2)? 'bg-blue-100':'').' px-2 " href="'.URL.'/admin">CREAR LECTURA</a></li>
+					<li class="inline text-blue-500 mx-1"><a class="'.(($active == 3)? 'bg-blue-100':'').' px-2 " href="'.URL.'/admin/edit" class="active">EDITAR</a></li>
 					</ul>
 				';
 			}
@@ -331,10 +331,62 @@
 		//                        admin
 		//-------------------------------------------------------------//
 
+		function mostrar_lista($tipo,$obj,$cad=[]){
+
+			$links1 = null;
+			$links2 = null;
+
+			if($tipo == 'crear-lectura')
+			{
+				$links1 = '
+					<a class="send text-blue-500" data-destine="admin/verificaVerEditarExamen" data-data="" title="Ver y editar">Ver y editar</a> .
+					<span class="text-secondary"> Num preguntas ( 5 )</span>
+				';
+
+				$links2 = '
+					<a class="dropdown-item send" data-destine="admin/mostrarModalPublicar" data-data="" ><i class="icon-globe-1"></i> Publicar</a>
+					<a class="dropdown-item send" data-destine="admin/mostrarModalCompartir" data-data=""><i class="icon-share-3"></i> Compartir</a>
+					<a class="dropdown-item send" data-destine="admin/verificaVerEditarExamen" data-data=""><i class=" icon-eye"></i> Ver y editar</a>
+					<div class="dropdown-divider"></div>
+					<a class="dropdown-item send" data-destine="admin/mostrarModalAgrupar" data-data="">Agrupar</a>
+					<a class="dropdown-item send" data-destine="admin/mostrarModalCategoria" data-data="">Categoría</a>			
+				';
+			}
+			if($tipo == 'alumnos')
+			{
+
+			}
+
+
+			$str='
+				<tr>
+					<td>1</td>
+					<td>
+						<h6 class="item-title text-gray-800 font-medium">'.$obj->titulo.'</h6>
+						<div class="item-subtitle">
+							'.$links1.'
+						</div>
+					</td>
+					<td>'.$obj->nombre.'</td>
+					<td>
+						<a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<i class="icon-ellipsis-vert"></i>
+						</a>
+						<div class="dropdown-menu dropdown-menu-right" style="z-index:1100;">
+							'.$links2.'
+						</di>
+					</td>
+				</tr>
+			';
+
+			return $str;
+		}
+
+
 		function form_modal_crear_lectura(){
 
 			$str = '
-				
+
 			';
 
 		}
@@ -435,8 +487,28 @@
 				$str = '<img src="'.$imgURL.'"/>';
 			}
 
+			if($tipo == 'registro-vacio')
+			{
+				$str = 'NO SE ENCONTRARON GEGISTROS...';
+
+				
+				//$imgSrc    = (isset($cad["imgSrc"]))?    $cad["imgSrc"] : URL_THEME."/img/people/cornet2.png";
+				$titulo    = (isset($cad["titulo"]))?    $cad["titulo"] : "¡ VACÍA POR EL MOMENTO !";		
+				$subtitulo = (isset($cad["subtitulo"]))? $cad["subtitulo"]: "";
+	
+				$str = '
+					<div class="container-empty">
+						<img src="'.$imgSrc.'" alt="" class="m-auto">
+						<h5 class="animate__animated animate__headShake animate__infinite infinite">'.$titulo.'</h5>
+						'.$subtitulo.'
+					</div>
+				';
+
+			}
+
 			return $str;
 		}
+
 
 		function msj($tipo,$cont='',$style=''){
 

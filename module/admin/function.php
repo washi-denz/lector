@@ -85,7 +85,7 @@
 			
 			if($ga['success']){
 
-				$this->parents->sql->insertar('pdfs',array('idpdf' => $idpdf,'nombre' =>$nombreArch,'titulo'=>$titulo,'descripcion'=>$descripcion));
+				$this->parents->sql->insertar('pdfs',array('idpdf' => $idpdf,'nombre' =>$nombreArch,'titulo'=>$titulo,'descripcion'=>$descripcion,'idUsuario'=>$this->idUsuario));
 
 				// close modal
 				$rtn['update'][] = array(
@@ -97,6 +97,14 @@
 					'action'  => 'notification',
 					'value'   => "Se creó correctamente."
 				);
+
+				// mostrar lista de crear lectura
+				
+				$rtn['update'][] = array(
+					"id"     => "listaCrearLectura",
+					"action" => "html",
+					"value"  => $this->mostrarLista('crear-lectura',1,false)
+				);				
 
 			}else{
 				// mostrar error en la subida del archivo
@@ -112,10 +120,81 @@
 
 
 		//-------------------------------------------------------------//
-		//                 grupos
+		//                      generalidades
 		//-------------------------------------------------------------//
 
-		
+		function mostrarLista($tipo,$pag=1,$ajax=true){
+
+			$rtn = array();
+			$str = '';
+			$num = ($pag<=0)? 0 :($pag-1)*REG_MAX;
+			
+			if($tipo == 'crear-lectura')
+			{
+				$query = "
+					SELECT idpdf,nombre,titulo,descripcion FROM pdfs 
+						WHERE idUsuario=".$this->idUsuario." 
+					ORDER BY modific DESC LIMIT ".$num.",".REG_MAX.";
+				";
+			}
+
+			if($tipo == 'alumnos')
+			{
+				$query = "
+					SELECT e.idExamen,e.idex,e.titulo,e.img,e.estilo,e.estado,e.nivel,e.nota_base,e.idUsuario,ec.publicar FROM examen e 
+						INNER JOIN examen_config ec ON e.idExamen=ec.idExamen 
+					WHERE ( ec.publicar='SI' AND ec.eliminar='NO') AND e.idUsuario=".$this->idUsuario." ORDER BY e.publicacion DESC LIMIT ".$num.",".REG_MAX.";
+				";
+			}
+
+			if($this->parents->sql->consulta($query)){
+
+				$resultado = $this->parents->sql->resultado;
+
+				if(count($resultado) > 0){
+
+					foreach($resultado as $obj){
+						$num++;					
+						$str .= $this->parents->interfaz->mostrar_lista('crear-lectura',$obj,['num'=>$num,'tipo'=>$tipo]);					
+					}
+
+					$rtn = array(
+						"success" => true,
+						"update"  => array(
+							array(
+								"id"     => "listaCrearLectura",
+								"action" => "html",
+								"value"  => $str
+							)
+						)
+					);
+
+				}else{
+
+					$msj = "0 No se encontraron registros para mostrar.";
+					$str = '
+						<tr>
+							<td colspan=4>
+								'.$this->parents->interfaz->gn('registro-vacio',null,['titulo' =>$msj]).'
+							</td>
+						</tr>
+					';
+
+					$rtn = array(
+						"success"=>true,
+						"update"=>array(
+							array(
+								"action" => "notification",
+								"type"   => "notific-bottom",
+								"value"  => $str
+							)
+						)
+					);
+				}		
+			}
+
+			return ($ajax)? json_encode($rtn) : $str;
+		}
 		
 
 	}

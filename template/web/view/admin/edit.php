@@ -13,6 +13,8 @@
 				</div>
 			</div>
 
+            <iframe><iframe>
+
 		    <button class="send" data-destine="admin/modalCrearLectura">+</button>
 
 			<table class="table">

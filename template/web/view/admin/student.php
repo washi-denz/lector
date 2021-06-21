@@ -14,7 +14,7 @@
 
 				<div class="container-nav-view">
 					<div class="container">
-						<?php echo $this->interfaz->str_container_nav_view(4,'list',5);?>
+						<?php echo $this->interfaz->str_container_nav_view(3,'list');?>
 					</div>
 				</div>
 
