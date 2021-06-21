@@ -338,19 +338,20 @@
 
 			if($tipo == 'crear-lectura')
 			{
-				$data = htmlspecialchars(json_encode(array('uniqid'=>$obj->uniqid)));
+				$data         = htmlspecialchars(json_encode(array('uniqid'=>$obj->uniqid)));
+				$encriptar_id = $this->parents->gn->encriptar_id($obj->uniqid);
+
 				$links1 = '
-					<a class="send text-blue-500" data-destine="admin/verLectura" data-data="'.$data.'" title="Ver y editar">Ver y editar</a> .
+					<a class="text-blue-500 send" data-destine="admin/verLectura" data-data="'.$data.'" title="Ver y editar">Ver y editar</a> .
 					<span class="text-secondary"> Num preguntas ( 5 )</span>
 				';
 
 				$links2 = '
-					<a class="dropdown-item send" data-destine="admin/mostrarModalPublicar" data-data="" ><i class="icon-globe-1"></i> Publicar</a>
 					<a class="dropdown-item send" data-destine="admin/mostrarModalCompartir" data-data=""><i class="icon-share-3"></i> Compartir</a>
-					<a class="dropdown-item send" data-destine="admin/verificaVerEditarExamen" data-data=""><i class=" icon-eye"></i> Ver y editar</a>
+					<a class="dropdown-item send" data-destine="admin/verLectura" data-data="'.$data.'" title="Ver y editar"><i class=" icon-eye"></i> Ver y editar</a>
 					<div class="dropdown-divider"></div>
-					<a class="dropdown-item send" data-destine="admin/mostrarModalAgrupar" data-data="">Agrupar</a>
-					<a class="dropdown-item send" data-destine="admin/mostrarModalCategoria" data-data="">Categoría</a>			
+					<a class="dropdown-item send" data-destine="admin/modalModificarTitulo" data-data="'.$data.'">Editar título</a>
+					<a class="dropdown-item send" data-destine="admin/mostrarModalCategoria" data-data="">Eliminar</a>			
 				';
 			}
 			if($tipo == 'alumnos')
@@ -363,7 +364,7 @@
 				<tr>
 					<td>1</td>
 					<td>
-						<h6 class="item-title text-gray-800 font-medium">'.$obj->titulo.'</h6>
+						<h6 class="item-title text-gray-800 font-medium h_'.$encriptar_id.'">'.$obj->titulo.'</h6>
 						<div class="item-subtitle">
 							'.$links1.'
 						</div>

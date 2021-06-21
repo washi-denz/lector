@@ -298,7 +298,7 @@
 				$query = "
 					SELECT uniqid,nombre,titulo,descripcion FROM pdfs 
 						WHERE idUsuario=".$this->idUsuario." 
-					ORDER BY modific DESC LIMIT ".$num.",".REG_MAX.";
+					ORDER BY registro DESC LIMIT ".$num.",".REG_MAX.";
 				";
 			}
 
