@@ -17,9 +17,21 @@
 		}
 
 		function index(){
-			$this->content->put_title(APP_NAME);
-			$fn = new fnInit($this);
-			require URI_THEME."/view/init/init.php";
+			$this->view();
+		}
+
+		function view($nombre=null,$uniqid=null){
+
+			if($this->gn->verifica_valor($uniqid) && $this->gn->existe_uniqid($uniqid)){
+
+				$this->content->put_title(APP_NAME);
+
+				$fn = new fnInit($this);
+				require URI_THEME."/view/init/init.php";	
+
+			}else{
+				$this->error();	
+			}
 		}
 
 		function login(){
@@ -47,6 +59,10 @@
 
 			switch($modo){
 				//init
+				case "enviarRespuestas":
+					echo $fn->enviarRespuestas($_REQUEST);
+					exit;
+				break;
 
 
 				default:

@@ -111,6 +111,11 @@
 			return $rc[0]->numReg;
 		}
 
+		function rtn_num_preguntas($id){
+			$rc = $this->rtn_consulta('COUNT(*) AS numReg','preguntas','idPdf='.$id);
+			return $rc[0]->numReg;
+		}
+
 		function rtn_nombre_arch($nombre_arch){
 			$nombre_arch = explode('.',$nombre_arch);
 			return $nombre_arch[0];
@@ -153,6 +158,36 @@
 		function existe_uniqid($uniqid){
 			if($this->existe_registro('pdfs',"uniqid='".$uniqid."'"))
 				return true;
+			return false;
+		}
+
+		function verificar_respuestas_vacias($cad){
+
+			foreach($cad as $val){
+				if(!$this->verifica_valor($val)){
+					return true;
+				}
+			}
+			return false;
+		}
+
+		function verificar_respuestas_total_vacias($uniqid,$cad){
+
+			$cont = 0;
+
+			$id = $this->rtn_id($uniqid);
+
+			$preg = $this->rtn_consulta('*','preguntas','idPdf='.$id);
+
+			foreach($cad as $val){
+				if(!$this->verifica_valor($val)){
+					$cont++;
+				}
+			}
+
+			if(count($preg) == $cont){
+				return true;
+			}
 			return false;
 		}
 		
