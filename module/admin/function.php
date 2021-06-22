@@ -147,6 +147,29 @@
             return $rc;
 		}
 
+		public function modalCompartir(){
+
+			$uniqid = $datos['uniqid'];
+
+			$rtn = array();
+
+			// crear link para compartir
+
+			$link = URL.'/init/view/dddddd/'.$uniqid;
+
+			$form = '
+				<input type="text" value="'.$link.'">
+			';
+		
+			$modalTitle  = "Compartir recurso PDF";
+			$modalBody   = $form;
+			$modalFooter = null;
+
+			$rtn = $this->parents->interfaz->rtn_array_modal_principal($modalTitle,$modalBody,$modalFooter);
+
+			return json_encode($rtn);
+		}
+
 		//-------------------------------------------------------------//
 		//                           editar
 		//-------------------------------------------------------------//

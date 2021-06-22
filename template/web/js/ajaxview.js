@@ -417,14 +417,16 @@
 										}
 									}								
 									else if(respuesta['update'][i]['action']=="redirection"){
-										if(respuesta['update'][i]['type'] == "delay"){
 
-											let time = (Number.isInteger(respuesta['update'][i]['time']))?respuesta['update'][i]['time']:2000;
+										if(typeof(respuesta['update'][i]['delay']) != 'undefined'){
+
+											let delay = (Number.isInteger(respuesta['update'][i]['delay']))?respuesta['update'][i]['delay']:2000;
 											let url  = respuesta['update'][i]['value'];
+
 											setTimeout(function(){
 												top.location.href = url;
-											},time);
-											
+											},delay);
+
 										}
 										else if(respuesta['update'][i]['type'] == "auto"){
 											top.location.href = window.location;

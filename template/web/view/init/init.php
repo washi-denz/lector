@@ -81,7 +81,8 @@
 							</div>
 
 				<?php 
-					} else: 
+						} 
+					else: 
 				?>
 							<tr>
 								<td colspan=4>
@@ -109,12 +110,14 @@
 
 					<label class="text-yellow-600 font-medium text-lg block mb-2">Su nombre:</label>
 					
-					<select class="focus:outline-none border-4 border-yellow-400 rounded-sm px-3 py-2 mx-auto mb-8 block" name="nombre">
-						<option>-Elija-</option>
-						<option>Alumno estudiante 1</option>
-						<option>Alumno estudiante 2</option>
-						<option>Alumno estudiante 3</option>
-						<option>Alumno estudiante 4</option>
+					<select class="focus:outline-none border-4 border-yellow-400 rounded-sm px-3 py-2 mx-auto mb-8 block" name="id_alumno">
+						<option value="-Elija-">-Elija-</option>
+						<?php 
+							$alumnos = $fn->listaAlumnos(); 
+							foreach($alumnos as $alumno){
+						?>
+							<option value="<?php echo $alumno->id; ?>"><?php echo $alumno->nombres.' '.$alumno->apellidos; ?></option>
+						<?php }; ?>
 					</select>
 
 					<input type="hidden" value="<?php echo $uniqid; ?>" name="uniqid">

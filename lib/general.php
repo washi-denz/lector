@@ -171,13 +171,11 @@
 			return false;
 		}
 
-		function verificar_respuestas_total_vacias($uniqid,$cad){
+		function verificar_respuestas_total_vacias($id_pdf,$cad){
 
 			$cont = 0;
 
-			$id = $this->rtn_id($uniqid);
-
-			$preg = $this->rtn_consulta('*','preguntas','idPdf='.$id);
+			$preg = $this->rtn_consulta('*','preguntas','idPdf='.$id_pdf);
 
 			foreach($cad as $val){
 				if(!$this->verifica_valor($val)){
@@ -186,6 +184,14 @@
 			}
 
 			if(count($preg) == $cont){
+				return true;
+			}
+			return false;
+		}
+
+		function verificar_envio_respuestas($id_pdf,$id_alumno){
+
+			if($this->existe_registro('respuestas','idPdf='.$id_pdf.' AND idAlumno='.$id_alumno)){
 				return true;
 			}
 			return false;

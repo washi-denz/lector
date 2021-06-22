@@ -19,9 +19,11 @@
 
 		public function enviarRespuestas($datos){
 
-			$uniqid    = $datos['uniqid'];
-			$nombre    = $datos['nombre'];
-			$preguntas = $datos['preg'];
+			$uniqid     = $datos['uniqid'];
+			$id_alumno  = $datos['id_alumno'];
+			$preguntas  = $datos['preg'];
+
+			$id_pdf     =  $this->parents->gn->rtn_id($uniqid);
 			
 			$confirm   = (isset($datos['confirm']))? $datos['confirm']:'off';
 
@@ -33,11 +35,24 @@
 			);
 
 			// si todas las preguntas están vacías enviar mensaje			
-			if($this->parents->gn->verificar_respuestas_total_vacias($uniqid,$preguntas)){
+			if($this->parents->gn->verificar_respuestas_total_vacias($id_pdf,$preguntas)){
 
 				$rtn['update'][] = array(
 					'action' => 'notification',
+					'type'   => 'notific-top',
 					'value'  => "Se encontró 0 preguntas resueltas.\r Intente resolver algunas."
+				);
+
+				return json_encode($rtn);
+			}
+
+			// el envio de respuestas es una sola vez		
+			if($this->parents->gn->verificar_envio_respuestas($id_pdf,$id_alumno)){
+
+				$rtn['update'][] = array(
+					'action' => 'notification',
+					'type'   => 'notific-top',
+					'value'  => "Las respuestas para este recurso ya fueron enviados."
 				);
 
 				return json_encode($rtn);
@@ -46,9 +61,31 @@
 			// mientras no se confirma el envio se mostrará el modal
 			if($confirm == 'on'){				
 				// confirmar selección nombre del alumno
-				if($nombre != '-Elija-'){
-					
-					// guardar todo los datos
+				if($id_alumno != '-Elija-'){
+
+					// guardar todo los datos de las respuestas
+					foreach($preguntas as $descripcion){
+
+						$this->parents->sql->insertar('respuestas',
+												array(
+													'idPdf'       => $id_pdf,
+													'descripcion' => $descripcion,
+													'idAlumno'    => $id_alumno
+													)
+												);
+					}
+
+					// redirección con delay
+					$rtn['update'][] = array(
+						'action' => 'notification',
+						'value'  => "Redireccionando..."
+					);
+
+					$rtn['update'][] = array(
+						'action' => 'redirection',
+						'delay'  => 2000,
+						'value'  => URL.'/init/send'
+					);
 
 				}else{
 					$rtn['update'][] = array(
@@ -82,6 +119,16 @@
 
 			return json_encode($rtn);
 	
+		}
+
+		public function listaAlumnos(){
+
+			$idUsuario = 1; // configurar
+
+			// se mostrará toda la lista de alumnos del usuario 1
+
+			$rc = $this->parents->gn->rtn_consulta('*','alumnos','idUsuario='.$idUsuario);
+            return $rc;
 		}
 
 	}

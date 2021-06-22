@@ -34,6 +34,11 @@
 			}
 		}
 
+		function send(){
+			$this->content->put_title("Enviado... | ".APP_NAME);
+			require URI_THEME."/view/init/send.php";
+		}
+
 		function login(){
 			$this->content->put_title("Ingresar | ".APP_NAME);
 			require URI_THEME."/view/init/login.php";
