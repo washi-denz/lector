@@ -161,7 +161,7 @@
 
 			$form = '
 				<form>
-					Link: <input type="text" value="'.$link.'"><br>
+					Link: <input type="text" value="'.$link.'" class="w-full"><br>
 				</form>			
 			';
 
@@ -406,6 +406,31 @@
 			}
 
 			return json_encode($rtn);
+		}
+
+		public function modalAgregarPregunta($datos){
+			
+			$uniqid = $datos['uniqid'];
+
+			// crear modal para modificar pfd
+			$form = '
+				<form id="formAgregarPregunta">
+					Pregunta: <input type="text" name="preg" class="w-full border"><br>
+					<input type="hidden" name="uniqid" value="'.$uniqid.'">
+				</form>
+				<div class="form-error"></div>
+			';
+
+			$btn = '<button class="send" data-destine="admin/guardarAgregarPregunta" data-serialize="formAgregarPreguntaf">Agregar pregunta<button>';
+		
+			$modalTitle  = "Cambiar PDF";
+			$modalBody   = $form;
+			$modalFooter = $btn;
+
+			$rtn = $this->parents->interfaz->rtn_array_modal_principal($modalTitle,$modalBody,$modalFooter);
+
+			return json_encode($rtn);
+
 		}
 
 		//-------------------------------------------------------------//

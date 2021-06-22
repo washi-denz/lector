@@ -135,6 +135,16 @@
 					echo $fn->actualizarModificarPDF($_REQUEST,$_FILES);
 					exit;
 				break;
+
+				case "modalAgregarPregunta":
+					echo $fn->modalAgregarPregunta($_REQUEST);
+					exit;
+				break;
+
+				case "guardarAgregarPregunta":
+					echo $fn->guardarAgregarPregunta($_REQUEST,$_FILES);
+					exit;
+				break;
 				//generalidades
 				case "modificarRegistro":
 					echo $fn->modificarRegistro($_REQUEST);
