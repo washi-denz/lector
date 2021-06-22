@@ -467,6 +467,42 @@
 
 		}
 
+		function vaciar_directorio($fuente){
+
+			//fuente   : (URI) .../link/link
+
+			$odir = opendir($fuente);
+
+			while($archivo = readdir($odir)){
+				//hace un recorrido por todo los nombres de archivo
+				if($archivo!="." && $archivo!=".."){
+					unlink($fuente.'/'.$archivo);	
+				}
+			}
+
+		}
+
+		function eliminar_arch_directorio($fuente,$nombArch){
+
+			//fuente   : (URI)
+			//nombArch : img_123 (sin formato o extensión)
+
+			$odir = opendir($fuente);
+
+			while($archivo = readdir($odir)){
+				//hace un recorrido por todo los nombres de archivo
+				if($archivo!="." && $archivo!=".."){
+
+					$valor = explode(".",$archivo);
+
+					if($valor[0] == $nombArch){
+						unlink($fuente.'/'.$archivo);
+					}
+				}
+			}
+
+		}
+
 		function crear_carpeta_vacia($uri){
 			//Si no existe carpeta lo crea
 			if(!file_exists($uri)){

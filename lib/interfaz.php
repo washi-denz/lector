@@ -347,7 +347,7 @@
 				';
 
 				$links2 = '
-					<a class="dropdown-item send" data-destine="admin/mostrarModalCompartir" data-data=""><i class="icon-share-3"></i> Compartir</a>
+					<a class="dropdown-item send" data-destine="admin/modalCompartir" data-data="'.$data.'"><i class="icon-share-3"></i> Compartir</a>
 					<a class="dropdown-item send" data-destine="admin/verLectura" data-data="'.$data.'" title="Ver y editar"><i class=" icon-eye"></i> Ver y editar</a>
 					<div class="dropdown-divider"></div>
 					<a class="dropdown-item send" data-destine="admin/modalModificarTitulo" data-data="'.$data.'">Editar título</a>

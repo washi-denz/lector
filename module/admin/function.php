@@ -147,20 +147,24 @@
             return $rc;
 		}
 
-		public function modalCompartir(){
+		public function modalCompartir($datos){
 
 			$uniqid = $datos['uniqid'];
+			$id_pdf = $this->parents->gn->rtn_id($uniqid);
 
 			$rtn = array();
 
 			// crear link para compartir
-
-			$link = URL.'/init/view/dddddd/'.$uniqid;
+			$titulo      = $this->parents->gn->rtn_consulta_unica('titulo','pdfs','id='.$id_pdf);
+			$titulo_slug = $this->parents->gn->post_slug($titulo);
+			$link = URL.'/init/view/'.$titulo_slug.'/'.$uniqid;
 
 			$form = '
-				<input type="text" value="'.$link.'">
+				<form>
+					Link: <input type="text" value="'.$link.'"><br>
+				</form>			
 			';
-		
+
 			$modalTitle  = "Compartir recurso PDF";
 			$modalBody   = $form;
 			$modalFooter = null;
@@ -168,6 +172,7 @@
 			$rtn = $this->parents->interfaz->rtn_array_modal_principal($modalTitle,$modalBody,$modalFooter);
 
 			return json_encode($rtn);
+
 		}
 
 		//-------------------------------------------------------------//
@@ -304,7 +309,104 @@
 			return json_encode($rtn);
 		}
 
+		public function modalModificarPDF($datos){
+
+			$uniqid = $datos['uniqid'];
+
+			// crear modal para modificar pfd
+			$form = '
+				<form id="formModificarPdf">
+					Subir PDF: <input type="file" name="archivo"><br>
+					<input type="hidden" name="uniqid" value="'.$uniqid.'">
+				</form>
+				<div class="form-error"></div>
+			';
+
+			$btn = '<button class="send" data-destine="admin/actualizarModificarPDF" data-serialize="formModificarPdf">Cambiar PDF<button>';
 		
+			$modalTitle  = "Cambiar PDF";
+			$modalBody   = $form;
+			$modalFooter = $btn;
+
+			$rtn = $this->parents->interfaz->rtn_array_modal_principal($modalTitle,$modalBody,$modalFooter);
+
+			return json_encode($rtn);
+		}
+
+		public function actualizarModificarPDF($datos,$FILES){
+
+			// verificar si se subió el archivo
+			// luego modifica pdf
+
+			// [aquí verificar subida de archivo...]
+
+			$uniqid      = $datos['uniqid'];
+			$id_pdf      = $this->parents->gn->rtn_id($uniqid);
+			$nombreArch  = $this->parents->gn->rtn_nombre_arch($FILES['archivo']['name']);
+
+			$encriptar_id = $this->parents->gn->encriptar_id($uniqid);
+
+			$rtn = array(
+				"success" => true,
+				"update"  => array()
+			);
+
+			// agregar más datos
+			$datos['extPermitidas'] = array('pdf');
+			$datos['nombreArch']    = $nombreArch;
+			$datos['repositorio']   = $uniqid;
+			$datos['destino']       = URI.'/data/pdfs/'.$datos['repositorio'];
+			
+			// guardar el archivo pdf
+			$gp = $this->parents->gn->guardar_pdf($datos,$FILES);
+			
+			if($gp['success']){
+
+				// eliminar el archivo anterior del actual directorio
+				$nombreArchActual = $this->parents->gn->rtn_consulta_unica('nombre','pdfs','id='.$id_pdf);
+				$this->parents->gn->eliminar_arch_directorio($datos['destino'],$nombreArchActual);
+
+				// modificar datos
+				$this->parents->sql->modificar('pdfs',
+												array(
+													'nombre'    => $nombreArch,
+												),
+												array(
+													'id' => $id_pdf
+												)
+											);
+
+				// close modal
+				$rtn['update'][] = array(
+					'id'     => 'modalPrincipal',
+					'action' => 'closeModal' 
+				);
+
+				// mostrar pdf
+				$rtn['update'][] = array(
+					'selector' => '.iframe_'.$encriptar_id,
+					'action'   => 'attr',
+					'value1'   => 'src',
+					'value2'   => $this->parents->gn->rtn_src_lectura($uniqid)
+				);
+
+				// notificar
+				$rtn['update'][] = array(
+					'action'  => 'notification',
+					'value'   => "Se modificó correctamente."
+				);			
+
+			}else{
+				// mostrar error en la subida del archivo
+				$rtn['update'][] = array(
+					'selector' => '.form-error',
+					'action'   => 'html',
+					'value'    => $gp['msj']
+				);
+			}
+
+			return json_encode($rtn);
+		}
 
 		//-------------------------------------------------------------//
 		//                      generalidades

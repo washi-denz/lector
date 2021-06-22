@@ -100,6 +100,11 @@
 					exit;
 				break;
 
+				case "modalCompartir":
+					echo $fn->modalCompartir($_REQUEST);
+					exit;
+				break;
+
 				//editar
 				case "modalModificarTitulo":
 					echo $fn->modalModificarTitulo($_REQUEST);
@@ -126,8 +131,8 @@
 					exit;
 				break;
 
-				case "guardarModificarPDF":
-					echo $fn->guardarModificarPDF($_REQUEST);
+				case "actualizarModificarPDF":
+					echo $fn->actualizarModificarPDF($_REQUEST,$_FILES);
 					exit;
 				break;
 				//generalidades

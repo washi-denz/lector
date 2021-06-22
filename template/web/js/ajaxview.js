@@ -308,8 +308,8 @@
 									}
 									else if(respuesta['update'][i]['action']=="removeClass")
 									{
-										if(typeof(respuesta['update'][i]['querySelector']) != 'undefined'){
-											$(respuesta['update'][i]['querySelector']).removeClass(respuesta['update'][i]['value']);
+										if(typeof(respuesta['update'][i]['selector']) != 'undefined'){
+											$(respuesta['update'][i]['selector']).removeClass(respuesta['update'][i]['value']);
 										}else{
 											$("#"+respuesta['update'][i]['id']).removeClass(respuesta['update'][i]['value']);
 										}
@@ -325,8 +325,8 @@
 									}
 									else if(respuesta['update'][i]['action']=="attr")
 									{
-										if(typeof(respuesta['update'][i]['querySelector']) != 'undefined'){											
-											$(respuesta['update'][i]['querySelector']).attr(respuesta['update'][i]['value1'],respuesta['update'][i]['value2']);
+										if(typeof(respuesta['update'][i]['selector']) != 'undefined'){											
+											$(respuesta['update'][i]['selector']).attr(respuesta['update'][i]['value1'],respuesta['update'][i]['value2']);
 										}else{
 											$("#"+respuesta['update'][i]['id']).attr(respuesta['update'][i]['value1'],respuesta['update'][i]['value2']);
 										}									

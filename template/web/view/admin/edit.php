@@ -33,7 +33,7 @@
             </div>
 
             <iframe src="<?php echo $this->gn->rtn_src_lectura($uniqid); ?>" class="w-full border mb-3 iframe_<?php echo $encriptar_id;?>"></iframe>
-            <button class="icon-pencil"></button><br></br>
+            <button class="icon-pencil send" data-destine="admin/modalModificarPDF" data-data="<?php echo $data1; ?>"></button><br></br>
 
 		    Agregar pregunta: <button class="border-2 px-2 send" data-destine="admin/modalCrearLectura">+</button>
 
