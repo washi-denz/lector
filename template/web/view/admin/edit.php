@@ -1,12 +1,14 @@
 <?php
 	require URI_THEME."/section/head.php";
-	require URI_THEME."/section/navbar.php";
+	//require URI_THEME."/section/navbar.php";
 	echo "\n";
 
 	$pag          = (isset($_GET["pag"]))? $_GET["pag"] : 1;
     $encriptar_id = $this->gn->encriptar_id($uniqid);
+	$id_pdf       = $this->gn->rtn_id($uniqid);
 
     $data1 = htmlspecialchars(json_encode(array('uniqid'=>$uniqid)));
+	$data2 = htmlspecialchars(json_encode(array("redirect"=>"auto")));
 
 ?>
 	<div class="container-main">
@@ -14,7 +16,19 @@
 
 			<div class="container-nav-view">
 				<div class="container">
-					<?php echo $this->interfaz->str_container_nav_view(3,'edit'); ?>
+					<?php echo $this->interfaz->str_container_nav_view(2,'edit'); ?>
+
+					<!---->
+					<div class="dropdown float-end">
+						<a class="" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="icon-down-open-1"></i></a>
+						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+							<a class="dropdown-item"><i class="icon-user"></i></a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item send" data-destine="user/salir" data-data="<?php echo $data2; ?>">Salir</a>
+						</div>
+					</div>	
+					<!----->
+
 				</div>
 			</div><br>
 
@@ -35,7 +49,7 @@
             <iframe src="<?php echo $this->gn->rtn_src_lectura($uniqid); ?>" class="w-full border mb-3 iframe_<?php echo $encriptar_id;?>"></iframe>
             <button class="icon-pencil send" data-destine="admin/modalModificarPDF" data-data="<?php echo $data1; ?>"></button><br></br>
 
-		    Agregar pregunta: <button class="border-2 px-2 send" data-destine="admin/modalAgregarPregunta" data-data="<?php echo $data1; ?>">+</button>
+		    Agregar preguntas: <button class="border-2 px-2 send" data-destine="admin/modalAgregarPregunta" data-data="<?php echo $data1; ?>">+</button>
 
 			<table class="table">
 				<thead>
@@ -46,10 +60,10 @@
 						<td></td>
 					</tr>
 				</thead>
-				<tbody id="listaCrearLectura">
+				<tbody id="listaEditPreguntas">
 					<?php 
-						if($this->gn->rtn_num_pdfs() > 0): 
-							//echo $fn->mostrarLista('crear-lectura',$pag,false);// lec lista de examnes credas
+						if($this->gn->rtn_num_preguntas($id_pdf) > 0): 
+							echo $fn->mostrarListaEditPreguntas(['uniqid' => $uniqid],$pag,false);
 						else:
 							echo "nad...";
 						endif;

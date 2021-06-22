@@ -12,6 +12,8 @@
 
 		function salir($datos){
 
+			$redirect = isset($datos['redirect'])? $datos["redirect"] : URL.'/init/login';
+
 			$this->parents->session->remove();
 			
 			$rtn = array(
@@ -19,7 +21,7 @@
 				"update"  => array(
 					array(
 						"action" => "redirection",
-						"value"  => $datos["redirect"]
+						"value"  => $redirect
 					)
 				)
 			);

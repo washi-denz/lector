@@ -264,9 +264,8 @@
 			{
 				$str = '
 					<ul class="nav-view">
-						<li class="inline text-blue-500 mx-1"><a class="'.(($active == 1)? 'bg-blue-100':'').' px-2 " href="'.URL.'/init">INICIO</a></li>
-						<li class="inline text-blue-500 mx-1"><a class="'.(($active == 2)? 'bg-blue-100':'').' px-2 " href="'.URL.'/admin">CREAR LECTURA</a></li>
-						<li class="inline text-blue-500 mx-1"><a class="'.(($active == 3)? 'bg-blue-100':'').' px-2 " href="'.URL.'/admin/student" class="active">ESTUDIANTES</a></li>
+						<li class="inline text-blue-500 mx-1"><a class="'.(($active == 1)? 'bg-blue-100':'').' px-2 " href="'.URL.'/admin">CREAR LECTURA</a></li>
+						<li class="inline text-blue-500 mx-1"><a class="'.(($active == 2)? 'bg-blue-100':'').' px-2 " href="'.URL.'/admin/student" class="active">ESTUDIANTES</a></li>
 					</ul>
 				';
 			}
@@ -275,9 +274,8 @@
 			{
 				$str = '
 					<ul class="nav-view">
-					<li class="inline text-blue-500 mx-1"><a class="'.(($active == 1)? 'bg-blue-100':'').' px-2 " href="'.URL.'/init">INICIO</a></li>
-					<li class="inline text-blue-500 mx-1"><a class="'.(($active == 2)? 'bg-blue-100':'').' px-2 " href="'.URL.'/admin">CREAR LECTURA</a></li>
-					<li class="inline text-blue-500 mx-1"><a class="'.(($active == 3)? 'bg-blue-100':'').' px-2 " >EDITAR</a></li>
+						<li class="inline text-blue-500 mx-1"><a class="'.(($active == 1)? 'bg-blue-100':'').' px-2 " href="'.URL.'/admin">CREAR LECTURA</a></li>
+						<li class="inline text-blue-500 mx-1"><a class="'.(($active == 2)? 'bg-blue-100':'').' px-2 " >EDITAR</a></li>
 					</ul>
 				';
 			}
@@ -353,33 +351,63 @@
 					<a class="dropdown-item send" data-destine="admin/modalModificarTitulo" data-data="'.$data.'">Editar título</a>
 					<a class="dropdown-item send" data-destine="admin/mostrarModalCategoria" data-data="">Eliminar</a>			
 				';
+
+				$str='
+					<tr>
+						<td>'.$cad['num'].'</td>
+						<td>
+							<h6 class="item-title text-gray-800 font-medium h_'.$encriptar_id.'">'.$obj->titulo.'</h6>
+							<div class="item-subtitle">
+								'.$links1.'
+							</div>
+						</td>
+						<td>'.$obj->nombre.'</td>
+						<td>
+							<a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<i class="icon-ellipsis-vert"></i>
+							</a>
+							<div class="dropdown-menu dropdown-menu-right" style="z-index:1100;">
+								'.$links2.'
+							</di>
+						</td>
+					</tr>
+				';
+
 			}
+
 			if($tipo == 'alumnos')
 			{
 
 			}
 
+			if($tipo == 'edit-preguntas'){
 
-			$str='
-				<tr>
-					<td>1</td>
-					<td>
-						<h6 class="item-title text-gray-800 font-medium h_'.$encriptar_id.'">'.$obj->titulo.'</h6>
-						<div class="item-subtitle">
-							'.$links1.'
-						</div>
-					</td>
-					<td>'.$obj->nombre.'</td>
-					<td>
-						<a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<i class="icon-ellipsis-vert"></i>
-						</a>
-						<div class="dropdown-menu dropdown-menu-right" style="z-index:1100;">
-							'.$links2.'
-						</di>
-					</td>
-				</tr>
-			';
+				$data         = htmlspecialchars(json_encode(array('uniqid'=>$obj->uniqid)));
+				$encriptar_id = $this->parents->gn->encriptar_id($obj->uniqid);
+
+				$links = '
+					<a class="dropdown-item send" data-destine="admin/modalModificarDescripcion" data-data="'.$data.'">Editar título</a>
+					<a class="dropdown-item send" data-destine="admin/modalEliminarDescripcion" data-data="">Eliminar</a>			
+				';
+
+				$str='
+					<tr>
+						<td>'.$cad['num'].'</td>
+						<td>
+							<h6 class="item-title text-gray-800 font-medium id_'.$obj->idPdf.'">'.$obj->descripcion.'</h6>
+						</td>
+						<td>
+							<a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<i class="icon-ellipsis-vert"></i>
+							</a>
+							<div class="dropdown-menu dropdown-menu-right" style="z-index:1100;">
+								'.$links.'
+							</di>
+						</td>
+					</tr>
+				';
+
+			}
 
 			return $str;
 		}

@@ -3,7 +3,7 @@
 	$this->content->add_class('body','bg-gray-50');
 
 	require URI_THEME."/section/head.php";
-	require URI_THEME."/section/navbar.php";
+	//require URI_THEME."/section/navbar.php";
 	echo "\n";
 ?>
 

@@ -3,7 +3,7 @@
 	$this->content->add_css(URL_THEME."/css/mod/admin/admin.css");
 
 	require URI_THEME."/section/head.php";
-	require URI_THEME."/section/navbar.php";
+	//require URI_THEME."/section/navbar.php";
 
 	echo "\n";
 	$pag  = (isset($_GET["pag"]))? $_GET["pag"] : 1;
@@ -14,7 +14,7 @@
 
 				<div class="container-nav-view">
 					<div class="container">
-						<?php echo $this->interfaz->str_container_nav_view(3,'list');?>
+						<?php echo $this->interfaz->str_container_nav_view(2,'list');?>
 					</div>
 				</div>
 

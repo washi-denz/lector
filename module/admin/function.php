@@ -421,7 +421,7 @@
 				<div class="form-error"></div>
 			';
 
-			$btn = '<button class="send" data-destine="admin/guardarAgregarPregunta" data-serialize="formAgregarPreguntaf">Agregar pregunta<button>';
+			$btn = '<button class="send" data-destine="admin/guardarAgregarPregunta" data-serialize="formAgregarPregunta">Agregar pregunta<button>';
 		
 			$modalTitle  = "Cambiar PDF";
 			$modalBody   = $form;
@@ -433,8 +433,86 @@
 
 		}
 
-		public function guardarAgregarPregunta(){
-			return json_encode([]);
+		public function guardarAgregarPregunta($datos){
+
+			$uniqid = $datos['uniqid'];
+			$preg   = $datos['preg'];
+
+			$id_pdf = $this->parents->gn->rtn_id($uniqid);
+
+			$rtn = array(
+				'success' => true,
+				'update'  => array()
+			);
+
+			//verificamos valor
+			if($this->parents->gn->verifica_valor($preg)){
+
+				//agregar dato
+				$this->parents->sql->insertar('preguntas',array('idPdf'=>$id_pdf,'descripcion'=>$preg));
+
+				// notificar
+				$rtn['update'][] = array(
+					'action'  => 'notification',
+					'delay'   => 1000,
+					'value'   => "Se agregó correctamente."
+				);
+
+				// close modal
+				$rtn['update'][] = array(
+					'id'     => 'modalPrincipal',
+					'action' => 'closeModal' 
+				);
+
+				// mostrar lista				
+				$rtn['update'][] = array(
+					"id"     => "listaEditPreguntas",
+					"action" => "html",
+					"value"  => $this->mostrarListaEditPreguntas(array('uniqid' => $uniqid),1,false)
+				);
+					
+
+			}else{
+				// notificar
+				$rtn['update'][] = array(
+					'action' => 'notification',
+					'value'  => "Ingrese un valor"
+				);
+			}
+
+			return json_encode($rtn);
+		}
+
+		public function mostrarListaEditPreguntas($datos,$pag=1,$ajax=true){
+
+			$uniqid = $datos['uniqid'];
+
+			$str    = null;
+			$id_pdf = $this->parents->gn->rtn_id($uniqid);
+
+			$num = 0;
+
+			$rc = $this->parents->gn->rtn_consulta('*','preguntas','idPdf='.$id_pdf.' ORDER BY registro DESC');
+
+			foreach($rc as $obj){
+				$num++;
+				$obj->uniqid = $uniqid;				
+				$str .= $this->parents->interfaz->mostrar_lista('edit-preguntas',$obj,['num'=>$num]);
+			}
+
+			$rtn = array(
+				'success' => true,
+				'update'  => array(
+					array(
+						'id'     => 'listaEditPreguntas',
+						'action' => 'html',
+						'value'  => $str
+					)
+				)
+			);
+
+			return ($ajax)? json_encode($rtn) : $str;
+
 		}
 
 		//-------------------------------------------------------------//
@@ -473,7 +551,7 @@
 
 					foreach($resultado as $obj){
 						$num++;					
-						$str .= $this->parents->interfaz->mostrar_lista('crear-lectura',$obj,['num'=>$num,'tipo'=>$tipo]);					
+						$str .= $this->parents->interfaz->mostrar_lista('crear-lectura',$obj,['num'=>$num]);					
 					}
 
 					$rtn = array(
