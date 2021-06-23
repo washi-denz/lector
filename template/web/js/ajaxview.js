@@ -104,19 +104,16 @@
 
 			defaults.showTemporaryNotific_2 = function(cont='',type='',time=0){
 					
-					time = (time != 0)? time : 3000;
+				time = (time != 0)? time : 3000;
 
-					opts.initTemporaryNotific(0);
-					opts.strTemporaryNotific(cont,type);
+				opts.initTemporaryNotific(0);
+				opts.strTemporaryNotific(cont,type);
 
-					cto = setTimeout(function(){
-						$("#containerNotification").fadeOut(500,function(){
-							opts.initTemporaryNotific(100);
-						});
-					},time);
-
-				
-
+				cto = setTimeout(function(){
+					$("#containerNotification").fadeOut(500,function(){
+						opts.initTemporaryNotific(100);
+					});
+				},time);
 			}
 			
 			defaults.hideTemporaryNotific__ = function(){

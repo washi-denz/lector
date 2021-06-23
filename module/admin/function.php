@@ -186,13 +186,15 @@
 			// crear modal para modificar pfd
 			$form = '
 				<form id="formModificarPdf">
-					Subir PDF: <input type="file" name="archivo"><br>
+					<div>
+						<input type="file" name="archivo" class="form-control">
+					</div>
 					<input type="hidden" name="uniqid" value="'.$uniqid.'">
 				</form>
 				<div class="form-error"></div>
 			';
 
-			$btn = '<button class="send" data-destine="admin/actualizarModificarPDF" data-serialize="formModificarPdf">Cambiar PDF<button>';
+			$btn = '<button class="btn btn-primary send" data-destine="admin/actualizarModificarPDF" data-serialize="formModificarPdf">Cambiar PDF<button>';
 		
 			$modalTitle  = "Cambiar PDF";
 			$modalBody   = $form;
@@ -681,21 +683,29 @@
 			$title = null;
 			$btn   = null;
 
-
-			if($tipo == 'titulo-pdf'){
-
-				$form = '
-					¿Confirme eliminar registro?
-				';
-
-				$title = "Modificar título";
-
-				$data = htmlspecialchars(json_encode($datos));
-				$btn = '<button class="btn btn-primary send" data-destine="admin/eliminarRegistro" data-data="'.$data.'"><button>';	
+			if($tipo == 'lectura'){
+				//...
 			}
 
-			
+			if($tipo == 'pregunta'){
 
+				$form = ' 
+					<h3 class="text-lg">Confirme si desea eliminar el registro actual.</h3>
+					<p class="text-sm text-gray-700">Ojo: Los registros eliminados no podrán ser recuperados.</p>
+				';
+
+				$title = 'Eliminar registro <span class="text-form-top">Pregunta</span>';
+
+				// eliminamos url
+				unset($datos['url']);
+
+				// añadiendo confirmación
+				$datos['confirm'] = 'on';
+
+				$data = htmlspecialchars(json_encode($datos));
+				$btn = '<button class="btn btn-primary send" data-destine="admin/eliminarRegistro" data-data="'.$data.'">Confirmar<button>';	
+			}
+		
 			// crear modal
 
 			$modalTitle  = $title;
@@ -706,11 +716,66 @@
 
 			return json_encode($rtn);
 
-			
 		}
 		
-		public function eliminarRegistro(){
+		public function eliminarRegistro($datos){
 
+			$tipo    = $datos['type'];
+			$confirm = (isset($datos['confirm']) && $datos['confirm'] == 'on')? true:false;
+
+			$rtn = array(
+				'success' => true,
+				'update'  => array()
+			);
+
+			$msj =null;
+
+			if($tipo == 'lectura'){
+				//...
+			}
+
+			if($tipo == 'pregunta'){
+
+				$uniqid      = $datos['uniqid'];
+				$id_preg     = $datos['id_preg'];
+
+				if($confirm && $this->parents->sql->eliminar('preguntas',array('id'=>$id_preg))){						
+					
+					// mostrar lista				
+					$rtn['update'][] = array(
+						"id"     => "listaEditPreguntas",
+						"action" => "html",
+						"value"  => $this->mostrarListaEditPreguntas(array('uniqid' => $uniqid),1,false)
+					);
+
+					// respuesta
+					$rtn['success'] = true;
+
+					$msj = "Se eliminó correctamente.";
+					
+				}else{
+					// respuesta
+					$rtn['success'] = false;
+				}	
+			}
+			
+			if($rtn['success']){
+
+				// close modal
+				$rtn['update'][] = array(
+					'id'     => 'modalPrincipal',
+					'action' => 'closeModal'
+				);
+				
+				// mensaje con delay
+				$rtn['update'][] = array(
+					'action'   => 'notification',
+					'delay'    => 1000,
+					'value'    => $msj
+				);
+			}
+
+			return json_encode($rtn);
 		}
 
 	}

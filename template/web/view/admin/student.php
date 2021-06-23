@@ -20,7 +20,7 @@
 
 				<div class="bar-header">
 					<div class="container">
-						<strong>Mis admisiones :</strong>
+						<strong>...</strong>
 						<?php
 						
 							$array = array(

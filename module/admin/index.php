@@ -106,26 +106,6 @@
 				break;
 
 				//editar
-				case "modalModificarTitulo":
-					echo $fn->modalModificarTitulo($_REQUEST);
-					exit;
-				break;
-
-				case "guardarModificarTitulo":
-					echo $fn->guardarModificarTitulo($_REQUEST);
-					exit;
-				break;
-
-				case "modalModificarDescripcion":
-					echo $fn->modalModificarDescripcion($_REQUEST);
-					exit;
-				break;
-
-				case "guardarModificarDescripcion":
-					echo $fn->guardarModificarDescripcion($_REQUEST);
-					exit;
-				break;
-
 				case "modalModificarPDF":
 					echo $fn->modalModificarPDF($_REQUEST);
 					exit;
@@ -158,6 +138,16 @@
 
 				case "actualizarCampo":
 					echo $fn->actualizarCampo($_REQUEST);
+					exit;
+				break;
+
+				case "modalEliminarRegistro":
+					echo $fn->modalEliminarRegistro($_REQUEST);
+					exit;
+				break;
+
+				case "eliminarRegistro":
+					echo $fn->eliminarRegistro($_REQUEST);
 					exit;
 				break;
 

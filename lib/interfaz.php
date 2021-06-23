@@ -388,7 +388,7 @@
 
 				$links = '
 					<a class="dropdown-item send" data-destine="admin/modalActualizarCampo" data-data="'.$data.'">Editar título</a>
-					<a class="dropdown-item send" data-destine="admin/modalEliminarRegistro" data-data="">Eliminar</a>			
+					<a class="dropdown-item send" data-destine="admin/modalEliminarRegistro" data-data="'.$data.'">Eliminar</a>			
 				';
 
 				$str='
