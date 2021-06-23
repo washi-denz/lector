@@ -19,9 +19,9 @@
 
 		public function enviarRespuestas($datos){
 
-			$uniqid     = $datos['uniqid'];
-			$id_alumno  = $datos['id_alumno'];
-			$preguntas  = $datos['preg'];
+			$uniqid    = $datos['uniqid'];
+			$id_alumno = ($datos['id_alumno']!='-Elija-')? $datos['id_alumno']:0;
+			$preguntas = $datos['preg'];
 
 			$id_pdf     =  $this->parents->gn->rtn_id($uniqid);
 			
@@ -61,7 +61,7 @@
 			// mientras no se confirma el envio se mostrará el modal
 			if($confirm == 'on'){				
 				// confirmar selección nombre del alumno
-				if($id_alumno != '-Elija-'){
+				if($id_alumno != 0 ){//mejorarrrrrr
 
 					// guardar todo los datos de las respuestas
 					foreach($preguntas as $descripcion){

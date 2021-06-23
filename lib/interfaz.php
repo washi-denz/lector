@@ -446,8 +446,6 @@
 							'.$obj->btn.'
 						</div>
 						<div class="form-bottom text-center">
-							<label><a href="'.URL.'/init/register" class="text-blue-600">¿Nuevo aquí? Registrarme</a></label>
-							<label class="d-block"><a href="'.URL.'/init/recover_password" class="text-blue-600">Olvidé mi clave</a></label>
 						</div>
 					</form>
 				';
