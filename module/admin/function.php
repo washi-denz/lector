@@ -25,14 +25,25 @@
 
 			$form = '
 				<form id="formCrearLectura">
-					Titulo: <input type="text" name="titulo"><br>
-					Descripción: <input type="text" name="descripcion"><br>
-					Subir PDF: <input type="file" name="archivo"><br>
+
+					<div class="mb-3">
+						<label class="form-label">Título:</label>
+						<input type="text" name="titulo" class="form-control">
+					</div>
+					<div class="mb-3">
+						<label class="form-label">Descripción:</label>
+						<textarea rows="3" name="descripcion" class="form-control"></textarea>
+					</div>
+					<div class="mb-3">
+						<label class="form-label">Subir PDF:</label>
+						<input type="file" name="archivo" class="form-control">
+					</div>
+
 				</form>
 				<div class="form-error"></div>
 			';
 
-			$btn = '<button class="send" data-destine="admin/guardarCrearLectura" data-serialize="formCrearLectura">Crear<button>';
+			$btn = '<button class="btn btn-primary send" data-destine="admin/guardarCrearLectura" data-serialize="formCrearLectura">Crear lectura<button>';
 
 			$modalTitle  = "Crear lectura";
 			$modalBody   = $form;
