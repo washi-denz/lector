@@ -179,136 +179,6 @@
 		//                           editar
 		//-------------------------------------------------------------//
 
-		public function modalModificarTitulo($datos){
-			
-			$uniqid = $datos['uniqid'];
-
-			$rtn = array();
-
-			$titulo = $this->parents->gn->rtn_consulta_unica('titulo','pdfs',"uniqid='".$uniqid."'");
-
-			$form = '
-				<form id="formModificarTitulo">
-					<input type="text" value="'.$titulo.'" name="titulo">
-				</form>
-			';
-
-			$data = htmlspecialchars(json_encode(array('uniqid'=>$uniqid)));
-			$btn = '<button class="send" data-destine="admin/guardarModificarTitulo" data-serialize="formModificarTitulo" data-data="'.$data.'">Guardar<button>';
-
-			$modalTitle  = "Modificar título";
-			$modalBody   = $form;
-			$modalFooter = $btn;
-
-			$rtn = $this->parents->interfaz->rtn_array_modal_principal($modalTitle,$modalBody,$modalFooter);
-
-			return json_encode($rtn);
-		}
-
-		public function guardarModificarTitulo($datos){
-
-			$uniqid       = $datos['uniqid'];
-			$encriptar_id = $this->parents->gn->encriptar_id($uniqid);
-
-			$rtn = array(
-				'success' => true,
-				'update'  => array()
-			);
-			
-			$mr = $this->modificarRegistro('titulo',$datos);
-
-			if(true){
-
-				// mostrar título
-				$rtn['update'][] = array(
-					'selector' => '.h_'.$encriptar_id,
-					'action'   => 'html',
-					'value'    => $datos['titulo']
-				);
-
-				// close modal
-				$rtn['update'][] = array(
-					'id'     => 'modalPrincipal',
-					'action' => 'closeModal'
-				);
-
-				// mensaje con delay
-				$rtn['update'][] = array(
-					'action'   => 'notification',
-					'delay'    => 1000,
-					'value'    => "El título se cambió correctamente."
-				);
-
-			}
-
-			return json_encode($rtn);
-		}
-
-		public function modalModificarDescripcion($datos){
-			
-			$uniqid = $datos['uniqid'];
-
-			$rtn = array();
-
-			$descripcion = $this->parents->gn->rtn_consulta_unica('descripcion','pdfs',"uniqid='".$uniqid."'");
-
-			$form = '
-				<form id="formModificarDescripcion">
-					<input type="text" value="'.$descripcion.'" name="descripcion">
-				</form>
-			';
-
-			$data = htmlspecialchars(json_encode(array('uniqid'=>$uniqid)));
-			$btn = '<button class="send" data-destine="admin/guardarModificarDescripcion" data-serialize="formModificarDescripcion" data-data="'.$data.'">Guardar<button>';
-
-			$modalTitle  = "Modificar descripción";
-			$modalBody   = $form;
-			$modalFooter = $btn;
-
-			$rtn = $this->parents->interfaz->rtn_array_modal_principal($modalTitle,$modalBody,$modalFooter);
-
-			return json_encode($rtn);
-		}
-
-		public function guardarModificarDescripcion($datos){
-
-			$uniqid       = $datos['uniqid'];
-			$encriptar_id = $this->parents->gn->encriptar_id($uniqid);
-
-			$rtn = array(
-				'success' => true,
-				'update'  => array()
-			);
-			
-			$mr = $this->modificarRegistro('descripcion',$datos);
-
-			if(true){
-
-				// mostrar título
-				$rtn['update'][] = array(
-					'selector' => '.ta_'.$encriptar_id,
-					'action'   => 'html',
-					'value'    => $datos['descripcion']
-				);
-
-				// close modal
-				$rtn['update'][] = array(
-					'id'     => 'modalPrincipal',
-					'action' => 'closeModal'
-				);
-
-				// mensaje con delay
-				$rtn['update'][] = array(
-					'action'   => 'notification',
-					'delay'    => 1000,
-					'value'    => "La descripción se cambió correctamente."
-				);
-
-			}
-
-			return json_encode($rtn);
-		}
-
 		public function modalModificarPDF($datos){
 
 			$uniqid = $datos['uniqid'];
@@ -415,15 +285,17 @@
 			// crear modal para modificar pfd
 			$form = '
 				<form id="formAgregarPregunta">
-					Pregunta: <input type="text" name="preg" class="w-full border"><br>
+					<div>
+						<textarea rows="2" class="form-control" name="preg" placeholder="Nueva pregunta"></textarea>
+					</div>
 					<input type="hidden" name="uniqid" value="'.$uniqid.'">
 				</form>
 				<div class="form-error"></div>
 			';
 
-			$btn = '<button class="send" data-destine="admin/guardarAgregarPregunta" data-serialize="formAgregarPregunta">Agregar pregunta<button>';
+			$btn = '<button class="btn btn-primary send" data-destine="admin/guardarAgregarPregunta" data-serialize="formAgregarPregunta">Agregar pregunta<button>';
 		
-			$modalTitle  = "Cambiar PDF";
+			$modalTitle  = "Agregar pregunta";
 			$modalBody   = $form;
 			$modalFooter = $btn;
 
@@ -592,32 +464,254 @@
 			return ($ajax)? json_encode($rtn) : $str;
 		}
 
-		function modificarRegistro($tipo,$cad=[]){
+		public function modalActualizarCampo($datos){
+
+			// modal sólo para actualizar un campo
+
+			$rtn  = array();
+			$tipo = $datos['type'];
+
+			$form  = null;
+			$title = null;
+			$btn   = null;
+
+
+			if($tipo == 'titulo-pdf'){
+
+				$uniqid = $datos['uniqid'];
+	
+				$titulo = $this->parents->gn->rtn_consulta_unica('titulo','pdfs',"uniqid='".$uniqid."'");
+	
+				$form = '
+					<form id="formActualizarCampo">
+						<div>
+							<input type="text" name="titulo" class="form-control" value="'.$titulo.'">
+						</div>
+					</form>
+				';
+
+				$title = "Modificar título";
+				$data = htmlspecialchars(json_encode($datos));
+				$btn = '<button class="btn btn-primary send" data-destine="admin/actualizarCampo" data-serialize="formActualizarCampo" data-data="'.$data.'">Guardar<button>';	
+
+			}
+
+			if($tipo == 'descripcion-pdf'){
+
+				$uniqid = $datos['uniqid'];
+	
+				$descripcion = $this->parents->gn->rtn_consulta_unica('descripcion','pdfs',"uniqid='".$uniqid."'");
+	
+				$form = '
+					<form id="formActualizarCampo">						
+						<div>
+							<textarea rows="4" class="form-control" name="descripcion" placeholder="Descripción...">'.$descripcion.'</textarea>
+						</div>
+					</form>					
+				';
+
+				$title = "Modificar descripción";
+					
+				$data = htmlspecialchars(json_encode($datos));
+				$btn = '<button class="btn btn-primary send" data-destine="admin/actualizarCampo" data-serialize="formActualizarCampo" data-data="'.$data.'">Guardar<button>';	
+
+			}
+
+			if($tipo == 'pregunta'){
+
+				$id_preg = $datos['id_preg'];
+	
+				$descripcion = $this->parents->gn->rtn_consulta_unica('descripcion','preguntas','id='.$id_preg);
+	
+				$form = '
+					<form id="formActualizarCampo">						
+						<div>
+							<textarea rows="2" class="form-control" name="descripcion" placeholder="Descripción">'.$descripcion.'</textarea>
+						</div>
+					</form>					
+				';
+
+				$title = 'Modificar descripción <span class="text-form-top">Pregunta</span>';
+
+				unset($datos['url']);
+				$data = htmlspecialchars(json_encode($datos));
+				$btn = '<button class="btn btn-primary send" data-destine="admin/actualizarCampo" data-serialize="formActualizarCampo" data-data="'.$data.'">Guardar<button>';	
+
+			}
+			
+			// crear modal
+
+			$modalTitle  = $title;
+			$modalBody   = $form;
+			$modalFooter = $btn;
+
+			$rtn = $this->parents->interfaz->rtn_array_modal_principal($modalTitle,$modalBody,$modalFooter);
+
+			return json_encode($rtn);
+		}
+
+		public function actualizarCampo($datos){
+
+			$tipo = $datos['type'];
 
 			$rtn = array(
-				'success' => false
+				'success' => true,
+				'update'  => array()
 			);
 
-			if($tipo == 'titulo')
+			$msj =null;
+
+			if($tipo == 'titulo-pdf')
 			{
-				$id = $this->parents->gn->rtn_id($cad['uniqid']);
+				$titulo = $datos['titulo'];
+				$uniqid = $datos['uniqid'];
 
-				if($this->parents->sql->modificar('pdfs',array('titulo'=>$cad['titulo']),array('id'=>$id))){
-					$rtn['success'] = true;
+				$id = $this->parents->gn->rtn_id($uniqid);
+
+				if($this->parents->gn->verifica_valor($titulo)){
+					if($this->parents->sql->modificar('pdfs',array('titulo'=>$titulo),array('id'=>$id))){
+
+						$encriptar_id = $this->parents->gn->encriptar_id($uniqid);
+	
+						// mostrar título
+						$rtn['update'][] = array(
+							'selector' => '.t_'.$encriptar_id,
+							'action'   => 'html',
+							'value'    => $titulo
+						);
+
+						// respuesta
+						$rtn['success'] = true;
+	
+						$msj = "El título se cambió correctamente.";
+					}
+				}else{
+					$msj = "Ingrese un valor";
+					// respuesta
+					$rtn['success'] = false;
 				}
-			}
-			if($tipo == 'descripcion')
-			{
-				$id = $this->parents->gn->rtn_id($cad['uniqid']);
-
-				if($this->parents->sql->modificar('pdfs',array('descripcion'=>$cad['descripcion']),array('id'=>$id))){
-					$rtn['success'] = true;
-				}
+					
 			}
 
-			return $rtn;
+			if($tipo == 'descripcion-pdf'){
+
+				$descripcion = $datos['descripcion'];
+				$uniqid      = $datos['uniqid'];
+
+				$id = $this->parents->gn->rtn_id($uniqid);
+
+				if($this->parents->gn->verifica_valor($descripcion)){
+					if($this->parents->sql->modificar('pdfs',array('descripcion'=>$descripcion),array('id'=>$id))){
+
+						$encriptar_id = $this->parents->gn->encriptar_id($uniqid);
+	
+						// mostrar título
+						$rtn['update'][] = array(
+							'selector' => '.d_'.$encriptar_id,
+							'action'   => 'html',
+							'value'    => $descripcion
+						);
+
+						// respuesta
+						$rtn['success'] = true;
+	
+						$msj = "La descripción se cambió correctamente.";
+					}
+				}else{
+					$msj = "Ingrese un valor";
+					// respuesta
+					$rtn['success'] = false;
+				}	
+			}
+
+			if($tipo == 'pregunta'){
+
+				$uniqid      = $datos['uniqid'];
+				$descripcion = $datos['descripcion'];
+				$id_preg     = $datos['id_preg'];
+
+				if($this->parents->gn->verifica_valor($descripcion)){
+					if($this->parents->sql->modificar('preguntas',array('descripcion'=>$descripcion),array('id'=>$id_preg))){
+						
+						$encriptar_id = $this->parents->gn->encriptar_id($uniqid,$id_preg);
+
+						// mostrar título
+						$rtn['update'][] = array(
+							'selector' => '.d_'.$encriptar_id,
+							'action'   => 'html',
+							'value'    => $descripcion
+						);
+
+						// respuesta
+						$rtn['success'] = true;
+	
+						$msj = "La descripción se cambió correctamente.";
+					}
+				}else{
+					$msj = "Ingrese un valor";
+					// respuesta
+					$rtn['success'] = false;
+				}	
+			}
+
+			if($rtn['success']){
+				// close modal
+				$rtn['update'][] = array(
+					'id'     => 'modalPrincipal',
+					'action' => 'closeModal'
+				);
+			}
+
+			// mensaje con delay
+			$rtn['update'][] = array(
+				'action'   => 'notification',
+				'delay'    => 1000,
+				'value'    => $msj
+			);
+
+			return json_encode($rtn);
 		}
 		
+		public function modalEliminarRegistro($datos){
+
+			$rtn  = array();
+			$tipo = $datos['type'];
+
+			$form  = null;
+			$title = null;
+			$btn   = null;
+
+
+			if($tipo == 'titulo-pdf'){
+
+				$form = '
+					¿Confirme eliminar registro?
+				';
+
+				$title = "Modificar título";
+
+				$data = htmlspecialchars(json_encode($datos));
+				$btn = '<button class="btn btn-primary send" data-destine="admin/eliminarRegistro" data-data="'.$data.'"><button>';	
+			}
+
+			
+
+			// crear modal
+
+			$modalTitle  = $title;
+			$modalBody   = $form;
+			$modalFooter = $btn;
+
+			$rtn = $this->parents->interfaz->rtn_array_modal_principal($modalTitle,$modalBody,$modalFooter);
+
+			return json_encode($rtn);
+
+			
+		}
+		
+		public function eliminarRegistro(){
+
+		}
 
 	}
 ?>

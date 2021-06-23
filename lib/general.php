@@ -210,13 +210,14 @@
 			return (trim($str)!='') ? true : false;
 		}
 
-		function encriptar_id($uniqid){
+		function encriptar_id($uniqid,$id=0){
 
 			//La encriptació es muy simple 
 			//unimos los dos últimos digitos del id con los cuatro últimos digitos de uniqid
 			//Ojo el id tiene que ser secuencial y único 1,2,3,...
 
-			$id = $this->rtn_consulta_unica('id','pdfs',"uniqid='".$uniqid."'");
+			$id = ($id != 0)? $id :$this->rtn_consulta_unica('id','pdfs',"uniqid='".$uniqid."'");
+			//$id = $this->rtn_consulta_unica('id','pdfs',"uniqid='".$uniqid."'");
 
 			$id_str = (strlen($id) == 1)? '0'.$id : $id;
 

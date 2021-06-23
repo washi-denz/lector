@@ -151,6 +151,16 @@
 					exit;
 				break;
 
+				case "modalActualizarCampo":
+					echo $fn->modalActualizarCampo($_REQUEST);
+					exit;
+				break;
+
+				case "actualizarCampo":
+					echo $fn->actualizarCampo($_REQUEST);
+					exit;
+				break;
+
 				default:
 					echo json_encode(array("success"=>false,"notification"=>"Accion no definida."),JSON_PRETTY_PRINT);
 					exit();

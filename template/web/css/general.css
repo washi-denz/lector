@@ -3,6 +3,8 @@
     --bg-secondary:#ffc90e;
     --text-primary:#3d47cb;
     --text-secondary:#ffc90e;
+    --text-white:#ffffff;
+    --transition:.3s all;
 }
 
 .bg-primary-100{ background:var(--bg-primary); }

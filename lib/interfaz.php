@@ -336,7 +336,8 @@
 
 			if($tipo == 'crear-lectura')
 			{
-				$data         = htmlspecialchars(json_encode(array('uniqid'=>$obj->uniqid)));
+				$data  = htmlspecialchars(json_encode(array('uniqid'=>$obj->uniqid)));
+				$data2 = htmlspecialchars(json_encode(array('uniqid'=>$obj->uniqid,'type'=>'titulo-pdf')));
 				$encriptar_id = $this->parents->gn->encriptar_id($obj->uniqid);
 
 				$links1 = '
@@ -348,7 +349,7 @@
 					<a class="dropdown-item send" data-destine="admin/modalCompartir" data-data="'.$data.'"><i class="icon-share-3"></i> Compartir</a>
 					<a class="dropdown-item send" data-destine="admin/verLectura" data-data="'.$data.'" title="Ver y editar"><i class=" icon-eye"></i> Ver y editar</a>
 					<div class="dropdown-divider"></div>
-					<a class="dropdown-item send" data-destine="admin/modalModificarTitulo" data-data="'.$data.'">Editar título</a>
+					<a class="dropdown-item send" data-destine="admin/modalActualizarCampo" data-data="'.$data2.'">Editar título</a>
 					<a class="dropdown-item send" data-destine="admin/mostrarModalCategoria" data-data="">Eliminar</a>			
 				';
 
@@ -356,7 +357,7 @@
 					<tr>
 						<td>'.$cad['num'].'</td>
 						<td>
-							<h6 class="item-title text-gray-800 font-medium h_'.$encriptar_id.'">'.$obj->titulo.'</h6>
+							<h6 class="item-title text-gray-800 font-medium t_'.$encriptar_id.'">'.$obj->titulo.'</h6>
 							<div class="item-subtitle">
 								'.$links1.'
 							</div>
@@ -382,19 +383,19 @@
 
 			if($tipo == 'edit-preguntas'){
 
-				$data         = htmlspecialchars(json_encode(array('uniqid'=>$obj->uniqid)));
-				$encriptar_id = $this->parents->gn->encriptar_id($obj->uniqid);
+				$data         = htmlspecialchars(json_encode(array('uniqid'=>$obj->uniqid,'id_preg'=>$obj->id,'type'=>'pregunta')));
+				$encriptar_id = $this->parents->gn->encriptar_id($obj->uniqid,$obj->id);
 
 				$links = '
-					<a class="dropdown-item send" data-destine="admin/modalModificarDescripcion" data-data="'.$data.'">Editar título</a>
-					<a class="dropdown-item send" data-destine="admin/modalEliminarDescripcion" data-data="">Eliminar</a>			
+					<a class="dropdown-item send" data-destine="admin/modalActualizarCampo" data-data="'.$data.'">Editar título</a>
+					<a class="dropdown-item send" data-destine="admin/modalEliminarRegistro" data-data="">Eliminar</a>			
 				';
 
 				$str='
 					<tr>
 						<td>'.$cad['num'].'</td>
 						<td>
-							<h6 class="item-title text-gray-800 font-medium id_'.$obj->idPdf.'">'.$obj->descripcion.'</h6>
+							<h6 class="item-title text-gray-800 font-medium d_'.$encriptar_id.'">'.$obj->descripcion.'</h6>
 						</td>
 						<td>
 							<a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

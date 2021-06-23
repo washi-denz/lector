@@ -19,9 +19,10 @@ body{
 /*****************************************************************/
 /*                          btn                                  */
 /*****************************************************************/
+/*
 .btn-action,a.btn.btn-action{
 	padding:0.1rem 0.2rem;
-	background:var(--color-primary);
+	background:var(--bg-primary);
 	color:#fff;
 	border-radius:0.3rem;
 	cursor:pointer;
@@ -29,7 +30,7 @@ body{
 .btn-action:hover,
 a.btn.btn-action:hover{
 	transition:var(--transition);
-	background:var(--color-secondary);
+	background:var(--bg-secondary);
 }
 .btn-action:focus,
 a.btn.btn-action:focus{
@@ -50,7 +51,7 @@ a.btn.btn-action:focus{
 	border:none;
 	border:2px solid rgba(255,70,110,0.9);
 }
-
+*/
 /*****************************************************************/
 /*                          navbar                               */
 /*****************************************************************/
@@ -70,8 +71,8 @@ a.btn.btn-action:focus{
 /*                          modal                                */
 /*****************************************************************/
 .modal .modal-header{
-	background:var(--color-secondary);
-	color:var(--color-white);
+	background:var(--bg-primary);
+	color:var(--text-white);
 	border:none;
 	padding:0.5rem 1rem;
 }
@@ -80,7 +81,7 @@ a.btn.btn-action:focus{
 	font-weight:500;
 }
 .modal-header>.close{
-	color:var(--color-white);
+	color:var(--text-white);
 	padding:1rem  1rem 1rem 1rem;
 }
 /*****************************************************************/

@@ -9,6 +9,8 @@
 
     $data1 = htmlspecialchars(json_encode(array('uniqid'=>$uniqid)));
 	$data2 = htmlspecialchars(json_encode(array("redirect"=>"auto")));
+	$data3 = htmlspecialchars(json_encode(array('uniqid'=>$uniqid,'type'=>'titulo-pdf')));
+	$data4 = htmlspecialchars(json_encode(array('uniqid'=>$uniqid,'type'=>'descripcion-pdf')));
 
 ?>
 	<div class="container-main">
@@ -33,17 +35,21 @@
 			</div><br>
 
             <div class="flex">
-                <h1 class="text-center text-lg font-medium h_<?php echo $encriptar_id;?>">
+                <h1 class="text-center text-lg font-medium t_<?php echo $encriptar_id;?>">
                     <?php echo $this->gn->rtn_titulo_lectura($uniqid); ?>
                 </h1>
-                <button class="icon-pencil send" data-destine="admin/modalModificarTitulo" data-data="<?php echo $data1; ?>"></button>
+                <button class="icon-pencil send" data-destine="admin/modalActualizarCampo" data-data="<?php echo $data3; ?>"></button>
             </div>
 
             <div class="flex">
-                <textarea class="w-full ta_<?php echo $encriptar_id;?>">
+                <textarea class="w-full d_<?php echo $encriptar_id;?>">
                     <?php echo $this->gn->rtn_descripcion_lectura($uniqid) ?>
                 </textarea>
-                <button class="icon-pencil send" data-destine="admin/modalModificarDescripcion" data-data="<?php echo $data1; ?>"></button>
+                <button 
+					class        = "icon-pencil send" 
+					data-destine = "admin/modalActualizarCampo" 
+					data-data    = "<?php echo $data4; ?>"
+				></button>
             </div>
 
             <iframe src="<?php echo $this->gn->rtn_src_lectura($uniqid); ?>" class="w-full border mb-3 iframe_<?php echo $encriptar_id;?>"></iframe>
