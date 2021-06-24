@@ -113,7 +113,7 @@
 					<select class="focus:outline-none border-4 border-yellow-400 rounded-sm px-3 py-2 mx-auto mb-8 block" name="id_alumno">
 						<option value="-Elija-">-Elija-</option>
 						<?php 
-							$alumnos = $fn->listaAlumnos(); 
+							$alumnos = $fn->listaAlumnos($uniqid); 
 							foreach($alumnos as $alumno){
 						?>
 							<option value="<?php echo $alumno->id; ?>"><?php echo $alumno->nombres.' '.$alumno->apellidos; ?></option>

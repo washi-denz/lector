@@ -280,13 +280,12 @@
 				';
 			}
 
-			if($tipo == 'group')
+			if($tipo == 'deliver')
 			{
 				$str = '
 					<ul class="nav-view">
-						<li><a class="'.(($active == 1)? 'active':'').'" href="'.URL.'/init">INICIO</a></li>
-						<li><a class="'.(($active == 2)? 'active':'').'" href="'.URL.'/admin/list_test">CREA TEST</a></li>
-						<li><a class="'.(($active == 3)? 'active':'').'" href="'.URL.'/admin/group">GRUPOS</a></li>
+						<li class="inline text-blue-500 mx-1"><a class="'.(($active == 1)? 'bg-blue-100':'').' px-2 " href="'.URL.'/admin">CREAR LECTURA</a></li>
+						<li class="inline text-blue-500 mx-1"><a class="'.(($active == 2)? 'bg-blue-100':'').' px-2 " >ENTREGAS</a></li>
 					</ul>
 				';
 			}
@@ -363,6 +362,7 @@
 							</div>
 						</td>
 						<td>'.$obj->nombre.'</td>
+						<td><a href="'.URL.'/admin/deliver/'.$obj->uniqid.'" class="btn btn-success btn-sm">Ver entregas</a></td>
 						<td>
 							<a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 								<i class="icon-ellipsis-vert"></i>
@@ -406,6 +406,31 @@
 							</di>
 						</td>
 					</tr>
+				';
+
+			}
+
+			if($tipo == 'card-entrega'){
+
+				$str = '
+					<div class="container-card-follow flex border shadow-sm rounded">
+						<div class="flex-none px-3 py-3">
+							<img src="'.URL_THEME.'/img/default/user_2.png" class="w-16 h-16 rounded-full">
+						</div>
+						<div class="flex-grow px-2 py-2">
+							
+							<h6 class="font-medium mb-3">'.$obj->nombres.' '.$obj->apellidos.'</h6>
+							<div class="flex flex-wrap">								
+								<span class="rounded-full text-sm text-green-800 cursor-pointer px-2 py-0.5 mr-3" style="background:#58d68d!important;">
+									Ver respuestas
+								</span>
+								<span class="rounded-full text-sm text-gray-600 bg-gray-100 cursor-pointer px-2 py-0.5">
+									Ver detalles
+								</span>
+							</div>
+							
+						</div>
+					</div>
 				';
 
 			}

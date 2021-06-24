@@ -68,6 +68,19 @@
 			}
 		}
 
+		function deliver($uniqid=null){
+			//existe uniqid
+			if($this->gn->existe_uniqid($uniqid)){
+
+				$this->content->put_title(APP_NAME." | Entregas" );
+				$fn = new fnAdmin($this);
+				require URI_THEME."/view/admin/deliver.php";
+
+			}else{
+				return $this->error();
+			}
+		}
+
 		function error(){
 			$this->content->put_title("ERROR");
 			require URI_THEME."/section/404.php";
@@ -105,6 +118,11 @@
 					exit;
 				break;
 
+				case "listaEntregar":
+					echo $fn->listaEntregar($_REQUEST);
+					exit;
+				break;
+
 				//editar
 				case "modalModificarPDF":
 					echo $fn->modalModificarPDF($_REQUEST);
@@ -125,6 +143,7 @@
 					echo $fn->guardarAgregarPregunta($_REQUEST,$_FILES);
 					exit;
 				break;
+
 				//generalidades
 				case "modificarRegistro":
 					echo $fn->modificarRegistro($_REQUEST);

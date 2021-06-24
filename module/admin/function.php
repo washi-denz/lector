@@ -186,6 +186,109 @@
 
 		}
 
+		public function listaEntregar($datos,$ajax=true){
+
+			// odtener la lista de usuarios del recurso enviado
+			// comparar con respuestas y renerar dos lista de idUsuarios entregados y no entregados aún
+
+			// mostrar resulttados por separado...
+
+			$uniqid     = $datos['uniqid'];
+			$id_pdf     = $this->parents->gn->rtn_id($uniqid);
+			$id_usuario = $this->parents->gn->rtn_id_usuario($uniqid);
+
+			$str  = null;
+			$str1 = null;
+			$str2 = null;
+
+			$rtn =  array(
+				'success' => true,
+				'update'  => array()
+			);
+
+			// lista de los ids de los alumnos
+			$id_alumnos = $this->parents->gn->rtn_consulta('id,nombres,apellidos','alumnos','idUsuario='.$id_usuario);
+
+			// lista de ids de los alumnos que respondieron las preguntas
+			$id_alumnos_rpta = $this->parents->gn->rtn_ids_alumnos_respuestas($id_pdf);
+
+			// comparamos los ids de los alumnos con los idAlumno  de la tabla respuestas
+			foreach($id_alumnos as $obj){
+				if(in_array($obj->id,$id_alumnos_rpta)){
+					// alumnos que entregaron respuestas					
+					//$str1 .= $obj->id.'entregado<br> '.$obj->nombres;
+					$str1 .= $this->parents->interfaz->mostrar_lista('card-entrega',$obj);
+
+				}else{
+					// alumnos que no la entregaron
+					$str2 .= $this->parents->interfaz->mostrar_lista('card-entrega',$obj);
+				}
+
+			}
+
+			// respuesta ajax
+			$rtn['update'][] = array(
+				'id'     => 'entregar',
+				'action' => 'html',
+				'value'  => $str1
+			);
+
+			$rtn['update'][] = array(
+				'id'     => 'faltaEntregar',
+				'action' => 'html',
+				'value'  => $str2
+			);
+
+			// respuesta no ajax
+			$str = (isset($datos['type']) && $datos['type']=='entregar')? $str1:$str2;
+
+			
+			return ($ajax)? json_encode($rtn):$str;
+		}
+
+		public function modalVerRespuestaEntrega($datos){
+
+			$uniqid     = $datos['uniqid'];
+			$id_alumno  = $datos['id_alumno'];
+
+			$id_pdf     = $this->parents->gn->rtn_id($uniqid);
+			
+			$form = '
+				<form>
+					Link: <input type="text" value="'.$link.'" class="w-full"><br>
+				</form>			
+			';
+
+			$modalTitle  = "Compartir recurso PDF";
+			$modalBody   = $form;
+			$modalFooter = null;
+
+			$rtn = $this->parents->interfaz->rtn_array_modal_principal($modalTitle,$modalBody,$modalFooter);
+		}
+
+		public function modalDetalleEntrega($datos){
+
+			$uniqid     = $datos['uniqid'];
+			$id_alumno  = $datos['id_alumno'];
+
+			$id_pdf     = $this->parents->gn->rtn_id($uniqid);
+			
+			$form = '
+				<form>
+					Link: <input type="text" value="'.$link.'" class="w-full"><br>
+				</form>			
+			';
+
+			$modalTitle  = "Compartir recurso PDF";
+			$modalBody   = $form;
+			$modalFooter = null;
+
+			$rtn = $this->parents->interfaz->rtn_array_modal_principal($modalTitle,$modalBody,$modalFooter);
+
+			return json_encode($rtn);
+
+		}
+
 		//-------------------------------------------------------------//
 		//                           editar
 		//-------------------------------------------------------------//

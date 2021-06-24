@@ -121,9 +121,9 @@
 	
 		}
 
-		public function listaAlumnos(){
+		public function listaAlumnos($uniqid){
 
-			$idUsuario = 1; // configurar
+			$idUsuario = $this->parents->gn->rtn_id_usuario($uniqid);
 
 			// se mostrará toda la lista de alumnos del usuario 1
 

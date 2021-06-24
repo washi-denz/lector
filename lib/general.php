@@ -93,6 +93,30 @@
 			return 0;
 		}
 
+		function rtn_id_usuario($uniqid){
+			if($this->existe_registro('pdfs',"uniqid='".$uniqid."'")){
+				$id = $this->rtn_consulta_unica('idUsuario','pdfs',"uniqid='".$uniqid."'");
+				return $id;
+			}
+			return 0;	
+		}
+
+		function rtn_ids_alumnos_respuestas($id_pdf){
+
+			$array = array();
+
+			$rc = $this->parents->gn->rtn_consulta('idAlumno','respuestas','idPdf='.$id_pdf);
+
+			foreach($rc as $obj){ 
+				$array[] = $obj->idAlumno; 
+			}
+
+			// unimos datos repetidos
+			$rtn = array_unique($array);
+
+			return $rtn;
+		}
+
 		function rtn_uniqid($id){
 			if($this->existe_registro('pdfs','id='.$id)){
 				$uniqid = $this->rtn_consulta_unica('uniqid','pdfs','id='.$id);
