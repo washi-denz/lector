@@ -64,12 +64,13 @@
 				if($id_alumno != 0 ){//mejorarrrrrr
 
 					// guardar todo los datos de las respuestas
-					foreach($preguntas as $descripcion){
+					foreach($preguntas as $ind=>$val){
 
 						$this->parents->sql->insertar('respuestas',
 												array(
 													'idPdf'       => $id_pdf,
-													'descripcion' => $descripcion,
+													'descripcion' => $val,
+													'idPregunta'  => $ind,
 													'idAlumno'    => $id_alumno
 													)
 												);

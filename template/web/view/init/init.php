@@ -72,7 +72,7 @@
 										</div>
 										<div x-show="openAccordion">
 											<div class="py-2">
-												<textarea class="w-full border" name="preg[]" placeholder="..."></textarea>
+												<textarea class="w-full border" name="preg[<?php echo $pregunta->id; ?>]" placeholder="..."></textarea>
 											</div>    
 										</div>
 										<i class="absolute top-0 right-0 cursor-pointer text-gray-400" @click="openAccordion=!openAccordion" :class="{'icon-up-open-big':!openAccordion,'icon-down-open-big':openAccordion}"></i>
