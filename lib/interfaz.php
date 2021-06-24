@@ -412,6 +412,8 @@
 
 			if($tipo == 'card-entrega'){
 
+				$data = htmlspecialchars(json_encode(array('id_alumno'=>$obj->id,'id_pdf'=>$obj->id_pdf)));
+
 				$str = '
 					<div class="container-card-follow flex border shadow-sm rounded">
 						<div class="flex-none px-3 py-3">
@@ -421,7 +423,7 @@
 							
 							<h6 class="font-medium mb-3">'.$obj->nombres.' '.$obj->apellidos.'</h6>
 							<div class="flex flex-wrap">								
-								<span class="rounded-full text-sm text-green-800 cursor-pointer px-2 py-0.5 mr-3" style="background:#58d68d!important;">
+								<span class="rounded-full text-sm text-green-800 cursor-pointer px-2 py-0.5 mr-3 send" data-destine="admin/modalVerRespuestaEntrega" data-data="'.$data.'" style="background:#58d68d!important;">
 									Ver respuestas
 								</span>
 								<span class="rounded-full text-sm text-gray-600 bg-gray-100 cursor-pointer px-2 py-0.5">

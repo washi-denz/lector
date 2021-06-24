@@ -123,6 +123,11 @@
 					exit;
 				break;
 
+				case "modalVerRespuestaEntrega":
+					echo $fn->modalVerRespuestaEntrega($_REQUEST);
+					exit;
+				break;
+
 				//editar
 				case "modalModificarPDF":
 					echo $fn->modalModificarPDF($_REQUEST);

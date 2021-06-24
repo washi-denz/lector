@@ -214,6 +214,9 @@
 
 			// comparamos los ids de los alumnos con los idAlumno  de la tabla respuestas
 			foreach($id_alumnos as $obj){
+
+				$obj->id_pdf = $id_pdf; // agregando id_pdf al obj
+
 				if(in_array($obj->id,$id_alumnos_rpta)){
 					// alumnos que entregaron respuestas					
 					//$str1 .= $obj->id.'entregado<br> '.$obj->nombres;
@@ -248,22 +251,32 @@
 
 		public function modalVerRespuestaEntrega($datos){
 
-			$uniqid     = $datos['uniqid'];
-			$id_alumno  = $datos['id_alumno'];
+			$id_pdf    = $datos['id_pdf'];
+			$id_alumno = $datos['id_alumno'];
 
-			$id_pdf     = $this->parents->gn->rtn_id($uniqid);
+			$str = null;
 			
-			$form = '
-				<form>
-					Link: <input type="text" value="'.$link.'" class="w-full"><br>
-				</form>			
-			';
+			$query = "
+				SELECT p.id,p.descripcion AS 'pregunta',r.descripcion AS 'respuesta',r.idAlumno,r.registro FROM respuestas r 
+					INNER JOIN preguntas p ON r.idPregunta = p.id
+				WHERE r.idAlumno = ".$id_alumno." AND r.idPdf = ".$id_pdf."; 
+			";
 
-			$modalTitle  = "Compartir recurso PDF";
-			$modalBody   = $form;
+			if($this->parents->sql->consulta($query)){
+				$resultado = $this->parents->sql->resultado;
+				foreach($resultado  as $obj){
+					$str .= '<b>'.$obj->pregunta.'</b><br>'.$obj->respuesta.'<br>';
+				}
+			}
+
+
+			$modalTitle  = "Ver respuetas";
+			$modalBody   = $str;
 			$modalFooter = null;
 
 			$rtn = $this->parents->interfaz->rtn_array_modal_principal($modalTitle,$modalBody,$modalFooter);
+
+			return json_encode($rtn);
 		}
 
 		public function modalDetalleEntrega($datos){
