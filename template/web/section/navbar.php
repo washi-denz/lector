@@ -11,7 +11,11 @@
 						</div>
 						<div class="col-span-2">
 							<ul class="flex justify-end text-yellow-300 mt-3">
-								<li><a class="icon-user">Rogelio</a></li>
+								<li>
+									<?php if($this->session->check_login()): ?>
+										<a class="icon-user"><?php echo $this->gn->rtn_nombre_publico($this->session->get('id_user')); ?></a>
+									<?php endif; ?>
+								</li>
 								<li class="mx-3">
 									<div x-data="{ dropdownOpen: false }" @click.away="dropdownOpen = false" class="relative">
 										
@@ -20,12 +24,19 @@
 										<div x-show = "dropdownOpen"
 											class   = "absolute right-0 mt-2 w-32 bg-white rounded-md overflow-hidden shadow-xl z-10"
 											style   = "display: none;">
-											
-											<a href="" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Crear lectura</a>
-											<a href="" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Estudiantes</a>
-											<hr>
-											<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Login</a>
-											<a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 send" data-destine="user/salir">Salir</a>
+											<?php if($this->session->check_login()): ?>
+
+												<a href="<?php echo URL; ?>/admin" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Crear lectura</a>
+												<a href="<?php echo URL; ?>/admin/student" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Estudiantes</a>
+												<hr>
+												<a href="<?php echo URL; ?>/init/login" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Login</a>
+												<a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 send" data-destine="user/salir">Salir</a>
+
+											<?php else: ?>
+
+												<a href="<?php echo URL; ?>/init/login" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Login</a>
+
+											<?php endif; ?>
 											
 										</div>
 										

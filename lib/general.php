@@ -140,6 +140,11 @@
 			return $rc[0]->numReg;
 		}
 
+		function rtn_nombre_publico($id_usuario){
+			$nombre_publico = $this->rtn_consulta_unica('nombre_publico','usuarios','id='.$id_usuario);
+			return $nombre_publico;
+		}
+
 		function rtn_nombre_arch($nombre_arch){
 			$nombre_arch = explode('.',$nombre_arch);
 			return $nombre_arch[0];
