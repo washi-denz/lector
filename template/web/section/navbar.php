@@ -25,7 +25,7 @@
 											<a href="" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Estudiantes</a>
 											<hr>
 											<a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Login</a>
-											<a href="" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Salir</a>
+											<a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 send" data-destine="user/salir">Salir</a>
 											
 										</div>
 										

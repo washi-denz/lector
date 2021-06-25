@@ -1,4 +1,5 @@
 		<link href="<?php echo URL_THEME; ?>/resource/plugins/animate/animate.min.css" rel="stylesheet">
+		<script src="<?php echo URL_THEME; ?>/resource/plugins/alpine/alpine.min.js"></script>
 		<script src="<?php echo URL_THEME; ?>/resource/plugins/jquery/jquery-3.3.1.min.js"></script>
 		<script src="<?php echo URL_THEME; ?>/resource/plugins/bootstrap/bootstrap-4.2.1/js/popper.min.js"></script>
 		<script src="<?php echo URL_THEME; ?>/resource/plugins/bootstrap/bootstrap-5.0.0/js/bootstrap.min.js"></script>

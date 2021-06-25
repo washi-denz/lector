@@ -131,9 +131,6 @@
 	</section>
 
 <?php
-
-	$this->content->add_js(URL_THEME."/resource/plugins/alpine/alpine.min.js");
-
 	require URI_THEME."/section/footer.php";
 	require URI_THEME."/section/foot.php";
 	

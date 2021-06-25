@@ -15,51 +15,21 @@
 
 			<div class="main-header">
 
-				<div class="container-nav-view">
-					<div class="container">
-						<?php echo $this->interfaz->str_container_nav_view(2,'list');?>
-					</div>
-				</div>
-
-				<div class="bar-header">
-					<div class="container">
-						<strong>...</strong>
-						<?php
-						
-							$array = array(
-								"active" => 0,
-								"item"   => array(
-									array(
-										"titulo" => "mejor puntuación",
-										"url"    => URL."admin/list_test/resolve?view=me"			
-									),
-									array(
-										"titulo" => "peor puntuación",
-										"url"    => URL."admin/list_test/resolve?view=pints",							
-										"active" => false
-									),
-									array(
-										"divide" => true
-									),
-									array(
-										"titulo" => "ver estadística",
-										"url"    => URL."admin/list_test/resolve?view=me"			
-									)
-								)
-							);
-
-							$ato = $this->gn->array_to_object($array,'n');
-							echo $this->interfaz->str_dropdown($ato); 
-
-						?>	
+				<div class="bg-gray-100 mb-3">
+					<div class="container mx-auto">
+						<ul>
+							<?php echo $this->interfaz->nav_list('admin',2);?>
+						</ul>    
 					</div>
 				</div>
 
 			</div><!--/main-header-->
-			<div class="main-body">
-				<div class="container">
 
-		    		<button class="border-2 px-2 send" data-destine="admin/modalAgregarAlumno">+</button>
+			<div class="main-body">
+				
+				<div class="container">
+							    		
+					<button class="outline-none bg-green-500 text-white text-sm rounded-sm px-2 py-1 icon-plus-4 send" data-destine="admin/modalAgregarAlumno">Agregar nuevo alumno</button>
 
 					<table class="table">
 						<thead>
@@ -93,7 +63,7 @@
 			</div><!--/main-body-->
 			<div class="main-footer"></div><!--/main-footer-->
 
-		</main><!--/container-main-->
+		</main>
 <?php
 
 	$this->content->add_js(URL_THEME."/js/mod/admin/admin.js");

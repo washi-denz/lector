@@ -183,110 +183,43 @@
 		//                           Nav
 		//-------------------------------------------------------------//
 
-		function str_nav($datos=array()){
+		function nav_list($tipo='admin',$active=0,$cad=array()){
 
-			$str   = '';
-			$data1 = htmlspecialchars(json_encode(array("redirect"=>"auto")));
-
-			$link1 = '<a class="dropdown-item" href="'.URL.'/init/login">Ingresar</a>';
-			$link2 = '<a class="dropdown-item" href="'.URL.'/init/register">Registrarse</a>';
-			$link3 = '<a class="dropdown-item" href="'.URL.'/pay">Planes y precios</a>';
-
-			if($this->parents->session->check_login()){
-				$str.='
-					<a class="dropdown-item" href="'.URL.'/init">Inicio</a>
-					<a class="dropdown-item" href="'.URL.'/admin/list_test">Ir a lista test<i class="notify"><span class="notify-public"></span></i></a>
-					<a class="dropdown-item send" data-destine="init/crearTestHoy">Crear test</a>					
-					<a class="dropdown-item send" data-destine="init/listaAdmision">Admisión<i class="notify"><span class="notify-admission"></span></i></a>
-					<div class="dropdown-divider"></div>
-					'.$link1.'
-					'.$link2.'
-					<div class="dropdown-divider"></div>
-					'.$link3.'
-					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="'.URL.'/init/about">Acerca</a>
-					<div class="dropdown-divider"></div>
-					<a class="dropdown-item send" data-destine="user/salir" data-data="'.$data1.'">Salir</a>
-				';
-			}else{
-
-				$str.= '
-					<a class="dropdown-item" href="'.URL.'/init">Inicio</a>
-					<a class="dropdown-item active send" data-destine="init/crearTestHoy">Crear test</a>	
-					'.$link1.'
-					'.$link2.'
-					<div class="dropdown-divider"></div>
-					'.$link3.'
-					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="'.URL.'/init/about">Acerca</a>
-				';
-			}
-
-			return $str;
-		}
-
-		function str_nav_user(){
-
-			$rc = $this->parents->gn->rtn_consulta("id,nombre_publico","usuarios","id=".$this->parents->session->get("id_user"));
-
-			//$img            = $this->parents->interfaz->str('img-perfil');
-			$img            = '[Mi imagen]';
-			$nombre_publico = $rc[0]->nombre_publico;
-			$tipo_usuario   = $this->parents->session->get('type_user');
-			$nombre_publico_slug = $this->parents->gn->post_slug($nombre_publico);
-
-			$href = URL."/view/user/".$nombre_publico_slug."-".$rc[0]->id."/box/1";
-
-			$str='
-				<li>
-					<a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						<i class="icon-user"></i>
-					</a>
-					<div class="dropdown-menu dropdown-user">
-						<div class="img-user">
-							'.$img.'
-						</div>
-						<span>'.$tipo_usuario.'</span>
-						<h6>'.$nombre_publico.'</h6>										
-						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="'.$href.'">Ver mis test públicas</a>
-						<a class="dropdown-item" href="'.URL.'/admin/profile">Ir a perfil</a>										
-					</div>
-				</li>
-			';
-			return $str;	
-		}
-
-		function str_container_nav_view($active=0,$tipo='list',$cad=array()){
 			$str = '';
 
-			if($tipo == 'list')
+			if($tipo == 'admin')
 			{
 				$str = '
-					<ul class="nav-view">
-						<li class="inline text-blue-500 mx-1"><a class="'.(($active == 1)? 'bg-blue-100':'').' px-2 " href="'.URL.'/admin">CREAR LECTURA</a></li>
-						<li class="inline text-blue-500 mx-1"><a class="'.(($active == 2)? 'bg-blue-100':'').' px-2 " href="'.URL.'/admin/student" class="active">ESTUDIANTES</a></li>
-					</ul>
+					<li class="inline mx-1">
+						<a class="font-medium inline-block p-2 '.(($active == 1)? 'border-b-2 border-blue-500':'').'" href="'.URL.'/admin">Crear lectura</a>
+					</li>
+					<li class="inline mx-1">
+						<a class="font-medium inline-block p-2 '.(($active == 2)? 'border-b-2 border-blue-500':'').'" href="'.URL.'/admin/student">Estudiantes</a>
+					</li>
 				';
 			}
 
 			if($tipo == 'edit')
 			{
 				$str = '
-					<ul class="nav-view">
-						<li class="inline text-blue-500 mx-1"><a class="'.(($active == 1)? 'bg-blue-100':'').' px-2 " href="'.URL.'/admin">CREAR LECTURA</a></li>
-						<li class="inline text-blue-500 mx-1"><a class="'.(($active == 2)? 'bg-blue-100':'').' px-2 " >EDITAR</a></li>
-					</ul>
+					<li class="inline mx-1">
+						<a class="font-medium inline-block p-2 '.(($active == 1)? 'border-b-2 border-blue-500':'').'" href="'.URL.'/admin">Crear lectura</a>
+					</li>
+					<li class="inline mx-1">
+						<a class="font-medium inline-block p-2 '.(($active == 2)? 'border-b-2 border-blue-500':'').'">Editar</a>
+					</li>
 				';
 			}
 
 			if($tipo == 'deliver')
 			{
 				$str = '
-					<ul class="nav-view">
-						<li class="inline text-blue-500 mx-1"><a class="'.(($active == 1)? 'bg-blue-100':'').' px-2 " href="'.URL.'/admin">CREAR LECTURA</a></li>
-						<li class="inline text-blue-500 mx-1"><a class="'.(($active == 2)? 'bg-blue-100':'').' px-2 " >ENTREGAS</a></li>
-					</ul>
+					<li class="inline mx-1">
+						<a class="font-medium inline-block p-2 '.(($active == 1)? 'border-b-2 border-blue-500':'').'" href="'.URL.'/admin">Crear lectura</a>
+					</li>
+					<li class="inline mx-1">
+						<a class="font-medium inline-block p-2 '.(($active == 2)? 'border-b-2 border-blue-500':'').'">Entregas</a>
+					</li>
 				';
 			}
 
@@ -361,7 +294,6 @@
 								'.$links1.'
 							</div>
 						</td>
-						<td>'.$obj->nombre.'</td>
 						<td><a href="'.URL.'/admin/deliver/'.$obj->uniqid.'" class="btn btn-success btn-sm">Ver entregas</a></td>
 						<td>
 							<a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -569,7 +501,7 @@
 
 			if($tipo == 'registro-vacio')
 			{
-					
+
 				//$imgSrc    = (isset($cad["imgSrc"]))?    $cad["imgSrc"] : URL_THEME."/img/people/cornet2.png";
 				$titulo    = (isset($cad["titulo"]))?    $cad["titulo"] : "¡ VACÍA POR EL MOMENTO !";		
 				$subtitulo = (isset($cad["subtitulo"]))? $cad["subtitulo"]: "";
