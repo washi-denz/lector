@@ -3,7 +3,7 @@
 	$this->content->add_css(URL_THEME."/css/mod/admin/admin.css");
 
 	require URI_THEME."/section/head.php";
-	//require URI_THEME."/section/navbar.php";
+	require URI_THEME."/section/navbar.php";
 
 	echo "\n";
 
@@ -11,7 +11,7 @@
 
 	$numReg = $this->gn->rtn_num_alumnos();
 ?>
-		<main class="container-main">
+		<main>
 
 			<div class="main-header">
 

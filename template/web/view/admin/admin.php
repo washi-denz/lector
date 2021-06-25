@@ -1,10 +1,10 @@
 <?php
 	require URI_THEME."/section/head.php";
-	//require URI_THEME."/section/navbar.php";
+	require URI_THEME."/section/navbar.php";
 	echo "\n";
 	$pag  = (isset($_GET["pag"]))? $_GET["pag"] : 1;
 ?>
-	<div class="container-main">
+	<main>
         <div class="container">
 
 			<div class="container-nav-view">
@@ -48,7 +48,7 @@
 			</table>
 
         </div>		
-	</div>
+	</main>
 
 <?php
 
