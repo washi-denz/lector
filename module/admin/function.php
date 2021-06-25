@@ -101,12 +101,21 @@
 				);
 
 				// mostrar lista de crear lectura
-				
+				/*
 				$rtn['update'][] = array(
-					"id"     => "listaCrearLectura",
-					"action" => "html",
-					"value"  => $this->mostrarLista('crear-lectura',1,false)
-				);				
+					'id'     => 'listaCrearLectura',
+					'action' => 'html',
+					'value'  => $this->mostrarLista('crear-lectura',1,false)
+				);
+				*/
+				
+				// redireccionar
+				$rtn['update'][] = array(
+					'action' => 'redirection',
+					'delay'  => 1000,
+					'value'  => URL.'/admin'
+				);
+
 
 			}else{
 				// mostrar error en la subida del archivo

@@ -3,6 +3,8 @@
 	require URI_THEME."/section/navbar.php";
 	echo "\n";
 	$pag  = (isset($_GET["pag"]))? $_GET["pag"] : 1;
+
+	$numReg = $this->gn->rtn_num_pdfs();
 ?>
 		<main>
 
@@ -37,6 +39,14 @@
 							?>
 						</tbody>
 					</table>
+
+					<nav aria-label="Page navigation example">
+						<ul class="pagination justify-content-center" id="pagination">
+							<?php 					
+								echo $this->interfaz->paginacion($pag,['numReg'=>$numReg]);
+							?>
+						</ul>
+					</nav>
 
 				</div>
 			</div><!--main-body-->
