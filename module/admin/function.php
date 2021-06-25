@@ -297,13 +297,81 @@
 		//                        estudiantes
 		//-------------------------------------------------------------//
 
-		public function listaAlumnos($pag=1,$ajax=true){
-
-			$num = ($pag<=0)? 0 :($pag-1) * REG_MAX;
-
-			$rc = $this->parents->gn->rtn_consulta('*','alumnos','idUsuario='.$this->idUsuario.' LIMIT '.$num.','.REG_MAX);
+		public function modalAgregarAlumno(){
 			
-            return $rc;
+			// crear modal
+			$form = '
+				<form id="formAgregarAlumno">
+					<div class="mb-3">
+						<label class="form-label">Nombre</label>
+						<input type="text" name="nombres" class="form-control" />
+					</div>
+					<div>
+						<label class="form-label">Apellidos</label>
+						<input type="text" name="apellidos" class="form-control" />
+					</div>
+				</form>
+				<div class="form-error"></div>
+			';
+
+			$btn = '<button class="btn btn-primary send" data-destine="admin/guardarAgregarAlumno" data-serialize="formAgregarAlumno">Agregar alumno<button>';
+		
+			$modalTitle  = "Agregar nuevo Alumno";
+			$modalBody   = $form;
+			$modalFooter = $btn;
+
+			$rtn = $this->parents->interfaz->rtn_array_modal_principal($modalTitle,$modalBody,$modalFooter);
+
+			return json_encode($rtn);
+
+		}
+
+		public function guardarAgregarAlumno($datos){
+
+			$nombres   = $datos['nombres'];
+			$apellidos = $datos['apellidos'];
+
+			$rtn = array(
+				'success' => true,
+				'update'  => array()
+			);
+
+			//verificamos valor
+			if($this->parents->gn->verifica_valor($nombres) && $this->parents->gn->verifica_valor($apellidos) ){
+
+				//agregar dato
+				$this->parents->sql->insertar('alumnos',array('nombres'=>$nombres,'apellidos'=>$apellidos,'idUsuario'=>$this->idUsuario));
+
+				// notificar
+				$rtn['update'][] = array(
+					'action'  => 'notification',
+					'delay'   => 1000,
+					'value'   => "Se agregó correctamente."
+				);
+
+				// close modal
+				$rtn['update'][] = array(
+					'id'     => 'modalPrincipal',
+					'action' => 'closeModal' 
+				);
+
+				// mostrar lista				
+				$rtn['update'][] = array(
+					"id"     => "mostrarLista",
+					"action" => "html",
+					"value"  => $this->mostrarLista('alumno',1,false)
+				);
+					
+
+			}else{
+				// notificar
+				$rtn['update'][] = array(
+					'action' => 'notification',
+					'value'  => "Complete los campos."
+				);
+			}
+
+			return json_encode($rtn);
 		}
 
 		//-------------------------------------------------------------//

@@ -128,6 +128,17 @@
 					exit;
 				break;
 
+				//estudiantes
+				case "modalAgregarAlumno":
+					echo $fn->modalAgregarAlumno();
+					exit;
+				break;
+				
+				case "guardarAgregarAlumno":
+					echo $fn->guardarAgregarAlumno($_REQUEST);
+					exit;
+				break;
+
 				//editar
 				case "modalModificarPDF":
 					echo $fn->modalModificarPDF($_REQUEST);

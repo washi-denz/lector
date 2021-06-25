@@ -8,7 +8,7 @@
 	echo "\n";
 
 	$pag    = (isset($_GET["pag"]))? $_GET["pag"] : 1;
-	
+
 	$numReg = $this->gn->rtn_num_alumnos();
 ?>
 		<main class="container-main">
@@ -59,7 +59,7 @@
 			<div class="main-body">
 				<div class="container">
 
-		    		<button class="border-2 px-2 send" data-destine="admin/modalCrearNuevoAlumno">+</button>
+		    		<button class="border-2 px-2 send" data-destine="admin/modalAgregarAlumno">+</button>
 
 					<table class="table">
 						<thead>
@@ -71,12 +71,8 @@
 							</tr>
 						</thead>
 						<tbody id="mostrarLista">
-							<?php 
-								if($this->gn->rtn_num_pdfs() > 0): 
-									echo $fn->mostrarLista('alumno',$pag,false);
-								else:
-									echo "nad...";
-								endif;
+							<?php 								 
+								echo $fn->mostrarLista('alumno',$pag,false);
 							?>
 						</tbody>
 					</table>

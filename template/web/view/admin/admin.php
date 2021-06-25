@@ -38,11 +38,11 @@
 				</thead>
 				<tbody id="mostrarLista">
 					<?php 
-						if($this->gn->rtn_num_pdfs() > 0): 
+						//if($this->gn->rtn_num_pdfs() > 0): 
 							echo $fn->mostrarLista('crear-lectura',$pag,false);
-						else:
-							echo "nad...";
-						endif;
+						//else:
+							//echo "nad...";
+						//endif;
 					?>
 				</tbody>
 			</table>

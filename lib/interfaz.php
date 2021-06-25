@@ -569,16 +569,14 @@
 
 			if($tipo == 'registro-vacio')
 			{
-				$str = 'NO SE ENCONTRARON GEGISTROS...';
-
-				
+					
 				//$imgSrc    = (isset($cad["imgSrc"]))?    $cad["imgSrc"] : URL_THEME."/img/people/cornet2.png";
 				$titulo    = (isset($cad["titulo"]))?    $cad["titulo"] : "¡ VACÍA POR EL MOMENTO !";		
 				$subtitulo = (isset($cad["subtitulo"]))? $cad["subtitulo"]: "";
 	
 				$str = '
 					<div class="container-empty">
-						<img src="'.$imgSrc.'" alt="" class="m-auto">
+						<!--<img src="" alt="" class="m-auto">-->
 						<h5 class="animate__animated animate__headShake animate__infinite infinite">'.$titulo.'</h5>
 						'.$subtitulo.'
 					</div>
