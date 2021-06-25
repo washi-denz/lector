@@ -310,17 +310,19 @@
 
 			if($tipo == 'alumno')
 			{
-				$data2 = htmlspecialchars(json_encode(array('id_alumno'=>$obj->id,'type'=>'alumno')));
+				$data = htmlspecialchars(json_encode(array('id_alumno'=>$obj->id,'type'=>'datos-alumno')));
 
 				$links = '
-					<a class="dropdown-item send" data-destine="admin/modalActualizarCampo" data-data="'.$data2.'">Editar título</a>
-					<a class="dropdown-item send" data-destine="admin/modalEliminarRegistro" data-data="">Eliminar</a>			
+					<a class="dropdown-item send" data-destine="admin/modalActualizarCampo" data-data="'.$data.'">Editar datos</a>
+					<a class="dropdown-item send" data-destine="admin/modalEliminarRegistro" data-data="'.$data.'">Eliminar</a>			
 				';
 
 				$str='
 					<tr>
 						<td>'.$cad['num'].'</td>
+						<!--
 						<td>[IMG]</td>
+						-->
 						<td>
 							<h6 class="item-title text-gray-800 font-medium n_'.$obj->id.'">'.$obj->nombres.' '.$obj->apellidos.'</h6>
 						</td>

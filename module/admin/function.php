@@ -676,7 +676,7 @@
 
 		public function modalActualizarCampo($datos){
 
-			// modal sólo para actualizar un campo
+			// modal sólo para actualizar un campo o varios
 
 			$rtn  = array();
 			$tipo = $datos['type'];
@@ -742,6 +742,38 @@
 				';
 
 				$title = 'Modificar descripción <span class="text-form-top">Pregunta</span>';
+
+				unset($datos['url']);
+				$data = htmlspecialchars(json_encode($datos));
+				$btn = '<button class="btn btn-primary send" data-destine="admin/actualizarCampo" data-serialize="formActualizarCampo" data-data="'.$data.'">Guardar<button>';	
+
+			}
+			
+			if($tipo == 'datos-alumno'){
+
+				$id_alumno = $datos['id_alumno'];
+	
+				$rc = $this->parents->gn->rtn_consulta('nombres,apellidos','alumnos','id='.$id_alumno);
+
+				foreach($rc as $obj){
+
+					$form = '
+						<form id="formActualizarCampo">
+							<div class="mb-3">
+								<label class="form-label">Nombre</label>
+								<input type="text" name="nombres" class="form-control" value="'.$obj->nombres.'" />
+							</div>
+							<div>
+								<label class="form-label">Apellidos</label>
+								<input type="text" name="apellidos" class="form-control" value="'.$obj->apellidos.'" />
+							</div>
+						</form>
+						<div class="form-error"></div>				
+					';	
+
+				}
+
+				$title = 'Modificar datos <span class="text-form-top">Alumno</span>';
 
 				unset($datos['url']);
 				$data = htmlspecialchars(json_encode($datos));
@@ -862,6 +894,35 @@
 					// respuesta
 					$rtn['success'] = false;
 				}	
+			}
+
+			if($tipo == 'datos-alumno'){
+
+				$id_alumno = $datos['id_alumno'];
+				$nombres   = $datos['nombres'];
+				$apellidos = $datos['apellidos'];
+
+				if($this->parents->gn->verifica_valor($nombres) && $this->parents->gn->verifica_valor($apellidos)){
+					
+					if($this->parents->sql->modificar('alumnos',array('nombres'=>$nombres,'apellidos'=>$apellidos),array('id'=>$id_alumno))){				
+
+						// mostrar título
+						$rtn['update'][] = array(
+							'selector' => '.n_'.$id_alumno,
+							'action'   => 'html',
+							'value'    => $nombres.' '.$apellidos
+						);
+
+						// respuesta
+						$rtn['success'] = true;
+	
+						$msj = "Los datos se cambiaron correctamente.";
+					}
+				}else{
+					$msj = "Se encontraron campos vacios.";
+					// respuesta
+					$rtn['success'] = false;
+				}
 			}
 
 			if($rtn['success']){
