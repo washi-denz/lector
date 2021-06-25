@@ -376,8 +376,32 @@
 
 			}
 
-			if($tipo == 'alumnos')
+			if($tipo == 'alumno')
 			{
+				$data2 = htmlspecialchars(json_encode(array('id_alumno'=>$obj->id,'type'=>'alumno')));
+
+				$links = '
+					<a class="dropdown-item send" data-destine="admin/modalActualizarCampo" data-data="'.$data2.'">Editar título</a>
+					<a class="dropdown-item send" data-destine="admin/modalEliminarRegistro" data-data="">Eliminar</a>			
+				';
+
+				$str='
+					<tr>
+						<td>'.$cad['num'].'</td>
+						<td>[IMG]</td>
+						<td>
+							<h6 class="item-title text-gray-800 font-medium n_'.$obj->id.'">'.$obj->nombres.' '.$obj->apellidos.'</h6>
+						</td>
+						<td>
+							<a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<i class="icon-ellipsis-vert"></i>
+							</a>
+							<div class="dropdown-menu dropdown-menu-right" style="z-index:1100;">
+								'.$links.'
+							</di>
+						</td>
+					</tr>
+				';
 
 			}
 

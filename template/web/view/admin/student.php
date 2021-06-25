@@ -6,7 +6,10 @@
 	//require URI_THEME."/section/navbar.php";
 
 	echo "\n";
-	$pag  = (isset($_GET["pag"]))? $_GET["pag"] : 1;
+
+	$pag    = (isset($_GET["pag"]))? $_GET["pag"] : 1;
+	
+	$numReg = $this->gn->rtn_num_alumnos();
 ?>
 		<main class="container-main">
 
@@ -56,53 +59,27 @@
 			<div class="main-body">
 				<div class="container">
 
+		    		<button class="border-2 px-2 send" data-destine="admin/modalCrearNuevoAlumno">+</button>
+
 					<table class="table">
 						<thead>
 							<tr>
 								<td></td>
 								<td></td>
+								<td></td>
+								<td></td>
 							</tr>
 						</thead>
-						<tbody id="listExam">
+						<tbody id="mostrarLista">
 							<?php 
-								if(true):
-
-									$alumnos = $fn->listaAlumnos($pag,false);
-                                    $numReg  = $this->gn->rtn_num_alumnos();
-
-                                    foreach($alumnos as $alumno)
-                                    {
-                            ?>
-                                        <tr>
-                                            <td>
-                                                <h6 class="item-title text-gray-800 font-medium"><?php echo $alumno->nombres;?></h6>
-                                                <div class="item-subtitle">
-                                                   
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <i class="icon-ellipsis-vert"></i>
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-right" style="z-index:1100;">
-                                                    <?php //'.$links2.' ?>
-                                                </di>
-                                            </td>
-                                        </tr>
-
-                                <?php 
-                                    } else: 
-                                ?>
-                                        <tr>
-                                            <td colspan=4>
-                                                No se encontraron nad
-                                            </td>
-                                        </tr>
-
-                                <?php endif; ?>
-						</tfoot>
+								if($this->gn->rtn_num_pdfs() > 0): 
+									echo $fn->mostrarLista('alumno',$pag,false);
+								else:
+									echo "nad...";
+								endif;
+							?>
+						</tbody>
 					</table>
-
 
 					<nav aria-label="Page navigation example">
 						<ul class="pagination justify-content-center" id="pagination">

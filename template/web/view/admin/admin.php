@@ -36,10 +36,10 @@
 						<td></td>
 					</tr>
 				</thead>
-				<tbody id="listaCrearLectura">
+				<tbody id="mostrarLista">
 					<?php 
 						if($this->gn->rtn_num_pdfs() > 0): 
-							echo $fn->mostrarLista('crear-lectura',$pag,false);// lec lista de examnes credas
+							echo $fn->mostrarLista('crear-lectura',$pag,false);
 						else:
 							echo "nad...";
 						endif;

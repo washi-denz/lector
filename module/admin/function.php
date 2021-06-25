@@ -10,15 +10,6 @@
 
 		}
 
-		public function listaAlumnos($pag=1,$ajax=true){
-
-			$num = ($pag<=0)? 0 :($pag-1) * REG_MAX;
-
-			$rc = $this->parents->gn->rtn_consulta('*','alumnos','idUsuario='.$this->idUsuario.' LIMIT '.$num.','.REG_MAX);
-			
-            return $rc;
-		}
-
 		public function modalCrearLectura(){
 
 			$rtn = array();
@@ -303,6 +294,19 @@
 		}
 
 		//-------------------------------------------------------------//
+		//                        estudiantes
+		//-------------------------------------------------------------//
+
+		public function listaAlumnos($pag=1,$ajax=true){
+
+			$num = ($pag<=0)? 0 :($pag-1) * REG_MAX;
+
+			$rc = $this->parents->gn->rtn_consulta('*','alumnos','idUsuario='.$this->idUsuario.' LIMIT '.$num.','.REG_MAX);
+			
+            return $rc;
+		}
+
+		//-------------------------------------------------------------//
 		//                           editar
 		//-------------------------------------------------------------//
 
@@ -535,12 +539,12 @@
 				";
 			}
 
-			if($tipo == 'alumnos')
+			if($tipo == 'alumno')
 			{
 				$query = "
-					SELECT e.idExamen,e.idex,e.titulo,e.img,e.estilo,e.estado,e.nivel,e.nota_base,e.idUsuario,ec.publicar FROM examen e 
-						INNER JOIN examen_config ec ON e.idExamen=ec.idExamen 
-					WHERE ( ec.publicar='SI' AND ec.eliminar='NO') AND e.idUsuario=".$this->idUsuario." ORDER BY e.publicacion DESC LIMIT ".$num.",".REG_MAX.";
+					SELECT id,nombres,apellidos FROM alumnos
+						WHERE idUsuario=".$this->idUsuario." 
+					ORDER BY registro DESC LIMIT ".$num.",".REG_MAX.";
 				";
 			}
 
@@ -552,14 +556,14 @@
 
 					foreach($resultado as $obj){
 						$num++;					
-						$str .= $this->parents->interfaz->mostrar_lista('crear-lectura',$obj,['num'=>$num]);					
+						$str .= $this->parents->interfaz->mostrar_lista($tipo,$obj,['num'=>$num]);					
 					}
 
 					$rtn = array(
 						"success" => true,
 						"update"  => array(
 							array(
-								"id"     => "listaCrearLectura",
+								"id"     => "mostrarLista",
 								"action" => "html",
 								"value"  => $str
 							)
