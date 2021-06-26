@@ -903,7 +903,7 @@
 				$apellidos = $datos['apellidos'];
 
 				if($this->parents->gn->verifica_valor($nombres) && $this->parents->gn->verifica_valor($apellidos)){
-					
+
 					if($this->parents->sql->modificar('alumnos',array('nombres'=>$nombres,'apellidos'=>$apellidos),array('id'=>$id_alumno))){				
 
 						// mostrar título
@@ -952,18 +952,36 @@
 			$title = null;
 			$btn   = null;
 
+			$msj_default = '
+				<h3 class="text-lg">Confirme si desea eliminar el registro actual.</h3>
+				<p class="text-sm text-gray-700">Ojo: Los registros eliminados no podrán ser recuperados.</p>
+			';
+
 			if($tipo == 'lectura'){
 				//...
 			}
 
 			if($tipo == 'pregunta'){
 
-				$form = ' 
-					<h3 class="text-lg">Confirme si desea eliminar el registro actual.</h3>
-					<p class="text-sm text-gray-700">Ojo: Los registros eliminados no podrán ser recuperados.</p>
-				';
+				$form = $msj_default;
 
 				$title = 'Eliminar registro <span class="text-form-top">Pregunta</span>';
+
+				// eliminamos url
+				unset($datos['url']);
+
+				// añadiendo confirmación
+				$datos['confirm'] = 'on';
+
+				$data = htmlspecialchars(json_encode($datos));
+				$btn = '<button class="btn btn-primary send" data-destine="admin/eliminarRegistro" data-data="'.$data.'">Confirmar<button>';	
+			}
+
+			if($tipo == 'datos-alumno'){
+
+				$form = $msj_default;
+
+				$title = 'Eliminar registro <span class="text-form-top">Alumno</span>';
 
 				// eliminamos url
 				unset($datos['url']);
@@ -1027,6 +1045,32 @@
 					$rtn['success'] = false;
 				}	
 			}
+
+			if($tipo == 'datos-alumno'){
+
+				$id_alumno = $datos['id_alumno'];
+				$pag       = $datos['pag'];
+
+				if($confirm && $this->parents->sql->eliminar('alumnos',array('id'=>$id_alumno))){						
+					
+					// mostrar lista				
+					$rtn['update'][] = array(
+						"id"     => "mostrarLista",
+						"action" => "html",
+						"value"  => $this->mostrarLista('alumno',$pag,false)
+					);
+
+					// respuesta
+					$rtn['success'] = true;
+
+					$msj = "Se eliminó correctamente.";
+					
+				}else{
+					// respuesta
+					$rtn['success'] = false;
+				}	
+			}
+
 			
 			if($rtn['success']){
 

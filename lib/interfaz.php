@@ -310,7 +310,9 @@
 
 			if($tipo == 'alumno')
 			{
-				$data = htmlspecialchars(json_encode(array('id_alumno'=>$obj->id,'type'=>'datos-alumno')));
+				$pag  = isset($_GET['pag'])? $_GET['pag']:0;
+
+				$data = htmlspecialchars(json_encode(array('id_alumno'=>$obj->id,'type'=>'datos-alumno','pag'=>$pag)));
 
 				$links = '
 					<a class="dropdown-item send" data-destine="admin/modalActualizarCampo" data-data="'.$data.'">Editar datos</a>
