@@ -145,6 +145,11 @@
 			return $nombre_publico;
 		}
 
+		function rtn_nombre_alumno($id_alumno){
+			$rc = $this->rtn_consulta('nombres,apellidos','alumnos','id='.$id_alumno);
+			return $rc[0]->nombres.' '.$rc[0]->apellidos;
+		}
+
 		function rtn_nombre_arch($nombre_arch){
 			$nombre_arch = explode('.',$nombre_arch);
 			return $nombre_arch[0];

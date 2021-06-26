@@ -13,10 +13,10 @@
 
 		private function init(){	
 
-			$this->get_modal("modalPrincipal");
-			$this->get_modal_submit("modalPrincipalSubmit");
-			$this->get_modal_alert("modalAlert");
-			$this->get_modal_alert_confirm("modalAlertConfirm");
+			//$this->get_modal("modalPrincipal");
+			//$this->get_modal_submit("modalPrincipalSubmit");
+			//$this->get_modal_alert("modalAlert");
+			//$this->get_modal_alert_confirm("modalAlertConfirm");
 
 			if($this->parents->session->check_login()){
 				$this->idUsuario = $this->parents->session->get("id_user");
@@ -28,156 +28,6 @@
 		//                        modal
 		//-------------------------------------------------------------//
 
-		public function get_modal($id,$title="",$body="",$button=""){
-			$rtn = '
-				<div class="modal fade" id="'.$id.'">
-					<div class="modal-dialog" id="modalDialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h4 class="modal-title" id="modalTitle">'.$title.'</h4>
-        						<button type="button" class="btn-close btn-close-white" data-dismiss="modal" aria-hidden="true"></button>
-							</div>
-							<div class="modal-body" id="modalBody">
-								'.$body.'
-							</div>
-							<div class="modal-msj" id="modalMsj"></div>
-							<div class="modal-footer">				
-								<span class="form-load" id="formLoad"></span>
-								<button type="button" class="btn btn-outline-secondary" data-dismiss="modal"> Cerrar</button>
-								<span id="modalFooter">'.$button.'</span>								
-							</div>
-						</div>
-					</div>
-				</div>
-			';
-			$this->parents->content->register($id,$rtn);
-		}
-
-		public function get_modal_submit($id,$title="",$body="")
-		{
-			$rtn = '
-				<div class="modal fade" id="'.$id.'">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h4 class="modal-title" id="modalTitleSubmit">'.$title.'</h4>
-								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-							</div>
-							<div class="modal-body" id="modalBodySubmit">
-								'.$body.'
-							</div>
-						</div>
-					</div>
-				</div>'
-			;
-			$this->parents->content->register($id,$rtn);
-		}
-
-		public function get_modal_alert($id,$title="TestinK dice :",$body="",$button=""){
-			$rtn = '
-			<div class="modal fade" data-backdrop="static" data-keyboard="false" id="'.$id.'">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">							
-							<h4 class="modal-title" id="modalAlertTitle">'.$title.'</h4>
-						</div>
-						<div class="modal-body" id="modalAlertBody">
-							'.$body.'
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-light" data-dismiss="modal"> Cerrar</button>
-						</div>
-					</div>
-				</div>
-			</div>';
-			
-			$this->parents->content->register($id,$rtn);
-		}
-
-		public function get_modal_alert_confirm($id,$title="TestinK dice :",$body="",$button=""){
-			$rtn = '
-			<div class="modal fade" data-backdrop="static" data-keyboard="false" id="'.$id.'">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">							
-							<h4 class="modal-title" id="modalAlertConfirmTitle">'.$title.'</h4>
-						</div>
-						<div class="modal-body" id="modalAlertConfirmBody">
-							'.$body.'
-						</div>
-						<div class="modal-footer">
-							<span id="modalAlertConfirmFooter">'.$button.'</span>
-							<button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
-						</div>
-					</div>
-				</div>
-			</div>';
-
-			$this->parents->content->register($id,$rtn);
-		}
-
-		public function get_modal_static($id,$title="",$body="",$button=""){
-			$rtn = '
-				<div class="modal fade" id="'.$id.'" style="z-index:1060;">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h4 class="modal-title" id="modalTitleStatic">'.$title.'</h4>
-        						<button type="button" class="btn-close btn-close-white" data-dismiss="modal" aria-hidden="true"></button>
-							</div>
-							<div class="modal-body" id="modalBodyStatic">
-								'.$body.'
-							</div>
-							<div class="modal-footer">
-								<span id="idLoadModal"></span>
-								<span id="modalFooterStatic">'.$button.'</span>
-								<button type="button" class="btn btn-outline-secondary" data-dismiss="modal"> Cerrar</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			';
-
-			$this->parents->content->register($id,$rtn);
-		}
-
-		function get_modal_type($tipo='',$id='modalDynamic',$cad= array()){
-
-			$str = '';
-
-			if($tipo == 'static')
-			{
-				$str = '
-					<div class="modal fade" id="'.$id.'" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-						<div class="modal-dialog modal-dialog-centered" role="document">
-							<div class="modal-content" id="idContentDynamic"></div>
-						</div>
-					</div>
-				';
-			}
-			elseif($tipo == 'submit')
-			{
-				$str = '
-					<div class="modal fade" id="'.$id.'">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h4 class="modal-title" id="modalTitleSubmit">'.$title.'</h4>
-									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-								</div>
-								<div class="modal-body" id="modalBodySubmit">
-								</div>
-							</div>
-						</div>
-					</div>'
-				;
-
-			}else{
-
-			}
-
-			return $str;
-		}
 
 		//-------------------------------------------------------------//
 		//                           Nav
@@ -374,7 +224,8 @@
 
 			if($tipo == 'card-entrega'){
 
-				$data = htmlspecialchars(json_encode(array('id_alumno'=>$obj->id,'id_pdf'=>$obj->id_pdf)));
+				$data1 = htmlspecialchars(json_encode(array('id_alumno'=>$obj->id,'id_pdf'=>$obj->id_pdf)));
+				$data2 = htmlspecialchars(json_encode(array('id_alumno'=>$obj->id,'id_pdf'=>$obj->id_pdf,'type'=>'respuesta')));
 
 				$str = '
 					<div class="container-card-follow flex border shadow-sm rounded">
@@ -385,10 +236,17 @@
 							
 							<h6 class="font-medium mb-3">'.$obj->nombres.' '.$obj->apellidos.'</h6>
 							<div class="flex flex-wrap">								
-								<span class="rounded-full text-sm text-green-800 cursor-pointer px-2 py-0.5 mr-3 send" data-destine="admin/modalVerRespuestaEntrega" data-data="'.$data.'" style="background:#58d68d!important;">
+								<span 
+									class        = "rounded-full text-sm text-green-800 cursor-pointer px-2 py-0.5 mr-3 send" 
+									data-destine = "admin/modalVerRespuestaEntrega" 
+									data-data    = "'.$data1.'" 
+									style        = "background:#58d68d!important;">
 									Ver respuestas
 								</span>
-								<span class="rounded-full text-sm text-gray-600 bg-gray-100 cursor-pointer px-2 py-0.5">
+								<span 
+									class        = "rounded-full text-sm text-gray-600 bg-gray-100 cursor-pointer px-2 py-0.5 send"
+									data-destine = "admin/modalDetalles" 
+									data-data    = "'.$data2.'">
 									Ver detalles
 								</span>
 							</div>
@@ -520,6 +378,18 @@
 					</div>
 				';
 
+			}
+
+			if($tipo == 'respuesta'){
+
+				$obj->respuesta = ($this->parents->gn->verifica_valor($obj->respuesta))? $obj->respuesta: '<span class="bg-yellow-100 px-2">Respuesta vacía.</span>';
+
+				$str = '
+					<div class="bg-gray-100_ p-3_">
+						<h3 class="bg-gray-100 rounded text-lg p-2"><span class="font-medium">'.$cad['num'].'.</span> '.$obj->pregunta.'</h3>
+						<p class="p-2">'.$obj->respuesta.'</p>
+					</div>
+				';
 			}
 
 			return $str;

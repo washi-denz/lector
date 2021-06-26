@@ -254,7 +254,10 @@
 			$id_pdf    = $datos['id_pdf'];
 			$id_alumno = $datos['id_alumno'];
 
+			$nombre    = $this->parents->gn->rtn_nombre_alumno($id_alumno);
+
 			$str = null;
+			$cont = 0;
 			
 			$query = "
 				SELECT p.id,p.descripcion AS 'pregunta',r.descripcion AS 'respuesta',r.idAlumno,r.registro FROM respuestas r 
@@ -265,12 +268,14 @@
 			if($this->parents->sql->consulta($query)){
 				$resultado = $this->parents->sql->resultado;
 				foreach($resultado  as $obj){
-					$str .= '<b>'.$obj->pregunta.'</b><br>'.$obj->respuesta.'<br>';
+					$cont++;
+					//$str .= '<b>'.$obj->pregunta.'</b><br>'.$obj->respuesta.'<br>';
+					$str .= $this->parents->interfaz->gn('respuesta',$obj,['num'=>$cont]);
 				}
 			}
 
 
-			$modalTitle  = "Ver respuetas";
+			$modalTitle  = 'Ver respuestas <span class="text-form-top">'.$nombre.'</span>';;
 			$modalBody   = $str;
 			$modalFooter = null;
 
@@ -1089,6 +1094,52 @@
 			}
 
 			return json_encode($rtn);
+		}
+
+		public function modalDetalles($datos){
+
+			$rtn  = array();
+			$tipo = $datos['type'];
+
+			$form  = null;
+			$title = null;
+			$btn   = null;
+
+			if($tipo == 'respuesta'){
+				
+				$title = 'Ver detalles <span class="text-form-top">Entrega</span>';
+				$form  = '
+					<div class="grid grid-cols-1 divide-y divide-gray-300">
+						<div>
+							<label class="font-medium w-36">Fecha de ingreso </label>
+							<span>: 12/05/2021</span>
+						</div>
+						<div>
+							<label class="font-medium w-36">Num preguntas</label>
+							<span>: 6</span>
+						</div>
+						<div>
+							<label class="font-medium w-36">Resuletas</label>
+							<span>: 6</span>
+						</div>
+						<div>
+							<label class="font-medium w-36">No resueltas</label>
+							<span>: 6</span>
+						</div>
+					</div>	
+				';
+			}
+
+			// crear modal
+
+			$modalTitle  = $title;
+			$modalBody   = $form;
+			$modalFooter = $btn;
+
+			$rtn = $this->parents->interfaz->rtn_array_modal_principal($modalTitle,$modalBody,$modalFooter);
+
+			return json_encode($rtn);
+
 		}
 
 	}

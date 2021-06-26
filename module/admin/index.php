@@ -186,6 +186,11 @@
 					exit;
 				break;
 
+				case "modalDetalles":
+					echo $fn->modalDetalles($_REQUEST);
+					exit;
+				break;
+
 				default:
 					echo json_encode(array("success"=>false,"notification"=>"Accion no definida."),JSON_PRETTY_PRINT);
 					exit();
