@@ -16,7 +16,7 @@
 			<div class="main-header">
 
 				<div class="bg-gray-100 mb-3">
-					<div class="container mx-auto">
+					<div class="container mx-auto lg:px-32">
 						<ul>
 							<?php echo $this->interfaz->nav_list('admin',2);?>
 						</ul>    
@@ -25,9 +25,9 @@
 
 			</div><!--/main-header-->
 
-			<div class="main-body">
+			<div class="main-body mb-12">
 				
-				<div class="container">
+				<div class="container mx-auto lg:px-32">
 							    		
 					<button class="outline-none bg-green-500 text-white text-sm rounded-sm px-2 py-1 icon-plus-4 send" data-destine="admin/modalAgregarAlumno">Agregar nuevo alumno</button>
 

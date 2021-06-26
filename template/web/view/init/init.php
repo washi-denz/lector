@@ -9,7 +9,7 @@
 ?>
 
 	<section class="bg-primary-100">
-		<div class="container mx-auto">
+		<div class="container mx-auto lg:px-32">
 			
 			<nav class="pt-3">
 				<div class="flex">
@@ -39,7 +39,7 @@
 	</section>
 
 	<section>
-		<div class="container mx-auto">
+		<div class="container mx-auto lg:px-32">
 			<form id="formEnviarRespuestas">
 
 				<div class="title font-semibold text-gray-500 text-2xl text-center px-3 py-4">Responda las preguntas</div>
@@ -86,7 +86,7 @@
 				?>
 							<tr>
 								<td colspan=4>
-									No se encontraron nad...
+									0 No hay preguntas que mostrar.
 								</td>
 							</tr>
 
@@ -99,13 +99,15 @@
 				<div class="lg:mx-40 md:mx-8 sm:mx-16 bg-yellow-300 rounded-md shadow-md text-center p-3 mx-3 mb-8">
 					
 					<div>
+						<!--
 						<p class="text-yellow-700 font-light text-sm mb-3">Todas las preguntas fueron resueltas</p>
 
 						<ul>
 							<li class="text-yellow-600 cursor-pointer font-medium inline-block bg-yellow-400 rounded-sm mb-3 px-2 py-1">1</li>
 							<li class="text-yellow-600 cursor-pointer font-medium inline-block bg-yellow-400 rounded-sm mb-3 px-2 py-1">2</li>
 							<li class="text-yellow-600 cursor-pointer border border-yellow-400 font-medium inline-block rounded-sm mb-3 px-2 py-1">3</li>
-						</ul> 
+						</ul>
+						--> 
 					</div>
 
 					<label class="text-yellow-600 font-medium text-lg block mb-2">Su nombre:</label>

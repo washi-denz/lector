@@ -26,36 +26,37 @@
 			</div>
 
 		</div><!--/main-header-->
-		<div class="main-body">
-			<div class="container mx-auto">
+		<div class="main-body mb-20">
+			<div class="container mx-auto lg:px-48">
 
-				<div class="flex">
-					<h1 class="text-center text-lg font-medium t_<?php echo $encriptar_id;?>">
+				<div class="relative mb-3">
+					<h1 class="text-center text-2xl font-medium t_<?php echo $encriptar_id;?>">
 						<?php echo $this->gn->rtn_titulo_lectura($uniqid); ?>
 					</h1>
-					<button class="icon-pencil send" data-destine="admin/modalActualizarCampo" data-data="<?php echo $data3; ?>"></button>
+					<button class="focus:outline-none absolute right-0 top-0 bg-green-100 text-green-600 bg-opacity-25 rounded-full p-2 icon-pencil send" data-destine="admin/modalActualizarCampo" data-data="<?php echo $data3; ?>"></button>
 				</div>
 
-				<div class="flex">
-					<textarea class="w-full d_<?php echo $encriptar_id;?>">
+				<div class="relative text-center mb-3">
+					<p class="w-full d_<?php echo $encriptar_id;?>">
 						<?php echo $this->gn->rtn_descripcion_lectura($uniqid) ?>
-					</textarea>
+					</p>
 					<button 
-						class        = "icon-pencil send" 
+						class        = "focus:outline-none absolute right-0 top-0 bg-green-100 text-green-600 bg-opacity-25 rounded-full p-2 icon-pencil send" 
 						data-destine = "admin/modalActualizarCampo" 
 						data-data    = "<?php echo $data4; ?>"
 					></button>
 				</div>
 
-				<iframe src="<?php echo $this->gn->rtn_src_lectura($uniqid); ?>" class="w-full border mb-3 iframe_<?php echo $encriptar_id;?>"></iframe>
-				<button class="icon-pencil send" data-destine="admin/modalModificarPDF" data-data="<?php echo $data1; ?>"></button><br></br>
+				<div class="relative">
+					<iframe src="<?php echo $this->gn->rtn_src_lectura($uniqid); ?>" class="w-full h-96 border iframe_<?php echo $encriptar_id;?>"></iframe>
+					<button class="focus:outline-none absolute top-16 right-6 bg-green-100 text-green-600 bg-opacity-25_ rounded-full p-2 icon-pencil send" data-destine="admin/modalModificarPDF" data-data="<?php echo $data1; ?>"></button><br></br>
+				</div>				
 
-				Agregar preguntas: <button class="border-2 px-2 send" data-destine="admin/modalAgregarPregunta" data-data="<?php echo $data1; ?>">+</button>
+				<button class="outline-none bg-green-500 text-white text-sm rounded-sm px-2 py-1 icon-plus-4 send" data-destine="admin/modalAgregarPregunta" data-data="<?php echo $data1; ?>">Agregar pregunta</button>
 
 				<table class="table">
 					<thead>
 						<tr>
-							<td></td>
 							<td></td>
 							<td></td>
 							<td></td>

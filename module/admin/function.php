@@ -887,7 +887,7 @@
 						// respuesta
 						$rtn['success'] = true;
 	
-						$msj = "La descripción se cambió correctamente.";
+						$msj = "La pregunta se cambió correctamente.";
 					}
 				}else{
 					$msj = "Ingrese un valor";

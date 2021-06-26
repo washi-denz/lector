@@ -8,7 +8,7 @@
 		<div class="main-header">
 			
 			<div class="bg-gray-100 mb-3">
-				<div class="container mx-auto">
+				<div class="container mx-auto lg:px-32">
 					<ul>
 						<?php echo $this->interfaz->nav_list('deliver',2);?>
 					</ul>    
@@ -17,8 +17,8 @@
 
 		</div>
 
-		<div class="main-body">
-			<div class="container mx-auto">
+		<div class="main-body mb-10">
+			<div class="container mx-auto lg:px-32">
 
 				NOMBRE  DE LA LECTURA <strong>"<?php echo $this->gn->rtn_titulo_lectura($uniqid); ?>"</strong><br><br>
 

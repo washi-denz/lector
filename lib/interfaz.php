@@ -270,19 +270,23 @@
 			{
 				$data  = htmlspecialchars(json_encode(array('uniqid'=>$obj->uniqid)));
 				$data2 = htmlspecialchars(json_encode(array('uniqid'=>$obj->uniqid,'type'=>'titulo-pdf')));
+
 				$encriptar_id = $this->parents->gn->encriptar_id($obj->uniqid);
+				$id_pdf       = $this->parents->gn->rtn_id($obj->uniqid);
+
+				$num_preg = $this->parents->gn->rtn_num_preguntas($id_pdf);
 
 				$links1 = '
-					<a class="text-blue-500 send" data-destine="admin/verLectura" data-data="'.$data.'" title="Ver y editar">Ver y editar</a> .
-					<span class="text-secondary"> Num preguntas ( 5 )</span>
+					<a class="text-blue-500 cursor-pointer send" data-destine="admin/verLectura" data-data="'.$data.'" title="Ver y editar">Ver y editar</a> .
+					<span class="text-gray-500"> Num preguntas ('.$num_preg.')</span>
 				';
 
 				$links2 = '
-					<a class="dropdown-item send" data-destine="admin/modalCompartir" data-data="'.$data.'"><i class="icon-share-3"></i> Compartir</a>
-					<a class="dropdown-item send" data-destine="admin/verLectura" data-data="'.$data.'" title="Ver y editar"><i class=" icon-eye"></i> Ver y editar</a>
+					<a class="dropdown-item cursor-pointer send" data-destine="admin/modalCompartir" data-data="'.$data.'"><i class="icon-share-3"></i> Compartir</a>
+					<a class="dropdown-item cursor-pointer send" data-destine="admin/verLectura" data-data="'.$data.'" title="Ver y editar"><i class=" icon-eye"></i> Ver y editar</a>
 					<div class="dropdown-divider"></div>
-					<a class="dropdown-item send" data-destine="admin/modalActualizarCampo" data-data="'.$data2.'">Editar título</a>
-					<a class="dropdown-item send" data-destine="admin/mostrarModalCategoria" data-data="">Eliminar</a>			
+					<a class="dropdown-item cursor-pointer send" data-destine="admin/modalActualizarCampo" data-data="'.$data2.'">Editar título</a>
+					<a class="dropdown-item cursor-pointer send" data-destine="admin/mostrarModalCategoria" data-data="">Eliminar</a>			
 				';
 
 				$str='
@@ -296,9 +300,7 @@
 						</td>
 						<td><a href="'.URL.'/admin/deliver/'.$obj->uniqid.'" class="btn btn-success btn-sm">Ver entregas</a></td>
 						<td>
-							<a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<i class="icon-ellipsis-vert"></i>
-							</a>
+							<a class="icon-ellipsis-vert cursor-pointer" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
 							<div class="dropdown-menu dropdown-menu-right" style="z-index:1100;">
 								'.$links2.'
 							</di>
@@ -347,7 +349,7 @@
 				$encriptar_id = $this->parents->gn->encriptar_id($obj->uniqid,$obj->id);
 
 				$links = '
-					<a class="dropdown-item send" data-destine="admin/modalActualizarCampo" data-data="'.$data.'">Editar título</a>
+					<a class="dropdown-item send" data-destine="admin/modalActualizarCampo" data-data="'.$data.'">Editar pregunta</a>
 					<a class="dropdown-item send" data-destine="admin/modalEliminarRegistro" data-data="'.$data.'">Eliminar</a>			
 				';
 
