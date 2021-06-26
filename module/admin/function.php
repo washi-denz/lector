@@ -1108,6 +1108,10 @@
 			if($tipo == 'respuesta'){
 				
 				$title = 'Ver detalles <span class="text-form-top">Entrega</span>';
+
+				//$rc = $this->parents->gn->rtn_consulta('')
+
+				$fecha = $this->parents->gn->get_elapsed_time();
 				$form  = '
 					<div class="grid grid-cols-1 divide-y divide-gray-300">
 						<div>
