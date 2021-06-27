@@ -5,11 +5,14 @@
 		var $idUsuario = 0;
 		function __construct(){
 			parent::__construct();
+
+			$this->gn->redireccion(URL."/init",$this->session->check_login());
 			$this->idUsuario = $this->session->get("id_user");
+			
 		}
 
 		function index(){
-			$this->gn->redireccion(URL."/init",$this->session->check_login());
+			//$this->gn->redireccion(URL."/init",$this->session->check_login());
 			$this->admin();
 		}
 

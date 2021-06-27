@@ -17,7 +17,7 @@
 		}
 
 		function index(){
-			$this->view();
+			$this->login();
 		}
 
 		function view($nombre=null,$uniqid=null){

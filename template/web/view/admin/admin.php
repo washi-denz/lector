@@ -20,7 +20,7 @@
 
 			</div><!--/main-header-->
 
-			<div class="main-body mb-20">			
+			<div class="main-body mb-12">			
 				<div class="container mx-auto lg:px-32">
 
 					<button class="outline-none bg-green-500 text-white text-sm rounded-sm px-2 py-1 icon-plus-4 send" data-destine="admin/modalCrearLectura">Nueva lectura</button>

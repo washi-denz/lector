@@ -22,7 +22,7 @@
 			$uniqid    = $datos['uniqid'];
 			$id_alumno = ($datos['id_alumno']!='-Elija-')? $datos['id_alumno']:0;
 			$preguntas = $datos['preg'];
-			$redirect  = $datos['redirect'];
+			$redirect  = isset($datos['redirect']) ? $datos['redirect']:'';
 
 			$id_pdf     =  $this->parents->gn->rtn_id($uniqid);
 			
