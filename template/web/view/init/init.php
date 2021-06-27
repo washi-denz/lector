@@ -59,7 +59,7 @@
 						{
 							$cont++;
 				?>
-							<div class="bg-white shadow-sm rounded-md p-2 mb-3" x-data="{openAccordion:false}">
+							<div class="bg-white shadow-sm rounded-md p-2 mb-3" x-data="{openAccordion:true}">
 								<div class="flex relative">
 									<div>
 										<span class="text-yellow-400 text-lg font-bold pr-2 md:pl-2"><?php echo $cont; ?></span>
@@ -72,7 +72,7 @@
 										</div>
 										<div x-show="openAccordion">
 											<div class="py-2">
-												<textarea class="w-full border" name="preg[<?php echo $pregunta->id; ?>]" placeholder="..."></textarea>
+												<textarea class="w-full border" name="preg[<?php echo $pregunta->id; ?>]" placeholder=""></textarea>
 											</div>    
 										</div>
 										<i class="absolute top-0 right-0 cursor-pointer text-gray-400" @click="openAccordion=!openAccordion" :class="{'icon-up-open-big':!openAccordion,'icon-down-open-big':openAccordion}"></i>
@@ -86,7 +86,7 @@
 				?>
 							<tr>
 								<td colspan=4>
-									0 No hay preguntas que mostrar.
+									0 No se encontrarón preguntas para mostrar.
 								</td>
 							</tr>
 

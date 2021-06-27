@@ -22,6 +22,7 @@
 			$uniqid    = $datos['uniqid'];
 			$id_alumno = ($datos['id_alumno']!='-Elija-')? $datos['id_alumno']:0;
 			$preguntas = $datos['preg'];
+			$redirect  = $datos['redirect'];
 
 			$id_pdf     =  $this->parents->gn->rtn_id($uniqid);
 			
@@ -97,7 +98,7 @@
 					$rtn['update'][] = array(
 						'action' => 'redirection',
 						'delay'  => 2000,
-						'value'  => URL.'/init/send'
+						'value'  => URL.'/init/send?redirect='.$redirect
 					);
 
 				}else{
@@ -109,8 +110,8 @@
 
 			}else{
 
-				$data = htmlspecialchars(json_encode(array('confirm'=>'on')));
-				$btn = '<button class="bg-blue-500 text-white font-medium send" data-destine="init/enviarRespuestas" data-data="'.$data.'" data-serialize="formEnviarRespuestas">Confirmar envío</button>';
+				$data = htmlspecialchars(json_encode(array('confirm'=>'on','redirect'=>'auto')));
+				$btn = '<button class="btn btn-primary bg-blue-500 text-white font-medium send" data-destine="init/enviarRespuestas" data-data="'.$data.'" data-serialize="formEnviarRespuestas">Confirmar envío</button>';
 
 				$msj1 = 'Se encontrarón respuestas vacías. <br> ¿ Enviar de todas formas ?';
 				$msj2 = 'Confirme el envío de las respuestas.';
@@ -122,7 +123,7 @@
 				    $msj = $msj2;
 
 				// crear modal				
-				$modalTitle  = "datos";
+				$modalTitle  = "Confirma el envío";
 				$modalBody   = $msj;
 				$modalFooter = $btn;
 	
