@@ -62,14 +62,15 @@
 			if($confirm == 'on'){				
 				// confirmar selección nombre del alumno
 				if($id_alumno != 0 ){//mejorarrrrrr
-
+					
 					// guardamos entrega 
 					$this->parents->sql->insertar('entregas',
 											array(
-												'idPdf'    => $_id_pdf,
+												'idPdf'    => $id_pdf,
 												'idAlumno' => $id_alumno
 											)
 										);
+
 					// recuperamos id  de entregas
 					$id_entrega = $this->parents->sql->LAST_INSERT_ID();
 
@@ -120,7 +121,7 @@
 				else
 				    $msj = $msj2;
 
-
+				// crear modal				
 				$modalTitle  = "datos";
 				$modalBody   = $msj;
 				$modalFooter = $btn;

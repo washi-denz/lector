@@ -13,11 +13,6 @@
 
 		private function init(){	
 
-			//$this->get_modal("modalPrincipal");
-			//$this->get_modal_submit("modalPrincipalSubmit");
-			//$this->get_modal_alert("modalAlert");
-			//$this->get_modal_alert_confirm("modalAlertConfirm");
-
 			if($this->parents->session->check_login()){
 				$this->idUsuario = $this->parents->session->get("id_user");
 			}
@@ -458,46 +453,6 @@
 				$msj = $cont."<br>";
 			}
 			//...
-
-			return $msj;
-		}
-
-		function msj_ayuda($tipo){
-			$msj = '';
-
-			//init
-			if($tipo == '')
-			{
-
-			}
-			//admin
-			if($tipo == 'puntuacion')
-			{
-				$msj = '
-					La puntuación es como la \'nota\' del  de cualquier test. 
-					Nota: El número ingresado tiene que ser divisible con el número total
-					de preguntas.
-				';
-			}
-			if($tipo == 'duracion')
-			{
-				$msj = '
-					La duración del examen puede ser LIBRE o puedes configurarlo a tu gusto (00:01 minutos,...,00:15 minutos,01:00 una hora,...)
-					Nota: En test LIBRE no se considera el tiempo.
-				';
-			}
-			if($tipo == 'crear-test-descripcion'){
-				$msj = '
-					En la descripción se puede mensionar de que trata el test a grandes rasgos (ó un resumen) y las fuente(s) utilizadas, éste ultimo si las tuviera.
-					Nota: la descripción no debe pasar los 255 carácteres.
-				';
-			}
-			if($tipo == 'eligir-imagen'){
-				$msj = '
-					Elija entre una imagen generada (automáticamnete) o una subida por usted.
-					Nota: Esta imagen pertenece a test principal y la que verá el público en general,elija una la imagen que esté lo más realcionado al test.
-				';
-			}
 
 			return $msj;
 		}

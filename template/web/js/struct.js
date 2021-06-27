@@ -1,264 +1,5 @@
-function rtnAjax($url,$data){
-    var $rtn = false;
 
-    if(typeof($url) != 'undefined')
-    {
-        $url = $url.split("/");
-        $url = _URL+$url[0]+"/json/"+$url[1];
-    }
-
-    if(typeof($data.edit) != 'undefined'){
-        if($data.edit == true){
-            $data.json = JSON.stringify(examen);  
-        }
-    }
-
-    console.log(JSON.stringify($data));
-
-    $.ajax({
-        type     : "POST",
-        url      : $url,
-        cache    : false,
-        data     : $data,
-        dataType : "json",
-        async    : false,
-        beforeSend:function(){
-            if(typeof($data.load) != 'undefined')
-            {
-                var $str  = $data.load.split("_");
-                var id   = $str[0];
-                var type = $str[1];
-
-                $("#"+id).css({"position":"relative"});
-
-                $("#"+id).fadeIn(50,function(){
-                    if(type == 'bottom'){
-                        $(this).html('<i class="icon-spin6 animate-spin onload-icon" id="onload"></i>');
-                    }
-                });
-              
-            }
-
-        },
-        complete:function(){
-            $("#onload").fadeOut(100,function(){
-                $(this).remove();
-            });
-        },
-        error:function(){
-            alert("ERROR,El servidor AJAX no funciona.");
-        },
-        success:function(respuesta){
-
-            console.log("rtnAJAX --> "+JSON.stringify(respuesta));
-
-            if(!respuesta['success'] || respuesta['success']){
-                if(respuesta['return'] != undefined && respuesta['return'] != ''){
-                    $rtn = respuesta['return'];
-                }
-                if(respuesta['update'] != undefined && respuesta['update'] != ''){
-                    for(var i=0; i<respuesta['update'].length; i++){
-
-                        if(respuesta['update'][i]['action'] == "remove")
-                        {
-                            $("#"+respuesta['update'][i]['id']).remove();
-                        }
-                        else if(respuesta['update'][i]['action'] == "html")
-                        {
-                            $("#"+respuesta['update'][i]['id']).html(respuesta['update'][i]['value']);                                      
-                        }
-                        else if(respuesta['update'][i]['action'] == "openModal")
-                        {
-                            $("#"+respuesta['update'][i]['id']).modal('show');
-                        }
-                        else if(respuesta['update'][i]['action'] == "closeModal")
-                        {
-                            $("#"+respuesta['update'][i]['id']).modal('hide');
-                        }
-                        else if(respuesta['update'][i]['action'] == "notification"){
-                            alert(respuesta['update'][i]['value']);
-                        }
-                        else if(respuesta['update'][i]['action'] == "redirection"){
-                            top.location.href = respuesta['update'][i]['value'];
-                        }
-
-                    }
-                }
-
-            }
-        }
-    });
-
-    return $rtn;
-
-} 
-
-//---
-
-$(function(){
-
-    $("#menuBar").on("click",function(){
-      if($(".nav").hasClass("active")){
-          $(".nav-right").slideUp();
-          $(".nav").removeClass("active");
-      }else{
-          $(".nav-right").slideDown();
-          $(".nav").addClass("active");
-      }
-   });
-    $(document).on("click",function(e){
-        
-        var tg = $(e.target);
-
-        if(tg.hasClass("view") || tg.parent().hasClass("view")){
-            
-            if(tg.next("ul").hasClass("show") || tg.parent(".view").next("ul").hasClass("show")){
-            
-                tg.next("ul").slideUp();
-                tg.next("ul").removeClass("show");
-                tg.next("ul").removeClass("show");
-                
-                tg.parent(".view").next("ul").slideUp();
-                tg.parent(".view").next("ul").removeClass("show");
-                
-            }else{
-                
-                $(".menu .show").slideUp();
-                $(".show").removeClass();
-                $(".view.active").removeClass("active");
-                
-                tg.next("ul").slideDown();
-                tg.next("ul").addClass("show");
-                
-                tg.parent(".view").next("ul").slideDown();
-                tg.parent(".view").next("ul").addClass("show");
-                tg.addClass("active");
-                
-            }
-    
-        }else{
-            $(".container-nav .menu .show").slideUp();
-            $(".container-nav .show").removeClass();
-            $(".container-nav .view.active").removeClass("active");
-        }
-    
-    });
-});
-
-//---
-
-function eliminarEspacio(cadTexto){
-    //convertir la cadena en minúscula
-    cadTexto = cadTexto.toLowerCase();
-    //no incluir caracteres reservados
-    cadTexto = cadTexto.replace(/([\$\(\)\*\+\.\[\]\¿\?\\\/\^\{\}\|])/g,"");
-    //eliminar espacios al inicio y al final
-    cadTexto =cadTexto.replace(/^\s+|\s+$/g,"");
-    //combierte más de un espacio en uno
-    cadTexto = cadTexto.replace(/\s+/g," ");
-    return cadTexto;
-}
-
-function eliminarEspacioInicioFinal(cadTexto){
-    cadTexto = cadTexto.replace(/^\s+|\s+$/g,"");
-    cadTexto = cadTexto.replace(/\s+/g," ");
-    return cadTexto;
-}
-
-//---
-
-$(function(){
-
-  $.tablaBusquedaMain = function(textBusqueda,idTabla,numFil){
-
-    var elem=$(idTabla);
-    var cont=0;
-    elem.find("#msjBusqueda").remove();
-
-    elem.find('tbody tr').each(function(indiceFila,objFila){
-      var objCeldas=$(objFila).find('td');
-      if(objCeldas.length>0){
-        var textExiste=false;
-        objCeldas.each(function(indiceCelda,objCeldaFila){
-
-          objRegExp = new RegExp(RegExp.escape(textBusqueda,'i'));
-
-          if(objRegExp.test(eliminarEspacio($(objCeldaFila).text()))){
-            textExiste=true;
-            cont++;
-            return false;
-          }
-          
-        });
-
-        if(textExiste==true && cont<=numFil){
-          $(objFila).show();
-        }else{
-          $(objFila).remove();
-        }
-
-      }
-
-    });
-  }
-  RegExp.escape=function(textBusqueda){
-        var strCaracteresEspeciales=new RegExp("[.*+?|()\\[\\]{}\\\\]", "g");
-        //devolvemos la cadena limpia
-        return textBusqueda.replace(strCaracteresEspeciales, "\\$&");
-    };
-
-}); 
-
-//---
-
-$(function(){
-
-    const ARTICLE_TITLE  = encodeURIComponent($('meta[property="og:title"]').attr('content'));    
-    const ARTICLE_URL    = encodeURIComponent($('meta[property="og:url"]').attr('content'));    
-    const MAIN_IMAGE_URL = encodeURIComponent($('meta[property="og:image"]').attr('content'));   
-
-    $(document).on("click",".share-fb",function(){      
-        open_window("http://www.facebook.com/sharer/sharer.php?u="+ARTICLE_URL,"facebook_share");
-    });
-
-    $(document).on("click",".share-twitter",function(){
-        open_window("http://twitter.com/share?url="+ARTICLE_URL,"twitter_share");
-    });
-
-    $(document).on("click",".share-google-plus",function(){
-        open_window("https://plus.google.com/share?url="+ARTICLE_URL,"google_share");
-    });
-
-    $(document).on("click",".share-linkedin",function(){
-        open_window("https://www.linkedin.com/shareArticle?mini=true&url="+ARTICLE_URL+"&title="+ARTICLE_TITLE+"&summary=&source=","linkedin_share");
-    });
-
-    $(document).on("click",".share-pinterest",function(){
-        open_window("https://pinterest.com/pin/create/button/?url="+ARTICLE_URL+"&media="+MAIN_IMAGE_URL+"&description="+ARTICLE_TITLE,"pinterest_share");
-    });
-
-    $(document).on("click",".share-tumblr",function(){
-        open_window("http://www.tumblr.com/share/link?url="+ARTICLE_URL+"&name="+ARTICLE_TITLE+"&description="+ARTICLE_TITLE,"tumblr_share");
-    });
-
-    $(document).on("click",".share-whatsapp",function(){
-        open_window("https://api.whatsapp.com/send?text="+ARTICLE_URL,"whatsapp_share");
-    });
-
-    function open_window(url,name){
-        window.open(url,name,"height=320,width=640,toolbar=no,menubar=no,scrollbars=yes,resizable=yes,location=no,directories=no,status=no");
-    }
-
-});
-
-//---
-$(function(){
-    //habilitando popover para ajax
-     $(document).ajaxSuccess(function(){  
-        $('[data-toggle="popover"]').popover();
-    });
-});
-//---
+//--- modal
 
 function str_modal($type='',$id='modalPrincipal'){
 
@@ -281,35 +22,59 @@ function str_modal($type='',$id='modalPrincipal'){
 
 }
 
-//---
+//--- copy
 
 $(function(){
-    
-    $(document).on("click","#guardarImg",function(){
 
-        const canvas = document.querySelector("#result>canvas");
-        const result = document.getElementById("result");
-        
-         if(result.innerHTML !== ''){
+    $(document).on('click','.copy-title',function(){
 
-            let base64 = canvas.toDataURL();            
+        let copyTitle = $(this);
+        let title     = copyTitle.text();
 
-            var $attr    = $(this).attr("data-json");
-            var $json    = JSON.parse($attr);  
-          
-            $json.imagen = base64;
+        let copyText = $('.copy-text');
 
-            $(this).ajaxview({
-                ajaxdestine : "admin/guardarImgPregBase64",
-                ajaxdata    : $json
-            });
+        if(title == 'Copiar'){
+                
+            copyText.select();
+            document.execCommand('copy');
 
-        }else{
-            alert("Recorte la imagen.");
+            copyTitle.html('Copiado');
+
+            setTimeout(function(){
+               copyTitle.html(title);
+            },700);
         }
-        
+
     });
 
 });
+
+/*
+const modalP = document.querySelector('#modalPrincipal');
+
+const copyText  = modalP.querySelector('.copy-text');
+const copyTitle = modalP.querySelector('.copy-title');
+
+copyTitle.addEventListener('click',initCopy(),false);
+
+function initCopy(){
+    
+    if(copyTitle.innerHTML== 'Copiar'){
+        
+        copyText.select();
+        document.execCommand('copy');
+ 
+        copyTitle.innerHTML = 'Copiado';
+        
+        setTimeout(function(){
+           copyTitle.innerHTML = 'Copiar';
+        },700);
+    }
+}
+*/
+
+//--- ...
+
+
 
 // Paralel

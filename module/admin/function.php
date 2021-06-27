@@ -170,10 +170,15 @@
 			$titulo_slug = $this->parents->gn->post_slug($titulo);
 			$link = URL.'/init/view/'.$titulo_slug.'/'.$uniqid;
 
+			$msj = 'Utilice este <strong>link</strong> para compartir el recurso PDF.';
+			$msj = $this->parents->interfaz->msj('info-close',$msj);
+
 			$form = '
-				<form>
-					Link: <input type="text" value="'.$link.'" class="w-full"><br>
-				</form>			
+				'.$msj.'
+				<div class="input-group">					
+					<input type="text" class="form-control copy-text" value="'.$link.'">
+					<span class="input-group-text cursor-pointer copy-title">Copiar</span>
+				</div>		
 			';
 
 			$modalTitle  = "Compartir recurso PDF";
@@ -1096,51 +1101,83 @@
 			return json_encode($rtn);
 		}
 
-		public function modalDetalles($datos){
+		public function modalDetalles($datos){	
 
 			$rtn  = array();
-			$tipo = $datos['type'];
+			$tipo      = $datos['type'];
+			$id_pdf    = $datos['id_pdf'];
+			$id_alumno = $datos['id_alumno'];
 
-			$form  = null;
 			$title = null;
+			$form  = null;
 			$btn   = null;
 
 			if($tipo == 'respuesta'){
 				
 				$title = 'Ver detalles <span class="text-form-top">Entrega</span>';
 
-				//$rc = $this->parents->gn->rtn_consulta('')
+				//fecha de registro
+				$fecha = $this->parents->gn->rtn_fecha_reg_entrega($id_pdf,$id_alumno);
+				$fecha = $this->parents->gn->rtn_fecha($fecha);
 
-				$fecha = $this->parents->gn->get_elapsed_time();
+				//num de preguntas
+				$num_preguntas = $this->parents->gn->rtn_num_preguntas($id_pdf);
+
 				$form  = '
 					<div class="grid grid-cols-1 divide-y divide-gray-300">
-						<div>
-							<label class="font-medium w-36">Fecha de ingreso </label>
-							<span>: 12/05/2021</span>
+						<div class="py-2">
+							<label class="font-medium w-32">Fecha de ingreso </label>
+							<span>: '.$fecha.'</span>
 						</div>
-						<div>
-							<label class="font-medium w-36">Num preguntas</label>
-							<span>: 6</span>
+						<div class="py-2">
+							<label class="font-medium w-32">Num preguntas</label>
+							<span>: '.$num_preguntas.'</span>
 						</div>
-						<div>
-							<label class="font-medium w-36">Resuletas</label>
-							<span>: 6</span>
+						<!--
+						<div class="py-2">
+							<label class="font-medium w-32">Resuletas</label>
+							<span>: 0</span>
 						</div>
-						<div>
-							<label class="font-medium w-36">No resueltas</label>
-							<span>: 6</span>
+						<div class="py-2">
+							<label class="font-medium w-32">No resueltas</label>
+							<span>: 0</span>
 						</div>
+						-->
 					</div>	
 				';
 			}
 
-			// crear modal
+			// crear modal sm (pequeño)
 
-			$modalTitle  = $title;
-			$modalBody   = $form;
-			$modalFooter = $btn;
-
-			$rtn = $this->parents->interfaz->rtn_array_modal_principal($modalTitle,$modalBody,$modalFooter);
+			$rtn = array(
+				'success' => true,
+				'update'  => array(
+					array(
+						'id'     => 'modalPrincipal',
+						'action' => 'showModal'
+					),
+					array(
+						'id'     => 'modalTitle',
+						'action' => 'html',
+						'value'  => $title
+					),
+					array(
+						'id'     => 'modalBody',
+						'action' => 'html',
+						'value'  => $form
+					),
+					array(
+						'id'     => 'modalFooter',
+						'action' => 'html',
+						'value'  => $btn
+					),
+					array(
+						'id'     => 'modalPrincipal',
+						'style'  => 'modal-sm',
+						'action' => 'openModal'
+					)
+				)
+			);
 
 			return json_encode($rtn);
 

@@ -135,8 +135,8 @@
 			return $rc[0]->numReg;
 		}
 
-		function rtn_num_preguntas($id){
-			$rc = $this->rtn_consulta('COUNT(*) AS numReg','preguntas','idPdf='.$id);
+		function rtn_num_preguntas($id_pdf){
+			$rc = $this->rtn_consulta('COUNT(*) AS numReg','preguntas','idPdf='.$id_pdf);
 			return $rc[0]->numReg;
 		}
 
@@ -168,6 +168,33 @@
 		function rtn_src_lectura($uniqid){
 			$rc = $this->rtn_consulta('nombre','pdfs',"uniqid='".$uniqid."'");
 			return URL.'/data/pdfs/'.$uniqid.'/'.$rc[0]->nombre.'.pdf';
+		}
+
+		function rtn_fecha_reg_entrega($id_pdf,$id_alumno){
+			$registro = $this->rtn_consulta_unica('registro','entregas','idPdf='.$id_pdf.' AND idAlumno='.$id_alumno);
+			return $registro;
+		}
+
+		function rtn_fecha($fecha,$rtn='es'){
+			// el formato de $fecha es  english
+			$fecha = explode(' ',$fecha);
+			$f     = explode('-',$fecha[0]);
+			$anio  = $f[0];
+			$mes   = $f[1];
+			$dia   = $f[2];
+
+			if($rtn == 'es'){
+				return $dia."/".$mes."/".$anio;
+			}
+			elseif($rtn == 'en'){
+				return $anio."-".$mes."-".$dia;
+			}
+
+			return '';
+		}
+
+		function rtn_hora($fecha,$rtn='24'){
+
 		}
 
 		function existe_registro($tabla,$condicion){
@@ -588,41 +615,6 @@
 				"msj"     => $msj
 			);
 			return $rtn;
-		}
-
-		function get_elapsed_time($datetime)
-		{
-		      if( empty($datetime) )
-		      {
-		            return;
-		      }
-
-		      date_default_timezone_set("America/Lima");
-		      
-		      // check datetime var type
-		      $strTime = ( is_object($datetime) ) ? $datetime->format('Y-m-d H:i:s') : $datetime;
-		 
-		      $time = strtotime($strTime);
-		      $time = time() - $time;
-		      $time = ($time<1)? 1 : $time;
-		 
-		      $tokens = array (
-		            31536000 => 'año',
-		            2592000 => 'mes',
-		            604800 => 'semana',
-		            86400 => 'día',
-		            3600 => 'hora',
-		            60 => 'minuto',
-		            1 => 'segundo'
-		      );
-		 
-		      foreach ($tokens as $unit => $text)
-		      {
-		            if ($time < $unit) continue;
-		            $numberOfUnits = floor($time / $unit);
-		            $plural = ($unit == 2592000) ? 'es' : 's';
-		            return $numberOfUnits . ' ' . $text . ( ($numberOfUnits > 1) ? $plural : '' );
-		      }
 		}
 
 	}

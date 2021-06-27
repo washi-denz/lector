@@ -20,6 +20,31 @@
     letter-spacing:0.05rem;
 }
 
+.container-notification{
+    position:fixed;
+    width:90%;
+    bottom:3rem;
+    left:50%;
+    transform:translate(-50%);
+    
+    background:rgba(0,0,0,0.87);
+    border:2px solid #28d2c7;
+    color:#fff;
+    border-radius:1rem;
+    padding:1rem;
+    z-index:1300;
+}
+.container-notification.top{
+    top:1rem;
+    bottom:auto;
+}
+
+@media  screen and (min-width:576px){
+    .container-notification{
+        width:auto;
+    }
+}
+
 @media screen and (min-width:768px){
     .text-form-top{
         display:inline;
