@@ -79,7 +79,7 @@
        cy="13.120701"
        cx="21.316885"
        id="path2169"
-       style="fill:#28d2c7;fill-opacity:1;fill-rule:evenodd;stroke-width:0;stroke-linecap:round;paint-order:fill markers stroke" />
+       style="fill:#ffc90e;fill-opacity:1;fill-rule:evenodd;stroke-width:0;stroke-linecap:round;paint-order:fill markers stroke" />
     <ellipse
        ry="4.7440219"
        rx="5.1704631"
@@ -99,7 +99,7 @@
        sodipodi:cx="-21.371683"
        sodipodi:type="arc"
        id="path2192"
-       style="fill:#28d2c7;fill-opacity:1;fill-rule:nonzero;stroke-width:0;stroke-linecap:round;paint-order:fill markers stroke" />
+       style="fill:#ffc90e;fill-opacity:1;fill-rule:nonzero;stroke-width:0;stroke-linecap:round;paint-order:fill markers stroke" />
     <path
        transform="scale(-1)"
        style="fill:#f9f9f9;fill-opacity:1;fill-rule:evenodd;stroke-width:0;stroke-linecap:round;paint-order:fill markers stroke"

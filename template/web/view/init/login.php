@@ -18,7 +18,7 @@
 			<div class="main-header">
 			</div><!--main-header-->
 
-			<div class="main-body">
+			<div class="main-body mb-16">
 				
 				<div class="container mx-auto">
 					<div class="row justify-content-center p-3">
