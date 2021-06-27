@@ -293,7 +293,7 @@
 			}
 
 
-			$modalTitle  = 'Ver respuestas <span class="text-form-top">'.$nombre.'</span>';;
+			$modalTitle  = 'Ver respuestas <span class="text-form-top">'.$nombre.'</span>';
 			$modalBody   = $str;
 			$modalFooter = null;
 
@@ -335,12 +335,24 @@
 			$form = '
 				<form id="formAgregarAlumno">
 					<div class="mb-3">
-						<label class="form-label">Nombre</label>
+						<label class="form-label">Nombre : <span class="text-green-400">*</span></label>
 						<input type="text" name="nombres" class="form-control" />
 					</div>
-					<div>
-						<label class="form-label">Apellidos</label>
+					<div class="mb-3">
+						<label class="form-label">Apellidos : <span class="text-green-400">*</span></label>
 						<input type="text" name="apellidos" class="form-control" />
+					</div>
+					<div class="row mb-3">
+						<div class="col-auto">
+							<label class="form-label">Sexo:</label>
+							<select class="form-select " name="sexo">
+								<option selected disabled>-Elija-</option>
+								<option value="Masculino">Masculino</option>
+								<option value="Femenino">Femenino</option>
+							</select>
+						</div>
+						<div class="col-auto">
+						</div>
 					</div>
 				</form>
 				<div class="form-error"></div>
@@ -348,7 +360,7 @@
 
 			$btn = '<button class="btn btn-primary send" data-destine="admin/guardarAgregarAlumno" data-serialize="formAgregarAlumno">Agregar alumno<button>';
 		
-			$modalTitle  = "Agregar nuevo Alumno";
+			$modalTitle  = 'Agregar nuevo <span class="text-form-top">Alumno</span>';
 			$modalBody   = $form;
 			$modalFooter = $btn;
 
@@ -362,6 +374,7 @@
 
 			$nombres   = $datos['nombres'];
 			$apellidos = $datos['apellidos'];
+			$sexo      = isset($datos['sexo'])? $datos['sexo']:null;
 
 			$rtn = array(
 				'success' => true,
@@ -372,7 +385,7 @@
 			if($this->parents->gn->verifica_valor($nombres) && $this->parents->gn->verifica_valor($apellidos) ){
 
 				//agregar dato
-				$this->parents->sql->insertar('alumnos',array('nombres'=>$nombres,'apellidos'=>$apellidos,'idUsuario'=>$this->idUsuario));
+				$this->parents->sql->insertar('alumnos',array('nombres'=>$nombres,'apellidos'=>$apellidos,'sexo'=>$sexo,'idUsuario'=>$this->idUsuario));
 
 				// notificar
 				$rtn['update'][] = array(
@@ -776,19 +789,31 @@
 
 				$id_alumno = $datos['id_alumno'];
 	
-				$rc = $this->parents->gn->rtn_consulta('nombres,apellidos','alumnos','id='.$id_alumno);
+				$rc = $this->parents->gn->rtn_consulta('nombres,apellidos,sexo','alumnos','id='.$id_alumno);
 
 				foreach($rc as $obj){
 
 					$form = '
 						<form id="formActualizarCampo">
 							<div class="mb-3">
-								<label class="form-label">Nombre</label>
+								<label class="form-label">Nombre : <span class="text-green-400">*</span></label>
 								<input type="text" name="nombres" class="form-control" value="'.$obj->nombres.'" />
 							</div>
-							<div>
-								<label class="form-label">Apellidos</label>
+							<div class="mb-3">
+								<label class="form-label">Apellidos : <span class="text-green-400">*</span></label>
 								<input type="text" name="apellidos" class="form-control" value="'.$obj->apellidos.'" />
+							</div>
+							<div class="row mb-3">
+								<div class="col-auto">
+									<label class="form-label">Sexo:</label>
+									<select class="form-select" name="sexo"> 
+										<option value="-Elija-" '.(($obj->sexo == null)? 'selected':'').' disabled>-Elija-</option>
+										<option value="Masculino" '.(($obj->sexo == 'Masculino')? 'selected':'').'>Masculino</option>
+										<option value="Femenino" '.(($obj->sexo == 'Femenino')? 'selected':'').'>Femenino</option>
+									</select>
+								</div>
+								<div class="col-auto">
+								</div>
 							</div>
 						</form>
 						<div class="form-error"></div>				
@@ -924,10 +949,11 @@
 				$id_alumno = $datos['id_alumno'];
 				$nombres   = $datos['nombres'];
 				$apellidos = $datos['apellidos'];
+				$sexo      = ($datos['sexo'] != '-Elija-')? $datos['sexo']:'Masculino';
 
 				if($this->parents->gn->verifica_valor($nombres) && $this->parents->gn->verifica_valor($apellidos)){
 
-					if($this->parents->sql->modificar('alumnos',array('nombres'=>$nombres,'apellidos'=>$apellidos),array('id'=>$id_alumno))){				
+					if($this->parents->sql->modificar('alumnos',array('nombres'=>$nombres,'apellidos'=>$apellidos,'sexo'=>$sexo),array('id'=>$id_alumno))){				
 
 						// mostrar título
 						$rtn['update'][] = array(
@@ -1197,4 +1223,6 @@
 		}
 
 	}
+
+	// Paralel
 ?>
