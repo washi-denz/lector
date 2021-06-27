@@ -18,7 +18,7 @@
 	define('URL_DOMAIN', $_SERVER['HTTP_HOST']);
 	define('URL_SUB_FOLDER', str_replace(URI_MOD, '', dirname($_SERVER['SCRIPT_NAME'])));
 
-	define('URL', URL_PROTOCOL . URL_DOMAIN . URL_SUB_FOLDER); // Cambiar esta línea por: define('URL',URL_PROTOCOL.URL_DOMAIN.SEPARATOR); cuando esté en la nube
+	define('URL', URL_PROTOCOL . URL_DOMAIN . URL_SUB_FOLDER); // Cambiar esta línea por: define('URL',URL_PROTOCOL.URL_DOMAIN); cuando esté en la nube
 	define('URL_NORMAL', URL_PROTOCOL . URL_DOMAIN);
 	define('URL_THEME', URL . SEPARATOR . 'template' . SEPARATOR . THEME_NAME);
 
