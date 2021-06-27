@@ -139,7 +139,7 @@
 						<td>'.$cad['num'].'</td>
 						<td>
 							<h6 class="item-title text-gray-800 font-medium t_'.$encriptar_id.'">'.$obj->titulo.'</h6>
-							<div class="item-subtitle">
+							<div class="item-subtitle text-sm">
 								'.$links1.'
 							</div>
 						</td>

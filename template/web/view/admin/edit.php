@@ -67,7 +67,7 @@
 							if($this->gn->rtn_num_preguntas($id_pdf) > 0): 
 								echo $fn->mostrarListaEditPreguntas(['uniqid' => $uniqid],$pag,false);
 							else:
-								echo "nad...";
+								//echo "0 No se encontrarón preguntas...";
 							endif;
 						?>
 					</tbody>

@@ -18,7 +18,7 @@
 				<form id="formCrearLectura">
 
 					<div class="mb-3">
-						<label class="form-label">Título:</label>
+						<label class="form-label">Título : <span class="text-green-400">*</span></label>
 						<input type="text" name="titulo" class="form-control">
 					</div>
 					<div class="mb-3">
@@ -26,7 +26,7 @@
 						<textarea rows="3" name="descripcion" class="form-control"></textarea>
 					</div>
 					<div class="mb-3">
-						<label class="form-label">Subir PDF:</label>
+						<label class="form-label">Subir PDF: <span class="text-green-400">*</span></label>
 						<input type="file" name="archivo" class="form-control">
 					</div>
 
@@ -55,12 +55,25 @@
 
 			$titulo      = $datos['titulo'];
 			$descripcion = $datos['descripcion'];
-			$nombreArch  = $this->parents->gn->rtn_nombre_arch($FILES['archivo']['name']);
 
 			$rtn = array(
 				"success" => true,
 				"update"  => array()
 			);
+
+			// verificar envío de datos (mejorar)
+			if(!( $this->parents->gn->verifica_valor($titulo) && isset($FILES['archivo']['name']) )){
+
+				$rtn['update'][] = array(
+					'action' => 'notification',
+					'value'  => 'Se encontró campo Título o PDF vacía'
+				);
+				return json_encode($rtn);
+
+			}
+
+			$nombreArch  = $this->parents->gn->rtn_nombre_arch($FILES['archivo']['name']);
+			//$nombreArch = '';
 
 			/*
 			$titulo = $datos['titulo'];
