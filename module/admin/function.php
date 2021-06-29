@@ -400,11 +400,10 @@
 					'action' => 'closeModal' 
 				);
 
-				// mostrar lista				
+				// redireccionar (actualizar página)				
 				$rtn['update'][] = array(
-					"id"     => "mostrarLista",
-					"action" => "html",
-					"value"  => $this->mostrarLista('alumno',1,false)
+					'action' => 'redirection',
+					'type'   => 'auto'
 				);
 					
 
@@ -1084,10 +1083,30 @@
 				$id_pdf = $this->parents->gn->rtn_id($uniqid);
 
 				// verificar si el pdf ya fue resuleto
-				if($this->parents->gn->verificar_pdf_resuelto($id_pdf)){
+				if(!$this->parents->gn->verificar_pdf_resuelto($id_pdf)){
+
+					// primero eliminar preguntas asociadas al pdf
+					if($confirm && $this->parents->sql->eliminar('preguntas',array('idPdf'=>$id_pdf))){
+
+						// segundo eliminar pdf
+						if($this->parents->sql->eliminar('pdfs',array('id'=>$id_pdf))){
+
+							// redireccionar (actualizar página)				
+							$rtn['update'][] = array(
+								'action' => 'redirection',
+								'type'   => 'auto'
+							);
+
+							// respuesta
+							$rtn['success'] = true;
+
+							$msj = "Se eliminó correctamente.";
+						}
+					}
 
 				}else{
-
+					$rtn['success'] = false;
+					$msj = 'No se puede eliminar porque ya existe preguntas resueltas para este recurso PDF';
 				}
 
 			}
@@ -1120,15 +1139,17 @@
 			if($tipo == 'datos-alumno'){
 
 				$id_alumno = $datos['id_alumno'];
-				$pag       = $datos['pag'];
+				//$pag       = $datos['pag'];
 
-				if($confirm && $this->parents->sql->eliminar('alumnos',array('id'=>$id_alumno))){						
+				// verificamos si hay pdfs resuleto por el alumno
+				if($confirm && !$this->parents->gn->verificar_pdf_resuelto_alumno($id_alumno)){
+
+					$this->parents->sql->eliminar('alumnos',array('id'=>$id_alumno));
 					
-					// mostrar lista				
+					// redireccionar (actualizar página)				
 					$rtn['update'][] = array(
-						"id"     => "mostrarLista",
-						"action" => "html",
-						"value"  => $this->mostrarLista('alumno',$pag,false)
+						'action' => 'redirection',
+						'type'   => 'auto'
 					);
 
 					// respuesta
@@ -1139,6 +1160,7 @@
 				}else{
 					// respuesta
 					$rtn['success'] = false;
+					$msj = "No se puede eliminar porque tiene recurso PDF resueltos.";
 				}	
 			}
 
@@ -1157,7 +1179,7 @@
 					'delay'    => 1000,
 					'value'    => $msj
 				);
-				
+
 			}else{
 								
 				// mensaje

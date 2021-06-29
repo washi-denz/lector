@@ -265,6 +265,14 @@
 			}
 			return false;
 		}
+
+		function verificar_pdf_resuelto_alumno($id_alumno){
+			
+			if($this->existe_registro('respuestas','idAlumno='.$id_alumno)){
+				return true;
+			}
+			return false;
+		}
 		
 		//-------------------------------------------------------------//
 		//                 generalidades
