@@ -1,6 +1,6 @@
 		<header>
 			<div class="bg-primary-100">
-				<div class="container mx-auto">
+				<div class="container mx-auto lg:px-32">
 					
 					<div class="grid grid-cols-3">
 						<div>
