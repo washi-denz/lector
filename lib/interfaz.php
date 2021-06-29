@@ -115,6 +115,7 @@
 			{
 				$data  = htmlspecialchars(json_encode(array('uniqid'=>$obj->uniqid)));
 				$data2 = htmlspecialchars(json_encode(array('uniqid'=>$obj->uniqid,'type'=>'titulo-pdf')));
+				$data3 = htmlspecialchars(json_encode(array('uniqid'=>$obj->uniqid,'type'=>'lectura')));
 
 				$encriptar_id = $this->parents->gn->encriptar_id($obj->uniqid);
 				$id_pdf       = $this->parents->gn->rtn_id($obj->uniqid);
@@ -131,7 +132,7 @@
 					<a class="dropdown-item cursor-pointer send" data-destine="admin/verLectura" data-data="'.$data.'" title="Ver y editar"><i class=" icon-eye"></i> Ver y editar</a>
 					<div class="dropdown-divider"></div>
 					<a class="dropdown-item cursor-pointer send" data-destine="admin/modalActualizarCampo" data-data="'.$data2.'">Editar título</a>
-					<a class="dropdown-item cursor-pointer send" data-destine="admin/mostrarModalCategoria" data-data="">Eliminar</a>			
+					<a class="dropdown-item cursor-pointer send" data-destine="admin/modalEliminarRegistro" data-data="'.$data3.'">Eliminar</a>			
 				';
 
 				$str='

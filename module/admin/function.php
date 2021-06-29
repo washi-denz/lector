@@ -1007,7 +1007,19 @@
 			';
 
 			if($tipo == 'lectura'){
-				//...
+
+				$form = $msj_default;
+
+				$title = 'Eliminar registro <span class="text-form-top">Lectura</span>';
+
+				// eliminamos url
+				unset($datos['url']);
+
+				// añadiendo confirmación
+				$datos['confirm'] = 'on';
+
+				$data = htmlspecialchars(json_encode($datos));
+				$btn = '<button class="btn btn-primary send" data-destine="admin/eliminarRegistro" data-data="'.$data.'">Confirmar<button>';
 			}
 
 			if($tipo == 'pregunta'){
@@ -1067,7 +1079,17 @@
 			$msj =null;
 
 			if($tipo == 'lectura'){
-				//...
+
+				$uniqid = $datos['uniqid'];
+				$id_pdf = $this->parents->gn->rtn_id($uniqid);
+
+				// verificar si el pdf ya fue resuleto
+				if($this->parents->gn->verificar_pdf_resuelto($id_pdf)){
+
+				}else{
+
+				}
+
 			}
 
 			if($tipo == 'pregunta'){
@@ -1133,6 +1155,14 @@
 				$rtn['update'][] = array(
 					'action'   => 'notification',
 					'delay'    => 1000,
+					'value'    => $msj
+				);
+				
+			}else{
+								
+				// mensaje
+				$rtn['update'][] = array(
+					'action'   => 'notification',
 					'value'    => $msj
 				);
 			}
