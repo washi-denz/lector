@@ -18,7 +18,7 @@
 		<div class="main-header">
 
 			<div class="bg-gray-100 mb-3">
-				<div class="container mx-auto">
+				<div class="container mx-auto lg:px-32">
 					<ul>
 						<?php echo $this->interfaz->nav_list('edit',2);?>
 					</ul>    
