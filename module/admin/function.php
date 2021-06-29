@@ -26,7 +26,7 @@
 						<textarea rows="3" name="descripcion" class="form-control"></textarea>
 					</div>
 					<div class="mb-3">
-						<label class="form-label">Subir PDF: <span class="text-green-400">*</span></label>
+						<label class="form-label">Subir PDF : <span class="text-green-400">*</span></label>
 						<input type="file" name="archivo" class="form-control">
 					</div>
 

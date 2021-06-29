@@ -31,8 +31,29 @@
 				 </p>
 			</div>
 
-			<div class="py-3 md:py-6 mx-2">
+			<!--
+			<div class="py-3 md:py-6 mx-2 mb-3">
 				<iframe src="<?php echo $this->gn->rtn_src_lectura($uniqid); ?>" class="w-full h-screen"></iframe>
+			</div>
+			-->
+
+			<div class="flex flex-wrap justify-center mb-2">
+				<div id="navigation_controls">
+					<button class="focus:outline-none bg-gray-700 text-white rounded px-2 py-1" id="go_previous">Previous</button>
+					<input class="focus:outline-none border border-2 border-gray-700 rounded w-14 sm:w-36 p-1" id="current_page" value="1" type="number"/>
+					<button class="focus:outline-none bg-gray-700 text-white rounded px-2 py-1" id="go_next">Next</button>
+				</div>
+				
+				<div id="zoom_controls">  
+					<button class="focus:outline-none bg-gray-700 text-white rounded px-2 py-1 ml-2 icon-plus-1" id="zoom_in"></button>
+					<button class="focus:outline-none bg-gray-700 text-white rounded px-2 py-1 icon-minus-1" id="zoom_out"></button>
+				</div> 
+			</div>
+
+			<div class="pb-3" id="pdf_viewer">
+				<div class="w-full h-screen overflow-auto bg-gray-700 border-2 border-gray-700" id="canvas_container">
+					<canvas class="mx-auto my-3" id="pdf_renderer"></canvas>
+				</div>
 			</div>
 			
 		</div>
@@ -133,6 +154,18 @@
 	</section>
 
 <?php
+
+	$url = $this->gn->rtn_src_lectura($uniqid);
+
+	$script = '
+		initPdf(\''.$url.'\');
+	';
+
+	$this->content->add_script($script);
+	$this->content->add_js('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.0.943/pdf.min.js');// cdn
+	//$this->content->add_js(URL_THEME.'/resource/plugins/pdfjs/pdf.min.js');
+	$this->content->add_js(URL_THEME.'/js/pdf.js');
+
 	require URI_THEME."/section/footer.php";
 	require URI_THEME."/section/foot.php";
 	
