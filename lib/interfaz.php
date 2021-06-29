@@ -223,6 +223,24 @@
 				$data1 = htmlspecialchars(json_encode(array('id_alumno'=>$obj->id,'id_pdf'=>$obj->id_pdf)));
 				$data2 = htmlspecialchars(json_encode(array('id_alumno'=>$obj->id,'id_pdf'=>$obj->id_pdf,'type'=>'respuesta')));
 
+				$detalles = '
+					<span 
+						class        = "rounded-full text-sm text-green-800 cursor-pointer px-2 py-0.5 mr-3 mb-3 send" 
+						data-destine = "admin/modalVerRespuestaEntrega" 
+						data-data    = "'.$data1.'" 
+						style        = "background:#58d68d!important;">
+						Ver respuestas
+					</span>
+					<span 
+						class        = "rounded-full text-sm text-gray-600 bg-gray-100 cursor-pointer px-2 py-0.5 send"
+						data-destine = "admin/modalDetalles" 
+						data-data    = "'.$data2.'">
+						Ver detalles
+					</span>
+				';
+
+				//$detalles = ($cad['type'] == 'entregar')? true:false;
+
 				$str = '
 					<div class="container-card-follow flex border shadow-sm rounded">
 						<div class="flex-none px-3 py-3">
@@ -230,23 +248,8 @@
 						</div>
 						<div class="flex-grow px-2 py-2">
 							
-							<h6 class="font-medium mb-3">'.$obj->nombres.' '.$obj->apellidos.'</h6>
-							<div class="flex flex-wrap">								
-								<span 
-									class        = "rounded-full text-sm text-green-800 cursor-pointer px-2 py-0.5 mr-3 mb-3 send" 
-									data-destine = "admin/modalVerRespuestaEntrega" 
-									data-data    = "'.$data1.'" 
-									style        = "background:#58d68d!important;">
-									Ver respuestas
-								</span>
-								<span 
-									class        = "rounded-full text-sm text-gray-600 bg-gray-100 cursor-pointer px-2 py-0.5 send"
-									data-destine = "admin/modalDetalles" 
-									data-data    = "'.$data2.'">
-									Ver detalles
-								</span>
-							</div>
-							
+							<h6 class="font-medium mb-3 '.(($cad['type'] == 'faltaEntregar')? 'mt-7':null).'">'.$obj->nombres.' '.$obj->apellidos.'</h6>
+							'.(($cad['type'] == 'entregar')? $detalles:null).'
 						</div>
 					</div>
 				';

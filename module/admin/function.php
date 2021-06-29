@@ -238,11 +238,11 @@
 				if(in_array($obj->id,$id_alumnos_rpta)){
 					// alumnos que entregaron respuestas					
 					//$str1 .= $obj->id.'entregado<br> '.$obj->nombres;
-					$str1 .= $this->parents->interfaz->mostrar_lista('card-entrega',$obj);
+					$str1 .= $this->parents->interfaz->mostrar_lista('card-entrega',$obj,['type'=>'entregar']);
 
 				}else{
 					// alumnos que no la entregaron
-					$str2 .= $this->parents->interfaz->mostrar_lista('card-entrega',$obj);
+					$str2 .= $this->parents->interfaz->mostrar_lista('card-entrega',$obj,['type'=>'faltaEntregar']);
 				}
 
 			}
