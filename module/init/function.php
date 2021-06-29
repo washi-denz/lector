@@ -20,8 +20,8 @@
 		public function enviarRespuestas($datos){
 
 			$uniqid    = $datos['uniqid'];
-			$id_alumno = ($datos['id_alumno']!='-Elija-')? $datos['id_alumno']:0;
-			$preguntas = $datos['preg'];
+			$id_alumno = ($datos['id_alumno'] != '-Elija-')? $datos['id_alumno']:0;
+			$preguntas = isset($datos['preg'])? $datos['preg']:[];
 			$redirect  = isset($datos['redirect']) ? $datos['redirect']:'';
 
 			$id_pdf     =  $this->parents->gn->rtn_id($uniqid);

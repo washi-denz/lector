@@ -222,7 +222,7 @@
 			return false;
 		}
 
-		function verificar_respuestas_vacias($cad){
+		function verificar_respuestas_vacias($cad=[]){
 
 			foreach($cad as $val){
 				if(!$this->verifica_valor($val)){
@@ -232,7 +232,7 @@
 			return false;
 		}
 
-		function verificar_respuestas_total_vacias($id_pdf,$cad){
+		function verificar_respuestas_total_vacias($id_pdf,$cad=[]){
 
 			$cont = 0;
 
@@ -253,6 +253,14 @@
 		function verificar_envio_respuestas($id_pdf,$id_alumno){
 
 			if($this->existe_registro('respuestas','idPdf='.$id_pdf.' AND idAlumno='.$id_alumno)){
+				return true;
+			}
+			return false;
+		}
+
+		function verificar_pdf_resuelto($id_pdf){
+			
+			if($this->existe_registro('respuestas','idPdf='.$id_pdf)){
 				return true;
 			}
 			return false;
