@@ -239,8 +239,6 @@
 					</span>
 				';
 
-				//$detalles = ($cad['type'] == 'entregar')? true:false;
-
 				$str = '
 					<div class="container-card-follow flex border shadow-sm rounded">
 						<div class="flex-none px-3 py-3">
@@ -248,7 +246,7 @@
 						</div>
 						<div class="flex-grow px-2 py-2">
 							
-							<h6 class="font-medium mb-3 '.(($cad['type'] == 'faltaEntregar')? 'mt-7':null).'">'.$obj->nombres.' '.$obj->apellidos.'</h6>
+							<h6 class="font-medium mb-3 '.(($cad['type'] == 'faltaEntregar')? 'mt-3':null).'">'.$obj->nombres.' '.$obj->apellidos.'</h6>
 							'.(($cad['type'] == 'entregar')? $detalles:null).'
 						</div>
 					</div>
