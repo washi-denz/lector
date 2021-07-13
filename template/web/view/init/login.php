@@ -43,6 +43,25 @@
 
 			</div><!--main-body-->
 
+			<div class="main-footer">
+
+				Acerca de 'LECTOR'<br>
+				Es una pequeña herramienta para mejorar la lectura y escritura, que a travéz de ella,el usuario(admin) podrá determinar el aprendizaje de otros usuarios.
+
+				<br>
+				Manual de usuario:<br>
+
+				La idea es simple: primero tiene que registrar usuarios a quien vadirigido dicha lectura ,luego crear la lectura subiendo el PDF contendrá el material de lectura.
+				En seguida, asociar las preguntas de dicha lectura ,y finalmente compartir el link.
+
+				1.Registrar usuarios
+				2.crear lecturar
+				3.Agregar PDF con el material de lectura
+				4.Agregar preguntas al PDF
+				5.Compartir el Link con otros usuarios.
+
+			</div><!--main-footer-->
+
 		</main>
 
 <?php
