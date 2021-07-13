@@ -47,7 +47,7 @@
 	*/
 
 	# máximo registros para mostrar
-	define('REG_MAX',10);
+	define('REG_MAX',4);
 
 	# Configurar token de seguridad
 
