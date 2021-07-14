@@ -53,6 +53,45 @@
 
 			$uniqid = uniqid(); // generar un id único
 
+			$rtn = array(
+				"success" => true,
+				"update"  => array()
+			);
+
+			/*
+			$input = [
+				'titulo'      => ['value','msj'=>'El título está vacío.'], // tipo,(extras como msj y otros valores)
+				'descripcion' => ['file','msj'=>'Escriba algo']
+			];
+			*/
+
+			
+			$input = [
+			   'titulo'      => 'value',
+			   'descripcion' => 'value'
+			];
+			
+
+			$validar = $this->parents->gn->validar($input,$datos);
+
+			if($validar['success']){
+				$rtn['update'][] = array(
+					'selector' => '.form-error',
+					'action'   => 'html',
+					'value'    => json_encode($validar)
+				);
+			}
+
+			return json_encode($rtn);
+		}
+
+		public function guardarCrearLectura__($datos,$FILES){
+
+			// verificar si se subió el archivo
+			// luego guardar los datos restantes
+
+			$uniqid = uniqid(); // generar un id único
+
 			$titulo      = $datos['titulo'];
 			$descripcion = $datos['descripcion'];
 
@@ -84,19 +123,25 @@
 			];
 
 			$input = [
-				'titulo' => ['value','msj'=>'El título está vacío.'], // 'título'=>'value'
+				'titulo' => ['value','msj'=>'El título está vacío.'], // tipo,(extras como msj y otros valores)
 				'archivo => ['file','msj'=>'Elija un PDF.']
 			];
 
-			$input = [
-				'titulo'  => 'value',
-				'archivo' => 'value'
-			]
+			
+			// $input = [
+			//   'titulo'  => 'value',
+			//   'archivo' => 'file'
+			// ]
+			
 
-			$validar = $this->parents->gn->validar($input,$datos);
+			$validar = $this->parents->gn->nuevo_validar($input,$datos);
 
 			if(!$validar['success']){
-
+				$rtn['update'][] = array(
+					'selector' => '.form-error',
+					'action'   => 'html',
+					'value'    => $ga['msj']
+				);
 			}
 				return json_encode($validar);
 			*/

@@ -592,44 +592,84 @@
 
 		function validar($input,$datos){
 
-			for($i=0;$i<count($rtnArray);$i++){
-				if($rtnArray[$i]['success']!=true){
-					$rpta = false;
-				}
-			}	
-			
-			$msj    = "";
-			$patron = "";
+			$rtn  = [];
+			$rpta = false;
+			$cad  = [];
 
-			if($valor[2] == 'time_free')
+			// comprobar array
+			if(!is_array($input))
+				return [];
+
+			// recorrer array
+			foreach($input as $ind => $val){
+				if(is_array($val)){
+					$val[1][$ind] = $datos[$ind];
+					$cad[] = $this->validar_pm($val[0],$val[1]);
+				}else{
+					$cad[] = $this->validar_pm($val,['valor'=>$datos[$ind]]);
+				}
+			}
+
+			// verificar si hay falsedad
+			foreach($cad as $ind => $val){
+				if($val['success'] == false){
+					$rpta = true;
+				}
+			}
+
+			$rtn = [
+				'success' => $rpta,
+				'cad'     => $cad
+			];
+			return $rtn;
+
+		}
+
+		function validar_pm($tipo,$cad=[]){
+
+			$pm      = true; // ejecutar preg_match
+			$success = true;
+
+			$valor  = null;
+			$patron = null;
+			$msj    = null;
+
+			if($tipo == 'value')
+			{	
+				$success = $this->verifica_valor($cad['valor']);
+				if(!$success)
+					$msj     = 'El campo está vacía:';
+				$pm      = false;
+			}
+			elseif($tipo == 'time_free')
 			{	//00:00,00:01,...,LIBRE
 				$patron = "/^(([01]?[0-9]|2[0-3]):[0-5][0-9]|LIBRE)$/";
 			}
-			elseif($valor[2] == 'time_ampm')
+			elseif($tipo == 'time_ampm')
 			{
 				//7:59,07:59,14:59 24 horas
 				$patron = "/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/";
 			}
-			elseif($valor[2] == 'date')
+			elseif($tipo == 'date')
 			{
 				//2020-06-17
 				$patron = "/^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/";
 			}
-			elseif($valor[2] == 'checkbox')
+			elseif($tipo == 'checkbox')
 			{
 				//...
 			}
 
-			$pm = preg_match($patron,$valor[0]);
+			// ejecutar pm
+			if($pm){
+				$success = preg_match($patron,$valor);
+			}
 
-			if($pm!=true){
-				$msj = $valor[1];
-			}	
-
-			$rtn=array(
-				"success" => (bool)$pm,
+			$rtn = [
+				"success" => (bool)$success,
 				"msj"     => $msj
-			);
+			];
+
 			return $rtn;
 		}
 
