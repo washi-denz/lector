@@ -83,9 +83,21 @@
 				'archivo' => ['file',['msj'=>'Elija un archivo.',$FILES]]
 			];
 
+			$input = [
+				'titulo' => ['value','msj'=>'El título está vacío.'], // 'título'=>'value'
+				'archivo => ['file','msj'=>'Elija un PDF.']
+			];
+
+			$input = [
+				'titulo'  => 'value',
+				'archivo' => 'value'
+			]
+
 			$validar = $this->parents->gn->validar($input,$datos);
 
-			if(!$validar['success'])
+			if(!$validar['success']){
+
+			}
 				return json_encode($validar);
 			*/
 
