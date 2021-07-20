@@ -60,23 +60,25 @@
 				"update"  => array()
 			);
 
-			// validar 
-
 			/*
 			$input = [
 			   'titulo'      => 'value',
 			   'descripcion' => 'value'
 			];
-			/**/
-     
-			///*
+
 			$input = [
 				'titulo'      => ['value',array('msj'=>'El título está vacío.')], // tipo,arraryv  (extras como msj y otros valores)
 				'descripcion' => ['value',array('msj'=>'Escriba algo')]
 			];
 			/**/
 
-			$validar = $this->parents->gn->validar($input,$datos);
+			// validar
+			$input = [
+				'titulo'  => ['value',array('msj'=>'El título está vacío.')],
+				'archivo' => ['file',array('msj'=>'Agregue un archivo PDF')]
+			];
+
+			$validar = $this->parents->gn->validar($input,$datos,$FILES);
 			
 			if($validar['success']){
 			

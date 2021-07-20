@@ -590,7 +590,7 @@
 			return false;
 		}
 
-		function validar($input,$datos){
+		function validar($input,$datos,$FILES=[]){
 
 			$rtn  = [];
 			$rpta = false;
@@ -604,10 +604,16 @@
 
 			// recorrer array		
 			foreach($input as $ind => $val1){
-				if(is_array($val1))
-					$cad[] = $this->validar_pm($val1[0],array_merge(['valor'=>$datos[$ind]],$val1[1],$datos));					
-				else
-					$cad[] = $this->validar_pm($val1,['valor'=>$datos[$ind]]);								
+				if(is_array($val1)){
+					// verificar si existe archivos
+					if($val1[0] == 'file')
+						$cad[] = $this->validar_pm($val1[0],array_merge(['ind'=>$ind],$val1[1]),$FILES);
+					else
+						$cad[] = $this->validar_pm($val1[0],array_merge(['valor'=>$datos[$ind]],$val1[1],$datos));
+				}					
+				else{
+					$cad[] = $this->validar_pm($val1,['valor'=>$datos[$ind]]);
+				}								
 			}
 
 			// verificar si hay falsedad
@@ -623,10 +629,9 @@
 			);
 
 			return $rtn;
-
 		}
-
-		function validar_pm($tipo,$cad=[]){
+		
+		function validar_pm($tipo,$cad=[],$FILES=[]){
 
 			$pm      = true; // ejecutar preg_match
 			$success = true;
@@ -646,7 +651,7 @@
 				else
 					$msj = null;
 
-				$pm      = false;
+				$pm = false;
 			}
 			elseif($tipo == 'time_free')
 			{	//00:00,00:01,...,LIBRE
@@ -664,7 +669,19 @@
 			}
 			elseif($tipo == 'file')
 			{
-				//...
+				$msj     = 'Archivo vacía.';
+				$success = false;
+
+				if(sizeof($FILES) > 0 && $FILES[$cad['ind']]['size'] > 0){
+					$success = true;
+				}
+
+				if(!$success)
+					$msj = isset($cad['msj'])? $cad['msj']:$msj;
+				else
+					$msj = null;
+
+				$pm = false;	
 			}
 			elseif($tipo == 'checkbox')
 			{
