@@ -48,39 +48,57 @@
 
 		public function guardarCrearLectura($datos,$FILES){
 
+			// validar los datos de entrada
 			// verificar si se subió el archivo
 			// luego guardar los datos restantes
 
 			$uniqid = uniqid(); // generar un id único
+			$str    = null;
 
 			$rtn = array(
 				"success" => true,
 				"update"  => array()
 			);
 
-			/*
-			$input = [
-				'titulo'      => ['value','msj'=>'El título está vacío.'], // tipo,(extras como msj y otros valores)
-				'descripcion' => ['file','msj'=>'Escriba algo']
-			];
-			*/
+			// validar 
 
-			
+			/*
 			$input = [
 			   'titulo'      => 'value',
 			   'descripcion' => 'value'
 			];
-			
+			/**/
+     
+			///*
+			$input = [
+				'titulo'      => ['value',array('msj'=>'El título está vacío.')], // tipo,arraryv  (extras como msj y otros valores)
+				'descripcion' => ['value',array('msj'=>'Escriba algo')]
+			];
+			/**/
 
 			$validar = $this->parents->gn->validar($input,$datos);
-
+			
 			if($validar['success']){
+			
+				foreach($validar['cad'] as $val){
+					if($val['msj'] != null)
+						$str .= '<span class="text-red-500">-'.$val['msj'].'</span><br>';
+				}
+
 				$rtn['update'][] = array(
 					'selector' => '.form-error',
 					'action'   => 'html',
-					'value'    => json_encode($validar)
+					'value'    => $str
 				);
+
+				return json_encode($rtn);
 			}
+
+			$rtn['update'][] = array(
+				'selector' => '.form-error',
+				'action'   => 'html',
+				'value'    => null
+			);
 
 			return json_encode($rtn);
 		}

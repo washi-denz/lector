@@ -596,31 +596,36 @@
 			$rpta = false;
 			$cad  = [];
 
+			$str = null;// borrar
+
 			// comprobar array
+		
 			if(!is_array($input))
 				return [];
 
 			// recorrer array
-			foreach($input as $ind => $val){
-				if(is_array($val)){
-					$val[1][$ind] = $datos[$ind];
-					$cad[] = $this->validar_pm($val[0],$val[1]);
-				}else{
-					$cad[] = $this->validar_pm($val,['valor'=>$datos[$ind]]);
-				}
+		
+			foreach($input as $ind => $val1){
+				if(is_array($val1))
+					$cad[] = $this->validar_pm($val1[0],array_merge(['valor'=>$datos[$ind]],$val1[1],$datos));
+					//$cad[] = $this->validar_pm($val1[0],['valor'=>$datos[$ind]]);
+				else
+					$cad[] = $this->validar_pm($val1,['valor'=>$datos[$ind]]);								
 			}
 
 			// verificar si hay falsedad
-			foreach($cad as $ind => $val){
+			///*
+			foreach($cad as $val){
 				if($val['success'] == false){
 					$rpta = true;
 				}
 			}
-
-			$rtn = [
+			/**/	
+			$rtn = array(
 				'success' => $rpta,
 				'cad'     => $cad
-			];
+			);
+
 			return $rtn;
 
 		}
@@ -636,9 +641,15 @@
 
 			if($tipo == 'value')
 			{	
+				$msj = 'El campo está vacía.';
+
 				$success = $this->verifica_valor($cad['valor']);
+
 				if(!$success)
-					$msj     = 'El campo está vacía:';
+					$msj = isset($cad['msj'])? $cad['msj']:$msj;
+				else
+					$msj = null;
+
 				$pm      = false;
 			}
 			elseif($tipo == 'time_free')
@@ -654,6 +665,10 @@
 			{
 				//2020-06-17
 				$patron = "/^([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))$/";
+			}
+			elseif($tipo == 'file')
+			{
+				//...
 			}
 			elseif($tipo == 'checkbox')
 			{
