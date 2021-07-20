@@ -513,7 +513,7 @@
 
 		function guardar_arch($datos,$FILES){
 
-			$nombreArch   = $datos["nombreArch"].".".$datos["extension"];
+			$nombreArch   = $datos["file_nombre"].".".$datos["extension"];
 			$destino      = $datos["destino"]."/".$nombreArch;
 
 			if($FILES["archivo"]["error"] <= 0){

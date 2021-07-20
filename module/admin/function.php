@@ -46,66 +46,7 @@
 
 		}
 
-		public function guardarCrearLectura($datos,$FILES){
-
-			// validar los datos de entrada
-			// verificar si se subió el archivo
-			// luego guardar los datos restantes
-
-			$uniqid = uniqid(); // generar un id único
-			$str    = null;
-
-			$rtn = array(
-				"success" => true,
-				"update"  => array()
-			);
-
-			/*
-			$input = [
-			   'titulo'      => 'value',
-			   'descripcion' => 'value'
-			];
-
-			$input = [
-				'titulo'      => ['value',array('msj'=>'El título está vacío.')], // tipo,arraryv  (extras como msj y otros valores)
-				'descripcion' => ['value',array('msj'=>'Escriba algo')]
-			];
-			/**/
-
-			// validar
-			$input = [
-				'titulo'  => ['value',array('msj'=>'El título está vacío.')],
-				'archivo' => ['file',array('msj'=>'Agregue un archivo PDF')]
-			];
-
-			$validar = $this->parents->gn->validar($input,$datos,$FILES);
-			
-			if($validar['success']){
-			
-				foreach($validar['cad'] as $val){
-					if($val['msj'] != null)
-						$str .= '<span class="text-red-500">-'.$val['msj'].'</span><br>';
-				}
-
-				$rtn['update'][] = array(
-					'selector' => '.form-error',
-					'action'   => 'html',
-					'value'    => $str
-				);
-
-				return json_encode($rtn);
-			}
-
-			$rtn['update'][] = array(
-				'selector' => '.form-error',
-				'action'   => 'html',
-				'value'    => null
-			);
-
-			return json_encode($rtn);
-		}
-
-		public function guardarCrearLectura__($datos,$FILES){
+		public function guardarCrearLectura($datos,$FILES=[]){
 
 			// verificar si se subió el archivo
 			// luego guardar los datos restantes
@@ -114,68 +55,31 @@
 
 			$titulo      = $datos['titulo'];
 			$descripcion = $datos['descripcion'];
+			$str = null;
 
 			$rtn = array(
 				"success" => true,
 				"update"  => array()
 			);
 
-			// verificar envío de datos (mejorar)
-			if(!( $this->parents->gn->verifica_valor($titulo) && isset($FILES['archivo']['name']) )){
-
-				$rtn['update'][] = array(
-					'action' => 'notification',
-					'value'  => 'Se encontró campo Título o PDF vacía'
-				);
-				return json_encode($rtn);
-
-			}
-
-			$nombreArch  = $this->parents->gn->rtn_nombre_arch($FILES['archivo']['name']);
-			//$nombreArch = '';
-
-			/*
-			$titulo = $datos['titulo'];
-
+			// validar datos
 			$input = [
-				'titulo'  => ['value',['msj'=>'El título está vacío.']],
-				'archivo' => ['file',['msj'=>'Elija un archivo.',$FILES]]
+				'titulo'  => ['value',array('msj'=>'El título está vacío.')]
 			];
 
-			$input = [
-				'titulo' => ['value','msj'=>'El título está vacío.'], // tipo,(extras como msj y otros valores)
-				'archivo => ['file','msj'=>'Elija un PDF.']
-			];
-
+			$validar = $this->parents->gn->validar($input,$datos);
 			
-			// $input = [
-			//   'titulo'  => 'value',
-			//   'archivo' => 'file'
-			// ]
-			
+			// guardar el archivo pdf
 
-			$validar = $this->parents->gn->nuevo_validar($input,$datos);
-
-			if(!$validar['success']){
-				$rtn['update'][] = array(
-					'selector' => '.form-error',
-					'action'   => 'html',
-					'value'    => $ga['msj']
-				);
-			}
-				return json_encode($validar);
-			*/
-
-			// agregar más datos
 			$datos['extPermitidas'] = array('pdf');
-			$datos['nombreArch']    = $nombreArch;
 			$datos['repositorio']   = $uniqid;
 			$datos['destino']       = URI.'/data/pdfs/'.$datos['repositorio'];
 			
-			// guardar el archivo pdf
 			$ga = $this->parents->gn->guardar_pdf($datos,$FILES);
 			
 			if($ga['success']){
+
+				$nombreArch  = $this->parents->gn->rtn_nombre_arch($FILES['archivo']['name']);
 
 				$this->parents->sql->insertar('pdfs',array('uniqid' => $uniqid,'nombre' =>$nombreArch,'titulo'=>$titulo,'descripcion'=>$descripcion,'idUsuario'=>$this->idUsuario));
 
@@ -208,11 +112,19 @@
 
 
 			}else{
+
+				foreach($validar['cad'] as $val){
+					if($val['msj'] != null)
+						$str .= '<span class="text-red-500">-'.$val['msj'].'</span><br>';
+				}
+
+				$str .= '<span class="text-red-500">-'.$ga['msj'].'</span><br>';
+
 				// mostrar error en la subida del archivo
 				$rtn['update'][] = array(
 					'selector' => '.form-error',
 					'action'   => 'html',
-					'value'    => $ga['msj']
+					'value'    => $str
 				);
 			}
 

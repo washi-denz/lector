@@ -227,9 +227,9 @@
 					{
 						opts.offload();
 					},
-					error: function()
+					error: function(jqXHR, textStatus, errorThrown )
 					{
-						console.log('%c_ERROR: Parece que el servidor no responde...','color:red');
+						console.log('%c_ERROR: Parece que el servidor no responde...' + errorThrown,'color:red');
 					},
 					success: function(respuesta)
 					{						
