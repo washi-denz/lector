@@ -599,28 +599,24 @@
 			$str = null;// borrar
 
 			// comprobar array
-		
 			if(!is_array($input))
 				return [];
 
-			// recorrer array
-		
+			// recorrer array		
 			foreach($input as $ind => $val1){
 				if(is_array($val1))
-					$cad[] = $this->validar_pm($val1[0],array_merge(['valor'=>$datos[$ind]],$val1[1],$datos));
-					//$cad[] = $this->validar_pm($val1[0],['valor'=>$datos[$ind]]);
+					$cad[] = $this->validar_pm($val1[0],array_merge(['valor'=>$datos[$ind]],$val1[1],$datos));					
 				else
 					$cad[] = $this->validar_pm($val1,['valor'=>$datos[$ind]]);								
 			}
 
 			// verificar si hay falsedad
-			///*
 			foreach($cad as $val){
 				if($val['success'] == false){
 					$rpta = true;
 				}
 			}
-			/**/	
+
 			$rtn = array(
 				'success' => $rpta,
 				'cad'     => $cad
