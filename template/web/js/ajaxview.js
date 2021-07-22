@@ -227,7 +227,7 @@
 					{
 						opts.offload();
 					},
-					error: function(jqXHR, textStatus, errorThrown )
+					error: function(XMLHttpRequest,textStatus,errorThrown)
 					{
 						console.log('%c_ERROR: Parece que el servidor no responde...' + errorThrown,'color:red');
 					},
@@ -431,6 +431,9 @@
 										else{
 											top.location.href = respuesta['update'][i]['value'];	
 										}
+									}
+									else if(respuesta['update'][i]['action'] == 'push-state'){
+										history.pushState({},'',respuesta['update'][i]['value']);
 									}
 									else if(respuesta['update'][i]['action']=="this"){
 

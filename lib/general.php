@@ -125,6 +125,11 @@
 			return null;
 		}
 
+		function rtn_num_reg($table,$condicion=null){
+			$rc = $this->rtn_consulta('COUNT(*) AS numReg',$table,$condicion);
+			return $rc[0]->numReg;	
+		}
+
 		function rtn_num_alumnos(){
 			$rc = $this->rtn_consulta('COUNT(*) AS numReg','alumnos','idUsuario='.$this->idUsuario);
 			return $rc[0]->numReg;

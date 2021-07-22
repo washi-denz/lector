@@ -77,7 +77,7 @@
 			
 			$ga = $this->parents->gn->guardar_pdf($datos,$FILES);
 			
-			if($ga['success']){
+			if(!$validar['success'] && $ga['success']){
 
 				$nombreArch  = $this->parents->gn->rtn_nombre_arch($FILES['archivo']['name']);
 
@@ -365,17 +365,29 @@
 			$apellidos = $datos['apellidos'];
 			$sexo      = isset($datos['sexo'])? $datos['sexo']:null;
 
+			$str = null;
+
 			$rtn = array(
 				'success' => true,
 				'update'  => array()
 			);
 
+			$input = [
+				'nombres'   => ['value',array('msj'=>"El campo nombre está vacía.")],
+				'apellidos' => ['value',array('msj'=>"El campo Apellidos está vacía.")]
+			];
+
+			$validar = $this->parents->gn->validar($input,$datos);
+
 			//verificamos valor
-			if($this->parents->gn->verifica_valor($nombres) && $this->parents->gn->verifica_valor($apellidos) ){
+			if(!$validar['success']){
 
 				//agregar dato
 				$this->parents->sql->insertar('alumnos',array('nombres'=>$nombres,'apellidos'=>$apellidos,'sexo'=>$sexo,'idUsuario'=>$this->idUsuario));
 
+				// actualizar página
+				$rtn['update'] = $this->mostrarLista('alumno',1);
+				
 				// notificar
 				$rtn['update'][] = array(
 					'action'  => 'notification',
@@ -389,18 +401,17 @@
 					'action' => 'closeModal' 
 				);
 
-				// redireccionar (actualizar página)				
-				$rtn['update'][] = array(
-					'action' => 'redirection',
-					'type'   => 'auto'
-				);
-					
-
 			}else{
-				// notificar
+
+				foreach($validar['cad'] as $val){
+					if($val['msj'] != null)
+						$str .= '<span class="text-red-500">-'.$val['msj'].'</span><br>';
+				}
+
 				$rtn['update'][] = array(
-					'action' => 'notification',
-					'value'  => "Complete los campos."
+					'selector' => '.form-error',
+					'action'   => 'html',
+					'value'    => $str
 				);
 			}
 
@@ -625,6 +636,101 @@
 		//                      generalidades
 		//-------------------------------------------------------------//
 
+
+		function mostrarLista($tipo,$pag=1,$ajax=true){
+
+			$rtn = array();
+			$str = '';
+			$num = ($pag<=0)? 0 :($pag-1)*REG_MAX;
+			$numReg = 0;
+			
+			if($tipo == 'crear-lectura')
+			{
+				$query = "
+					SELECT uniqid,nombre,titulo,descripcion FROM pdfs 
+						WHERE idUsuario=".$this->idUsuario." 
+					ORDER BY registro DESC LIMIT ".$num.",".REG_MAX.";
+				";
+
+				$numReg = $this->parents->gn->rtn_num_reg('pdfs','idUsuario ='.$this->idUsuario);				
+			}
+
+			if($tipo == 'alumno')
+			{
+				$query = "
+					SELECT id,nombres,apellidos FROM alumnos
+						WHERE idUsuario=".$this->idUsuario." 
+					ORDER BY registro DESC LIMIT ".$num.",".REG_MAX.";
+				";
+
+				$numReg = $this->parents->gn->rtn_num_reg('alumnos','idUsuario ='.$this->idUsuario);
+			}
+
+			if($this->parents->sql->consulta($query)){
+
+				$resultado = $this->parents->sql->resultado;
+
+				if($numReg > 0){
+
+					foreach($resultado as $obj){
+						$num++;					
+						$str .= $this->parents->interfaz->mostrar_lista($tipo,$obj,['num'=>$num]);					
+					}
+
+
+					// mostrar registros
+					$rtn[] = array(
+						"id"     => "mostrarLista",
+						"action" => "html",
+						"value"  => $str
+					);
+					// actualizar url
+					$rtn[] = array(
+						'action' => 'push-state',
+						'value'  => '?pag='.$pag
+					);
+					// actualizar paginación
+					/*
+					$rtn[] = array(
+						'id'     => 'pagination',
+						'action' => 'html',
+						'value'  => 'holasss'
+					);
+					*/
+					///*
+					$rtn[] = array(
+						'id'     => 'pagination',
+						'action' => 'html',
+						'value'  => $this->parents->interfaz->paginacion($pag,['numReg'=>$numReg])
+					);
+					/**/
+
+				}else{
+
+					$msj = "0 No se encontraron registros para mostrar.";
+					$str = '
+						<tr>
+							<td colspan=4>
+								'.$this->parents->interfaz->gn('registro-vacio',null,['titulo' =>$msj]).'
+							</td>
+						</tr>
+					';
+
+
+					$rtn[] = array(
+
+							"action" => "notification",
+							"type"   => "notific-bottom",
+							"value"  => $str
+						
+					);
+					
+				}		
+			}
+
+			return ($ajax)? $rtn : $str;
+		}
+/*
 		function mostrarLista($tipo,$pag=1,$ajax=true){
 
 			$rtn = array();
@@ -634,8 +740,9 @@
 			if($tipo == 'crear-lectura')
 			{
 				$query = "
-					SELECT uniqid,nombre,titulo,descripcion FROM pdfs 
-						WHERE idUsuario=".$this->idUsuario." 
+			
+			SELECT uniqid,nombre,titulo,descripcion FROM pdfs 
+		 				WHERE idUsuario=".$this->idUsuario." 
 					ORDER BY registro DESC LIMIT ".$num.",".REG_MAX.";
 				";
 			}
@@ -652,6 +759,7 @@
 			if($this->parents->sql->consulta($query)){
 
 				$resultado = $this->parents->sql->resultado;
+				$numReg    = count($resultado); // num registros
 
 				if(count($resultado) > 0){
 
@@ -663,11 +771,31 @@
 					$rtn = array(
 						"success" => true,
 						"update"  => array(
+							// mostrar registros
 							array(
 								"id"     => "mostrarLista",
 								"action" => "html",
 								"value"  => $str
+							),
+							// actualizar url
+							array(
+								'action' => 'push-state',
+								'value'  => '?pag='.$pag
+							),
+							// actualizar paginación
+
+							array(
+								'id'     => 'pagination',
+								'action' => 'html',
+								'value'  => 'holasss'
 							)
+						
+							//array(
+							//	'id'     => 'pagination',
+							//	'action' => 'html',
+							//	'value'  => $this->parents->interfaz->pagination($pag,['numReg'=>$numReg])
+							//)
+						
 						)
 					);
 
@@ -697,7 +825,7 @@
 
 			return ($ajax)? json_encode($rtn) : $str;
 		}
-
+*/
 		public function modalActualizarCampo($datos){
 
 			// modal sólo para actualizar un campo o varios
